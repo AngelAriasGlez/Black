@@ -1,11 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26430.14
+VisualStudioVersion = 15.0.26430.16
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Framework", "Framework.vcxproj", "{23C6C87E-8C87-4C74-96EF-CC4383737888}"
-EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "skia", "..\..\..\Framework\libs\skia\out\sln\obj\skia.vcxproj", "{06B19B84-23C8-0322-5C30-7B1137D246E6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -29,17 +27,6 @@ Global
 		{23C6C87E-8C87-4C74-96EF-CC4383737888}.Release|x64.Build.0 = Release|x64
 		{23C6C87E-8C87-4C74-96EF-CC4383737888}.Release|x86.ActiveCfg = Release|Win32
 		{23C6C87E-8C87-4C74-96EF-CC4383737888}.Release|x86.Build.0 = Release|Win32
-		{06B19B84-23C8-0322-5C30-7B1137D246E6}.allvs|x64.ActiveCfg = allvs|x64
-		{06B19B84-23C8-0322-5C30-7B1137D246E6}.allvs|x64.Build.0 = allvs|x64
-		{06B19B84-23C8-0322-5C30-7B1137D246E6}.allvs|x86.ActiveCfg = allvs|x64
-		{06B19B84-23C8-0322-5C30-7B1137D246E6}.Debug|x64.ActiveCfg = allvs|x64
-		{06B19B84-23C8-0322-5C30-7B1137D246E6}.Debug|x64.Build.0 = allvs|x64
-		{06B19B84-23C8-0322-5C30-7B1137D246E6}.Debug|x86.ActiveCfg = allvs|x64
-		{06B19B84-23C8-0322-5C30-7B1137D246E6}.Debug|x86.Build.0 = allvs|x64
-		{06B19B84-23C8-0322-5C30-7B1137D246E6}.Release|x64.ActiveCfg = allvs|x64
-		{06B19B84-23C8-0322-5C30-7B1137D246E6}.Release|x64.Build.0 = allvs|x64
-		{06B19B84-23C8-0322-5C30-7B1137D246E6}.Release|x86.ActiveCfg = allvs|x64
-		{06B19B84-23C8-0322-5C30-7B1137D246E6}.Release|x86.Build.0 = allvs|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

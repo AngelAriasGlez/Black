@@ -137,6 +137,7 @@ public:
 	}
 	virtual ~VideoSource(){}
 	int64_t getLength(){
+		if (!vstrm) return 0;
 		int64_t nbf = vstrm->nb_frames;
 		if (nbf == 0)
 		{
@@ -145,6 +146,7 @@ public:
 		return nbf;
 	}
 	double getLengthMs() {
+		if (!vstrm) return 0;
 		double sec = (double)inctx->duration / (double)AV_TIME_BASE;
 		if (sec < eps_zero){
 			sec = (double)vstrm->duration * av_q2d(vstrm->time_base);
@@ -157,7 +159,7 @@ public:
 
 
 	double getFramerate() {
-
+		if (!vstrm) return 0;
 			double fps = av_q2d(vstrm->avg_frame_rate);
 
 			if (fps < eps_zero)
@@ -181,7 +183,7 @@ public:
 
 	bool reverse = false;
 	virtual uint8_t* read() {
-
+		if (!vstrm) return false;
 			if (frame_number <= loopStart) {
 				reverse = false;
 				seek(loopStart);
@@ -284,6 +286,7 @@ public:
 	int64_t first_frame_number = -1;
 	virtual void seek(int64_t _frame_number, bool acurate = true)
 	{
+		if (!vstrm) return;
 
 		_frame_number = std::min(_frame_number, getLength());
 		int delta = 16;

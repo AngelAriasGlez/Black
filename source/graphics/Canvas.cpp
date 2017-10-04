@@ -1,5 +1,5 @@
 #include "Canvas.hpp"
-#include "Platform.hpp"
+#include "../platform/Platform.hpp"
 
 
 Canvas::Canvas(NVGcontext* context) {

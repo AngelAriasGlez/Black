@@ -1012,4 +1012,8 @@ bool Platform::setAudioDevice(int index) {
 	return false;
 }
 
+double Platform::getDisplayScale() {
+	return 1.0;
+}
+
 #endif

@@ -400,10 +400,7 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <Library Include="..\..\libs\glew\x64\Debug\glew.lib" />
-    <Library Include="..\..\libs\pugixml\win32\x64\Debug\MTd_pugixml_x64.lib" />
     <Library Include="..\..\libs\portaudio\build\msvc\x64\Debug\portaudio.lib" />
-    <Library Include="..\..\libs\unqlite\win32\x64\Debug\UnQLite.lib" />
     <Library Include="..\..\libs\mpg123\ports\MSVC++\2015\win32\x64\Debug\libmpg123.lib" />
     <Library Include="..\..\libs\libav\bin\avresample.lib" />
     <Library Include="..\..\libs\libav\bin\avutil.lib" />
@@ -412,5 +409,8 @@
     <Library Include="..\..\libs\libav\bin\avfilter.lib" />
     <Library Include="..\..\libs\libav\bin\avformat.lib" />
     <Library Include="..\..\libs\libav\bin\swscale.lib" />
+    <Library Include="..\..\libs\pugixml\msvs15\x64\Debug\MTd_pugixml_x64.lib" />
+    <Library Include="..\..\libs\unqlite\msvs15\x64\Debug\UnQLite.lib" />
+    <Library Include="..\..\libs\glew\msvs15\x64\Debug\glew.lib" />
   </ItemGroup>
 </Project>
