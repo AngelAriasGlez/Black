@@ -20,8 +20,8 @@
 //#define DEFAULT_RESOLUTION_X 2880
 //#define DEFAULT_RESOLUTION_Y 1800
 
-#define DEFAULT_RESOLUTION_X 2560 / 1.5
-#define DEFAULT_RESOLUTION_Y 1440 / 1.5
+#define DEFAULT_RESOLUTION_X 750
+#define DEFAULT_RESOLUTION_Y 1334
 #define DEFAULT_COLOR_BUFFER_SIZE 32
 #define DEFAULT_DEPTH_BUFFER_SIZE 24
 #define DEFAULT_STENCIL_BUFFER_SIZE 8
@@ -37,7 +37,7 @@ static HWND __hwnd = 0;
 static HDC __hdc = 0;
 static HGLRC __hrc = 0;
 
-static bool __multiSampling = true;
+static bool __multiSampling = false;
 static Platform::AudioInfo __audioInfo;
 
 

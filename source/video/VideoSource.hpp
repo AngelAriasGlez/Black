@@ -24,6 +24,19 @@ extern "C"{
 #include <algorithm>
 
 using namespace std::chrono;
+class Frame {
+public:
+	uint8_t *data;
+	Frame(uint8_t *buffer, int width, int height, int channels=4) {
+		data = new uint8_t[width*height*channels];
+		memcpy(data, buffer, width*height*channels * sizeof(uint8_t));
+	}
+	~Frame() {
+		delete data;
+	}
+};
+
+
 
 class VideoSource {
 public:
@@ -44,6 +57,9 @@ public:
 
 	int dst_width;
 	int dst_height;
+
+	std::vector<Frame*> buffer;
+
 	VideoSource() {
 
 	}
@@ -134,6 +150,12 @@ public:
 
 		loopEnd = getLength();
 	
+
+		while(grabFrame()) {
+			auto ptr = scale();
+			buffer.push_back(new Frame(ptr, getWidth(), getHeight(), getChannels()));
+		}
+
 	}
 	virtual ~VideoSource(){}
 	int64_t getLength(){
@@ -201,7 +223,8 @@ public:
 				}
 				return scale();
 			}
-		
+
+		if (buffer.size() > 0) return buffer[frame_number++]->data;
 		if (grabFrame()) {
 			return scale();
 		}
@@ -286,7 +309,9 @@ public:
 	int64_t first_frame_number = -1;
 	virtual void seek(int64_t _frame_number, bool acurate = true)
 	{
+		if (buffer.size() > 0) frame_number = Utils::clamp(_frame_number, 0, getLength());
 		if (!vstrm) return;
+
 
 		_frame_number = std::min(_frame_number, getLength());
 		int delta = 16;
