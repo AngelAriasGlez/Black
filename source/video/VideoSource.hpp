@@ -183,7 +183,7 @@ public:
 
 	bool reverse = false;
 	virtual uint8_t* read() {
-		if (!vstrm) return false;
+		if (!vstrm) return nullptr;
 			if (frame_number <= loopStart) {
 				reverse = false;
 				seek(loopStart);

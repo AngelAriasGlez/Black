@@ -1131,7 +1131,7 @@
 				FRAMEWORK_SEARCH_PATHS = ../../libs/libav/ios;
 				HEADER_SEARCH_PATHS = (
 					../../libs/mpg123/ports/Xcode,
-					../../libs/mpg123/src,
+					../../libs/mpg123/src/libmpg123,
 					../../libs/pugixml,
 				);
 				INFOPLIST_FILE = "Framework-IOS/Info.plist";
@@ -1161,7 +1161,7 @@
 				FRAMEWORK_SEARCH_PATHS = ../../libs/libav/ios;
 				HEADER_SEARCH_PATHS = (
 					../../libs/mpg123/ports/Xcode,
-					../../libs/mpg123/src,
+					../../libs/mpg123/src/libmpg123,
 					../../libs/pugixml,
 				);
 				INFOPLIST_FILE = "Framework-IOS/Info.plist";
