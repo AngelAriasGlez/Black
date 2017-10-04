@@ -89,7 +89,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>..\..\libs\skia\include\views;..\..\libs\skia\include\core;..\..\libs\skia\include\config;../../libs/portaudio/include/;../../libs/glew/;../../libs/pthread/;../../libs/pugixml/;../../libs/freetype/xcode/include/;../../source/;../../libs/mpg123/src/libmpg123;../../libs/mpg123/ports/MSVC++;../../libs/libav/include/;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../../libs/mpg123/ports/MSVC++/;../../libs/mpg123/src/libmpg123/;../../libs/portaudio/include/;../../libs/glew/;../../libs/pthread/;../../libs/pugixml/;../../source/;../../libs/libav/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
     </ClCompile>
     <Link>
@@ -126,7 +126,7 @@
       </FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>..\..\libs\skia\include\views;..\..\libs\skia\include\core;..\..\libs\skia\include\config;../../libs/portaudio/include/;../../libs/glew/;../../libs/pthread/;../../libs/pugixml/;../../libs/freetype/xcode/include/;../../source/;../../libs/libmpg123/src/libmpg123/;../../libs/libav/include/;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../../libs/mpg123/ports/MSVC++/;../../libs/mpg123/src/libmpg123/;../../libs/portaudio/include/;../../libs/glew/;../../libs/pthread/;../../libs/pugixml/;../../source/;../../libs/libav/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
     </ClCompile>
     <Link>
@@ -148,7 +148,7 @@
       </FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>..\..\libs\skia\include\views;..\..\libs\skia\include\core;..\..\libs\skia\include\config;../../libs/portaudio/include/;../../libs/glew/;../../libs/pthread/;../../libs/pugixml/;../../libs/freetype/xcode/include/;../../source/;../../libs/libmpg123/src/libmpg123/;../../libs/libav/include/;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../../libs/mpg123/ports/MSVC++/;../../libs/mpg123/src/libmpg123/;../../libs/portaudio/include/;../../libs/glew/;../../libs/pthread/;../../libs/pugixml/;../../source/;../../libs/libav/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
     </ClCompile>
     <Link>
