@@ -1,0 +1,300 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <VCProjectVersion>15.0</VCProjectVersion>
+    <ProjectGuid>{23C6C87E-8C87-4C74-96EF-CC4383737888}</ProjectGuid>
+    <Keyword>Win32Proj</Keyword>
+    <RootNamespace>Framework</RootNamespace>
+    <WindowsTargetPlatformVersion>10.0.15063.0</WindowsTargetPlatformVersion>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v141</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v141</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v141</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v141</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="Shared">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <IncludePath>$(IncludePath)</IncludePath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <IncludePath>$(IncludePath)</IncludePath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <IncludePath>$(IncludePath)</IncludePath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <IncludePath>$(IncludePath)</IncludePath>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>..\..\libs\skia\include\views;..\..\libs\skia\include\core;..\..\libs\skia\include\config;../../libs/portaudio/include/;../../libs/glew/;../../libs/pthread/;../../libs/pugixml/;../../libs/freetype/xcode/include/;../../source/;../../libs/mpg123/src/libmpg123;../../libs/mpg123/ports/MSVC++;../../libs/libav/include/;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+    </Link>
+    <Lib>
+      <AdditionalDependencies>Shlwapi.lib</AdditionalDependencies>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>../../libs/mpg123/ports/MSVC++/;../../libs/mpg123/src/libmpg123/;../../libs/portaudio/include/;../../libs/glew/;../../libs/pthread/;../../libs/pugixml/;../../source/;../../libs/libav/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+    </Link>
+    <Lib>
+      <AdditionalDependencies>Shlwapi.lib</AdditionalDependencies>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>
+      </FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>..\..\libs\skia\include\views;..\..\libs\skia\include\core;..\..\libs\skia\include\config;../../libs/portaudio/include/;../../libs/glew/;../../libs/pthread/;../../libs/pugixml/;../../libs/freetype/xcode/include/;../../source/;../../libs/libmpg123/src/libmpg123/;../../libs/libav/include/;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+    </Link>
+    <Lib>
+      <AdditionalDependencies>Shlwapi.lib</AdditionalDependencies>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>
+      </FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>..\..\libs\skia\include\views;..\..\libs\skia\include\core;..\..\libs\skia\include\config;../../libs/portaudio/include/;../../libs/glew/;../../libs/pthread/;../../libs/pugixml/;../../libs/freetype/xcode/include/;../../source/;../../libs/libmpg123/src/libmpg123/;../../libs/libav/include/;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+    </Link>
+    <Lib>
+      <AdditionalDependencies>Shlwapi.lib</AdditionalDependencies>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\source\audio\AudioSource.cpp" />
+    <ClCompile Include="..\..\source\audio\Player.cpp" />
+    <ClCompile Include="..\..\source\audio\Sound.cpp" />
+    <ClCompile Include="..\..\source\codec\Codec.cpp" />
+    <ClCompile Include="..\..\source\codec\Libmpg123Codec.cpp" />
+    <ClCompile Include="..\..\source\codec\WavCodec.cpp" />
+    <ClCompile Include="..\..\source\core\ListenerRegister.cpp" />
+    <ClCompile Include="..\..\source\core\String.cpp" />
+    <ClCompile Include="..\..\source\core\StringStream.cpp" />
+    <ClCompile Include="..\..\source\core\Timer.cpp" />
+    <ClCompile Include="..\..\source\fonts\Fonts.cpp" />
+    <ClCompile Include="..\..\source\graphics\Bitmap.cpp" />
+    <ClCompile Include="..\..\source\graphics\Canvas.cpp" />
+    <ClCompile Include="..\..\source\graphics\Color.cpp" />
+    <ClCompile Include="..\..\source\graphics\Font.cpp" />
+    <ClCompile Include="..\..\source\graphics\Metrics.cpp" />
+    <ClCompile Include="..\..\source\nanovg\nanovg.c" />
+    <ClCompile Include="..\..\source\platform\Application.cpp" />
+    <ClCompile Include="..\..\source\platform\MainWindows.cpp" />
+    <ClCompile Include="..\..\source\platform\PlatformWindows.cpp" />
+    <ClCompile Include="..\..\source\thread\Task.cpp" />
+    <ClCompile Include="..\..\source\ui\pwidget\CheckView.cpp" />
+    <ClCompile Include="..\..\source\ui\pwidget\ComboView.cpp" />
+    <ClCompile Include="..\..\source\ui\pwidget\TextView.cpp" />
+    <ClCompile Include="..\..\source\ui\View.cpp" />
+    <ClCompile Include="..\..\source\ui\ViewGroup.cpp" />
+    <ClCompile Include="..\..\source\ui\ViewRegisterer.cpp" />
+    <ClCompile Include="..\..\source\utils\Assets.cpp" />
+    <ClCompile Include="..\..\source\utils\Singleton.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\source\audio\AudioFormat.hpp" />
+    <ClInclude Include="..\..\source\audio\AudioSource.hpp" />
+    <ClInclude Include="..\..\source\audio\Player.hpp" />
+    <ClInclude Include="..\..\source\audio\Sound.hpp" />
+    <ClInclude Include="..\..\source\codec\Codec.hpp" />
+    <ClInclude Include="..\..\source\codec\libmpg123codec.hpp" />
+    <ClInclude Include="..\..\source\codec\WavCodec.hpp" />
+    <ClInclude Include="..\..\source\core\Event.hpp" />
+    <ClInclude Include="..\..\source\core\GestureDetector.hpp" />
+    <ClInclude Include="..\..\source\core\ListenerRegister.hpp" />
+    <ClInclude Include="..\..\source\core\Map.hpp" />
+    <ClInclude Include="..\..\source\core\String.hpp" />
+    <ClInclude Include="..\..\source\core\StringStream.hpp" />
+    <ClInclude Include="..\..\source\core\Timer.hpp" />
+    <ClInclude Include="..\..\source\core\TouchEvent.hpp" />
+    <ClInclude Include="..\..\source\fonts\Fonts.hpp" />
+    <ClInclude Include="..\..\source\graphics\Background.hpp" />
+    <ClInclude Include="..\..\source\graphics\Bitmap.hpp" />
+    <ClInclude Include="..\..\source\graphics\Bounds.hpp" />
+    <ClInclude Include="..\..\source\graphics\Canvas.hpp" />
+    <ClInclude Include="..\..\source\graphics\Color.hpp" />
+    <ClInclude Include="..\..\source\graphics\Font.hpp" />
+    <ClInclude Include="..\..\source\graphics\Metrics.hpp" />
+    <ClInclude Include="..\..\source\graphics\opengl\gl2.hpp" />
+    <ClInclude Include="..\..\source\graphics\opengl\GL2Utils.hpp" />
+    <ClInclude Include="..\..\source\graphics\Point.hpp" />
+    <ClInclude Include="..\..\source\graphics\Rect.hpp" />
+    <ClInclude Include="..\..\source\graphics\Spacing.hpp" />
+    <ClInclude Include="..\..\source\graphics\Vec3.hpp" />
+    <ClInclude Include="..\..\source\graphics\Vec4.hpp" />
+    <ClInclude Include="..\..\source\graphics\Vec6.hpp" />
+    <ClInclude Include="..\..\source\nanovg\fontstash.h" />
+    <ClInclude Include="..\..\source\nanovg\nanovg.h" />
+    <ClInclude Include="..\..\source\nanovg\nanovg_gl.h" />
+    <ClInclude Include="..\..\source\nanovg\nanovg_gl_utils.h" />
+    <ClInclude Include="..\..\source\nanovg\stb_image.h" />
+    <ClInclude Include="..\..\source\nanovg\stb_truetype.h" />
+    <ClInclude Include="..\..\source\platform\Application.hpp" />
+    <ClInclude Include="..\..\source\platform\Platform.hpp" />
+    <ClInclude Include="..\..\source\preferences\CheckPreference.hpp" />
+    <ClInclude Include="..\..\source\preferences\ComboPreference.hpp" />
+    <ClInclude Include="..\..\source\preferences\Preference.hpp" />
+    <ClInclude Include="..\..\source\thread\Task.hpp" />
+    <ClInclude Include="..\..\source\ui\anim\Animation.hpp" />
+    <ClInclude Include="..\..\source\ui\anim\MoveAnimation.hpp" />
+    <ClInclude Include="..\..\source\ui\anim\SizeAnimation.hpp" />
+    <ClInclude Include="..\..\source\ui\layout\AbsoluteLayout.hpp" />
+    <ClInclude Include="..\..\source\ui\layout\HorizontalLayout.hpp" />
+    <ClInclude Include="..\..\source\ui\layout\LayoutParser.hpp" />
+    <ClInclude Include="..\..\source\ui\layout\LinearLayout.hpp" />
+    <ClInclude Include="..\..\source\ui\layout\TabController.hpp" />
+    <ClInclude Include="..\..\source\ui\layout\TabLayout.hpp" />
+    <ClInclude Include="..\..\source\ui\layout\VerticalLayout.hpp" />
+    <ClInclude Include="..\..\source\ui\Page.hpp" />
+    <ClInclude Include="..\..\source\ui\PageController.hpp" />
+    <ClInclude Include="..\..\source\ui\pwidget\AccordionContainer.hpp" />
+    <ClInclude Include="..\..\source\ui\pwidget\AccordionModule.hpp" />
+    <ClInclude Include="..\..\source\ui\pwidget\BasicView.hpp" />
+    <ClInclude Include="..\..\source\ui\pwidget\ButtonView.hpp" />
+    <ClInclude Include="..\..\source\ui\pwidget\CheckView.hpp" />
+    <ClInclude Include="..\..\source\ui\pwidget\ComboView.hpp" />
+    <ClInclude Include="..\..\source\ui\pwidget\FloatingView.hpp" />
+    <ClInclude Include="..\..\source\ui\pwidget\FloatView.hpp" />
+    <ClInclude Include="..\..\source\ui\pwidget\ImageView.hpp" />
+    <ClInclude Include="..\..\source\ui\pwidget\ListView.hpp" />
+    <ClInclude Include="..\..\source\ui\pwidget\RotarySliderView.hpp" />
+    <ClInclude Include="..\..\source\ui\pwidget\Slider2dView.hpp" />
+    <ClInclude Include="..\..\source\ui\pwidget\SliderBase.hpp" />
+    <ClInclude Include="..\..\source\ui\pwidget\SliderView.hpp" />
+    <ClInclude Include="..\..\source\ui\pwidget\TextView.hpp" />
+    <ClInclude Include="..\..\source\ui\pwidget\TouchSliderView.hpp" />
+    <ClInclude Include="..\..\source\ui\pwidget\VideoView.hpp" />
+    <ClInclude Include="..\..\source\ui\View.hpp" />
+    <ClInclude Include="..\..\source\ui\ViewGroup.hpp" />
+    <ClInclude Include="..\..\source\ui\ViewRegisterer.hpp" />
+    <ClInclude Include="..\..\source\utils\Assets.hpp" />
+    <ClInclude Include="..\..\source\utils\AutoPointer.hpp" />
+    <ClInclude Include="..\..\source\utils\BidirectionalBuffer.hpp" />
+    <ClInclude Include="..\..\source\utils\DynamicPointer.hpp" />
+    <ClInclude Include="..\..\source\utils\File.hpp" />
+    <ClInclude Include="..\..\source\utils\Log.hpp" />
+    <ClInclude Include="..\..\source\utils\MathDefs.hpp" />
+    <ClInclude Include="..\..\source\utils\QueueBuffer.hpp" />
+    <ClInclude Include="..\..\source\utils\Singleton.hpp" />
+    <ClInclude Include="..\..\source\utils\SMA.hpp" />
+    <ClInclude Include="..\..\source\utils\utils.hpp" />
+    <ClInclude Include="..\..\source\video\VideoSource.hpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <Library Include="..\..\libs\glew\x64\Debug\glew.lib" />
+    <Library Include="..\..\libs\libav\bin\avcodec.lib" />
+    <Library Include="..\..\libs\libav\bin\avdevice.lib" />
+    <Library Include="..\..\libs\libav\bin\avfilter.lib" />
+    <Library Include="..\..\libs\libav\bin\avformat.lib" />
+    <Library Include="..\..\libs\libav\bin\avresample.lib" />
+    <Library Include="..\..\libs\libav\bin\avutil.lib" />
+    <Library Include="..\..\libs\libav\bin\swscale.lib" />
+    <Library Include="..\..\libs\mpg123\ports\MSVC++\2015\win32\x64\Debug\libmpg123.lib" />
+    <Library Include="..\..\libs\portaudio\build\msvc\x64\Debug\portaudio.lib" />
+    <Library Include="..\..\libs\pugixml\win32\x64\Debug\MTd_pugixml_x64.lib" />
+    <Library Include="..\..\libs\unqlite\win32\x64\Debug\UnQLite.lib" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

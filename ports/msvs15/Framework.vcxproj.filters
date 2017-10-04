@@ -1,0 +1,416 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="platform">
+      <UniqueIdentifier>{b69a956b-dbee-499a-96f8-2c04c90bf770}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="utils">
+      <UniqueIdentifier>{67d4942b-e616-4201-b2d9-ce4f73f7e7c0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="preferences">
+      <UniqueIdentifier>{89699df0-0d87-4377-97c5-eaf1d01c7434}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="graphics">
+      <UniqueIdentifier>{be6ba573-b9fb-49ae-a80d-2475b8675765}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="graphics\opengl">
+      <UniqueIdentifier>{ecc1cbb1-a502-4d34-9a5d-d12e3f273950}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="core">
+      <UniqueIdentifier>{bd51c415-f012-4f68-85c9-b1ffa901db1c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="thread">
+      <UniqueIdentifier>{4f2512ac-c541-49a0-8e3f-c0b349e0b51d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="graphics\ui">
+      <UniqueIdentifier>{57704a5e-972b-4a6b-b32a-ce387fb86d28}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="graphics\ui\anim">
+      <UniqueIdentifier>{7901bdd6-adaf-49f0-ae65-6b13f42fd6f9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="graphics\ui\layout">
+      <UniqueIdentifier>{d72b82fa-f4ef-4c96-bc6d-22266cecf5b7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="graphics\ui\widget">
+      <UniqueIdentifier>{8aab66fe-6bd2-4cf8-86d8-391c96511602}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="audio">
+      <UniqueIdentifier>{31233f82-7e8d-4aa4-a238-24e21cce1e5d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="codec">
+      <UniqueIdentifier>{78485812-8747-438b-8c4a-6fdd3562a10a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="nanovg">
+      <UniqueIdentifier>{bc72068a-c1db-4aea-9da5-8bc324277ad2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="video">
+      <UniqueIdentifier>{9cd1afa4-05ab-47dd-aaf3-843912b9c8c6}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\source\platform\MainWindows.cpp">
+      <Filter>platform</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\platform\Application.cpp">
+      <Filter>platform</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\platform\PlatformWindows.cpp">
+      <Filter>platform</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\utils\Assets.cpp">
+      <Filter>utils</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\utils\Singleton.cpp">
+      <Filter>utils</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\graphics\Canvas.cpp">
+      <Filter>graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\graphics\Color.cpp">
+      <Filter>graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\graphics\Font.cpp">
+      <Filter>graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\graphics\Metrics.cpp">
+      <Filter>graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\core\ListenerRegister.cpp">
+      <Filter>core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\core\String.cpp">
+      <Filter>core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\core\StringStream.cpp">
+      <Filter>core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\core\Timer.cpp">
+      <Filter>core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\ui\ViewRegisterer.cpp">
+      <Filter>graphics\ui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\ui\pwidget\CheckView.cpp">
+      <Filter>graphics\ui\widget</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\ui\pwidget\ComboView.cpp">
+      <Filter>graphics\ui\widget</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\ui\pwidget\TextView.cpp">
+      <Filter>graphics\ui\widget</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\audio\AudioSource.cpp">
+      <Filter>audio</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\audio\Player.cpp">
+      <Filter>audio</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\audio\Sound.cpp">
+      <Filter>audio</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\codec\Codec.cpp">
+      <Filter>codec</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\codec\Libmpg123Codec.cpp">
+      <Filter>codec</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\codec\WavCodec.cpp">
+      <Filter>codec</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\nanovg\nanovg.c">
+      <Filter>nanovg</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\fonts\Fonts.cpp">
+      <Filter>graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\ui\View.cpp">
+      <Filter>graphics\ui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\ui\ViewGroup.cpp">
+      <Filter>graphics\ui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\graphics\Bitmap.cpp">
+      <Filter>graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\thread\Task.cpp">
+      <Filter>thread</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\source\platform\Application.hpp">
+      <Filter>platform</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\platform\Platform.hpp">
+      <Filter>platform</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\utils\Assets.hpp">
+      <Filter>utils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\utils\AutoPointer.hpp">
+      <Filter>utils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\utils\BidirectionalBuffer.hpp">
+      <Filter>utils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\utils\DynamicPointer.hpp">
+      <Filter>utils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\utils\File.hpp">
+      <Filter>utils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\utils\Log.hpp">
+      <Filter>utils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\utils\MathDefs.hpp">
+      <Filter>utils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\utils\QueueBuffer.hpp">
+      <Filter>utils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\utils\Singleton.hpp">
+      <Filter>utils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\utils\SMA.hpp">
+      <Filter>utils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\utils\utils.hpp">
+      <Filter>utils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\preferences\CheckPreference.hpp">
+      <Filter>preferences</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\preferences\ComboPreference.hpp">
+      <Filter>preferences</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\preferences\Preference.hpp">
+      <Filter>preferences</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\graphics\Background.hpp">
+      <Filter>graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\graphics\Bitmap.hpp">
+      <Filter>graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\graphics\Bounds.hpp">
+      <Filter>graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\graphics\Canvas.hpp">
+      <Filter>graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\graphics\Color.hpp">
+      <Filter>graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\graphics\Font.hpp">
+      <Filter>graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\graphics\Metrics.hpp">
+      <Filter>graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\graphics\Point.hpp">
+      <Filter>graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\graphics\Rect.hpp">
+      <Filter>graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\graphics\Spacing.hpp">
+      <Filter>graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\graphics\Vec3.hpp">
+      <Filter>graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\graphics\Vec4.hpp">
+      <Filter>graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\graphics\Vec6.hpp">
+      <Filter>graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\graphics\opengl\gl2.hpp">
+      <Filter>graphics\opengl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\graphics\opengl\GL2Utils.hpp">
+      <Filter>graphics\opengl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\core\Event.hpp">
+      <Filter>core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\core\GestureDetector.hpp">
+      <Filter>core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\core\ListenerRegister.hpp">
+      <Filter>core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\core\Map.hpp">
+      <Filter>core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\core\String.hpp">
+      <Filter>core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\core\StringStream.hpp">
+      <Filter>core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\core\Timer.hpp">
+      <Filter>core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\core\TouchEvent.hpp">
+      <Filter>core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\ui\Page.hpp">
+      <Filter>graphics\ui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\ui\PageController.hpp">
+      <Filter>graphics\ui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\ui\ViewRegisterer.hpp">
+      <Filter>graphics\ui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\ui\pwidget\AccordionContainer.hpp">
+      <Filter>graphics\ui\widget</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\ui\pwidget\AccordionModule.hpp">
+      <Filter>graphics\ui\widget</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\ui\pwidget\BasicView.hpp">
+      <Filter>graphics\ui\widget</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\ui\pwidget\ButtonView.hpp">
+      <Filter>graphics\ui\widget</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\ui\pwidget\CheckView.hpp">
+      <Filter>graphics\ui\widget</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\ui\pwidget\ComboView.hpp">
+      <Filter>graphics\ui\widget</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\ui\pwidget\FloatingView.hpp">
+      <Filter>graphics\ui\widget</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\ui\pwidget\FloatView.hpp">
+      <Filter>graphics\ui\widget</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\ui\pwidget\ImageView.hpp">
+      <Filter>graphics\ui\widget</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\ui\pwidget\ListView.hpp">
+      <Filter>graphics\ui\widget</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\ui\pwidget\RotarySliderView.hpp">
+      <Filter>graphics\ui\widget</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\ui\pwidget\Slider2dView.hpp">
+      <Filter>graphics\ui\widget</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\ui\pwidget\SliderBase.hpp">
+      <Filter>graphics\ui\widget</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\ui\pwidget\SliderView.hpp">
+      <Filter>graphics\ui\widget</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\ui\pwidget\TextView.hpp">
+      <Filter>graphics\ui\widget</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\ui\pwidget\TouchSliderView.hpp">
+      <Filter>graphics\ui\widget</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\ui\layout\AbsoluteLayout.hpp">
+      <Filter>graphics\ui\layout</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\ui\layout\HorizontalLayout.hpp">
+      <Filter>graphics\ui\layout</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\ui\layout\LayoutParser.hpp">
+      <Filter>graphics\ui\layout</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\ui\layout\TabController.hpp">
+      <Filter>graphics\ui\layout</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\ui\layout\TabLayout.hpp">
+      <Filter>graphics\ui\layout</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\ui\layout\VerticalLayout.hpp">
+      <Filter>graphics\ui\layout</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\ui\anim\Animation.hpp">
+      <Filter>graphics\ui\anim</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\ui\anim\MoveAnimation.hpp">
+      <Filter>graphics\ui\anim</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\ui\anim\SizeAnimation.hpp">
+      <Filter>graphics\ui\anim</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\audio\AudioFormat.hpp">
+      <Filter>audio</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\audio\AudioSource.hpp">
+      <Filter>audio</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\audio\Player.hpp">
+      <Filter>audio</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\audio\Sound.hpp">
+      <Filter>audio</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\codec\Codec.hpp">
+      <Filter>codec</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\codec\libmpg123codec.hpp">
+      <Filter>codec</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\codec\WavCodec.hpp">
+      <Filter>codec</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\nanovg\fontstash.h">
+      <Filter>nanovg</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\nanovg\nanovg.h">
+      <Filter>nanovg</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\nanovg\nanovg_gl.h">
+      <Filter>nanovg</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\nanovg\nanovg_gl_utils.h">
+      <Filter>nanovg</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\nanovg\stb_image.h">
+      <Filter>nanovg</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\nanovg\stb_truetype.h">
+      <Filter>nanovg</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\fonts\Fonts.hpp">
+      <Filter>graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\ui\View.hpp">
+      <Filter>graphics\ui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\ui\layout\LinearLayout.hpp">
+      <Filter>graphics\ui\layout</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\ui\ViewGroup.hpp">
+      <Filter>graphics\ui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\thread\Task.hpp">
+      <Filter>thread</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\video\VideoSource.hpp">
+      <Filter>video</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\ui\pwidget\VideoView.hpp">
+      <Filter>graphics\ui\widget</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Library Include="..\..\libs\glew\x64\Debug\glew.lib" />
+    <Library Include="..\..\libs\pugixml\win32\x64\Debug\MTd_pugixml_x64.lib" />
+    <Library Include="..\..\libs\portaudio\build\msvc\x64\Debug\portaudio.lib" />
+    <Library Include="..\..\libs\unqlite\win32\x64\Debug\UnQLite.lib" />
+    <Library Include="..\..\libs\mpg123\ports\MSVC++\2015\win32\x64\Debug\libmpg123.lib" />
+    <Library Include="..\..\libs\libav\bin\avresample.lib" />
+    <Library Include="..\..\libs\libav\bin\avutil.lib" />
+    <Library Include="..\..\libs\libav\bin\avcodec.lib" />
+    <Library Include="..\..\libs\libav\bin\avdevice.lib" />
+    <Library Include="..\..\libs\libav\bin\avfilter.lib" />
+    <Library Include="..\..\libs\libav\bin\avformat.lib" />
+    <Library Include="..\..\libs\libav\bin\swscale.lib" />
+  </ItemGroup>
+</Project>

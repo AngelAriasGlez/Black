@@ -1,0 +1,10 @@
+.localhistory/
+.vs/
+Debug/
+Release/
+x64/
+*.user
+*.cd
+
+*.DS_Store
+DerivedData/
