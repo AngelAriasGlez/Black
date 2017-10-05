@@ -45,6 +45,8 @@
 		static bool setAudioDevice(int index);
         
         static double getDisplayScale();
+        
+        static void openMediaSelector();
 
 
 	};

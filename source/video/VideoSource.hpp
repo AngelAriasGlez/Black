@@ -221,6 +221,7 @@ public:
 				}else {
 					seek(frame_number - 1);
 				}
+                if (buffer.size() > 0) return buffer[frame_number++]->data;
 				return scale();
 			}
 
@@ -309,7 +310,10 @@ public:
 	int64_t first_frame_number = -1;
 	virtual void seek(int64_t _frame_number, bool acurate = true)
 	{
-		if (buffer.size() > 0) frame_number = Utils::clamp(_frame_number, 0, getLength());
+        if (buffer.size() > 0) {
+            frame_number = Utils::clamp(_frame_number, 0, getLength());
+            return;
+        }
 		if (!vstrm) return;
 
 

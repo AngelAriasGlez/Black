@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		CF8D45091F85B0900060EEAC /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CF8D45041F85B0900060EEAC /* MobileCoreServices.framework */; };
 		CFCB23A81F8333C0009EEADD /* AudioSource.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CFCB23A21F8333C0009EEADD /* AudioSource.cpp */; };
 		CFCB23A91F8333C0009EEADD /* Player.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CFCB23A41F8333C0009EEADD /* Player.cpp */; };
 		CFCB23AA1F8333C0009EEADD /* Sound.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CFCB23A61F8333C0009EEADD /* Sound.cpp */; };
@@ -224,6 +225,7 @@
 		CF7B00F51F82FFDF00301C64 /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
 		CF7B01301F830AB400301C64 /* mpg123.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = mpg123.xcodeproj; path = ../../libs/mpg123/ports/Xcode/mpg123.xcodeproj; sourceTree = "<group>"; };
 		CF7B013B1F830B0B00301C64 /* CoreAudio.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreAudio.framework; path = System/Library/Frameworks/CoreAudio.framework; sourceTree = SDKROOT; };
+		CF8D45041F85B0900060EEAC /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
 		CFAFBC6F1F830F0200852D82 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		CFAFBC711F830F1000852D82 /* GLKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GLKit.framework; path = System/Library/Frameworks/GLKit.framework; sourceTree = SDKROOT; };
 		CFCB23A11F8333C0009EEADD /* AudioFormat.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = AudioFormat.hpp; path = audio/AudioFormat.hpp; sourceTree = "<group>"; };
@@ -370,6 +372,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CF8D45091F85B0900060EEAC /* MobileCoreServices.framework in Frameworks */,
 				CFCB24C71F8337D4009EEADD /* libPugiXml_IOS.a in Frameworks */,
 				CFE684731F83300F00712904 /* UIKit.framework in Frameworks */,
 				CFE684721F832FCD00712904 /* GLKit.framework in Frameworks */,
@@ -413,6 +416,7 @@
 		CF7B00EA1F82FC6B00301C64 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				CF8D45041F85B0900060EEAC /* MobileCoreServices.framework */,
 				CFE6845A1F832D0000712904 /* libavcodec.framework */,
 				CFE6845B1F832D0000712904 /* libavdevice.framework */,
 				CFE6845C1F832D0000712904 /* libavfilter.framework */,

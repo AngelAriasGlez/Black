@@ -5,7 +5,7 @@
 #import <AudioToolbox/AudioToolbox.h>
 #import <UIKit/UIKit.h>
 #import <GLKit/GLKit.h>
-
+#import <MobileCoreServices/UTCoreTypes.h>
 
 #include "Platform.hpp"
 #include "Application.hpp"
@@ -48,13 +48,65 @@ CGPoint DeviceOrientedTouch(CGPoint ipoint){
 };
 
 
+@interface PickerController : GLKViewController{}
+@end
+@interface PickerController () <UINavigationControllerDelegate, UIImagePickerControllerDelegate, UIVideoEditorControllerDelegate>
+@end
 
+@implementation PickerController
+- (id) init {
+    self = [super init];
+    if (self != nil) {
+        // initializations go here.
+    }
+    return self;
+}
+/*- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info {
+    
+    // This is the NSURL of the video object
+    NSURL *videoURL = [info objectForKey:UIImagePickerControllerMediaURL];
+    
+    NSLog(@"VideoURL = %@", videoURL);
+    [picker dismissViewControllerAnimated:YES completion:NULL];
+}*/
 
-@interface ViewController : GLKViewController
+-(void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info
+{
+    NSURL *videoURL = [info objectForKey:UIImagePickerControllerMediaURL];
+    
+    /*UIVideoEditorController* videoEditor = [[UIVideoEditorController alloc] init];
+    videoEditor.delegate=self;
+    
+    if ( [UIVideoEditorController canEditVideoAtPath:videoURL.absoluteString] )
+    {
+        videoEditor.videoPath = videoURL.absoluteString;
+        videoEditor.videoMaximumDuration = 10.0;
+        
+        //[self.customAvPlayerView addSubview:videoEditor.view];
+        
+        [picker presentViewController:videoEditor animated:YES completion:nil];
+    }
+    else
+    {
+        NSLog( @"can't edit video at %@", videoURL );
+    }*/
+    
+    NSLog(@"VideoURL = %@", videoURL);
+    //[picker dismissViewControllerAnimated:YES completion:NULL];
+}
+
+-(void)imagePickerControllerDidCancel:(UIImagePickerController *)picker
+{
+    [picker dismissViewControllerAnimated:YES completion:nil];
+}
 
 @end
 
 
+
+@interface ViewController: GLKViewController
+
+@end
 
 void checkStatus(OSStatus status){
     
@@ -191,7 +243,6 @@ static OSStatus playbackCallback(void *inRefCon,
 - (void)setupGL
 {
     [EAGLContext setCurrentContext:self.context];
-    
     
     
     Application *app = Application::getInstance();
@@ -374,7 +425,10 @@ static OSStatus playbackCallback(void *inRefCon,
 @property (nonatomic, retain) ViewController *viewController;
 @end
 
+ViewController *__viewController;
 AppDelegate *__appDelegate;
+
+PickerController * __pickerController;
 
 @implementation AppDelegate
 
@@ -383,6 +437,8 @@ AppDelegate *__appDelegate;
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     __appDelegate = self;
+    
+    __pickerController = [[PickerController alloc] init];
     
     self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
     [[UIDevice currentDevice] beginGeneratingDeviceOrientationNotifications];
@@ -532,6 +588,56 @@ String Platform::displayFileDialog(const char* title, const char* filterDescript
 double Platform::getDisplayScale(){
     return [[UIScreen mainScreen] scale];
 }
+
+
+void imagePickerController(UIImagePickerController *picker, NSDictionary *info) {
+    
+    // This is the NSURL of the video object
+    NSURL *videoURL = [info objectForKey:UIImagePickerControllerMediaURL];
+    
+    NSLog(@"VideoURL = %@", videoURL);
+    [picker dismissViewControllerAnimated:YES completion:NULL];
+}
+
+
+void Platform::openMediaSelector(){
+    
+    /*UIImagePickerController *imagePicker = [[UIImagePickerController alloc] init];
+    imagePicker.delegate = __pickerController;
+    imagePicker.sourceType = UIImagePickerControllerSourceTypeCamera;
+    //imagePicker.mediaTypes = [[NSArray alloc] initWithObjects:(NSString *)kUTTypeMovie,      nil];
+    //imagePicker.mediaTypes = @[(NSString*)kUTTypeMovie, (NSString*)kUTTypeAVIMovie, (NSString*)kUTTypeVideo, (NSString*)kUTTypeMPEG4];
+    //imagePicker.videoQuality = UIImagePickerControllerQualityTypeHigh;
+    imagePicker.mediaTypes = @[(NSString*)kUTTypeImage];
+    imagePicker.allowsEditing = true;*/
+    
+    
+    UIImagePickerController *ipc = [[UIImagePickerController alloc] init];
+    ipc.delegate = __pickerController ;
+    if([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera])
+    {
+        ipc.sourceType = UIImagePickerControllerSourceTypeCamera;
+        ipc.mediaTypes = @[(NSString*)kUTTypeMovie, (NSString*)kUTTypeAVIMovie, (NSString*)kUTTypeVideo, (NSString*)kUTTypeMPEG4];
+        ipc.allowsEditing = false;
+        
+        //ipc.showsCameraControls = NO;
+        //ipc.cameraOverlayView =__pickerController.view;
+        
+        [ipc setVideoMaximumDuration:5];
+        [[UIApplication sharedApplication].keyWindow.rootViewController presentViewController:ipc animated:YES completion:NULL];
+    }
+    else
+    {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:@"No Camera Available." delegate:[UIApplication sharedApplication].keyWindow.rootViewController cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
+        [alert show];
+        alert = nil;
+    }
+    
+    
+
+    //[[UIApplication sharedApplication].keyWindow.rootViewController presentViewController:imagePicker animated:YES completion:nil];
+}
+
 
 #endif
 #endif
