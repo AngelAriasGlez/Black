@@ -90,7 +90,11 @@ CGPoint DeviceOrientedTouch(CGPoint ipoint){
     {
         NSLog( @"can't edit video at %@", videoURL );
     }*/
-    
+    auto p = Application::getInstance()->getPageController()->getCurrentPage();
+    if(p){
+        std::string s([videoURL.absoluteString UTF8String]);
+        p->onResume(&s);
+    }
     NSLog(@"VideoURL = %@", videoURL);
     //[picker dismissViewControllerAnimated:YES completion:NULL];
 }
@@ -588,17 +592,6 @@ String Platform::displayFileDialog(const char* title, const char* filterDescript
 double Platform::getDisplayScale(){
     return [[UIScreen mainScreen] scale];
 }
-
-
-void imagePickerController(UIImagePickerController *picker, NSDictionary *info) {
-    
-    // This is the NSURL of the video object
-    NSURL *videoURL = [info objectForKey:UIImagePickerControllerMediaURL];
-    
-    NSLog(@"VideoURL = %@", videoURL);
-    [picker dismissViewControllerAnimated:YES completion:NULL];
-}
-
 
 void Platform::openMediaSelector(){
     
