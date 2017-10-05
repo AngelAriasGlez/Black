@@ -417,7 +417,7 @@ public:
 		loopStart = Utils::clamp(start, 0, loopEnd);
 	}
 	virtual void setLoopEnd(long end) {
-		loopEnd = Utils::clamp(end, loopStart, getLength());
+		loopEnd = Utils::clamp(end, loopStart+2, getLength());
 	}
 
 	double getAspectRatio() {

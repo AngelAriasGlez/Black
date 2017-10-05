@@ -40,7 +40,7 @@ public:
 		p = get(mCurrentPage);
 		if (p) {
 			p->setVisibility(View::VISIBLE);
-			p->onResume();
+			p->onResume(0);
 		}
 		mPageStack.push(name);
 	}

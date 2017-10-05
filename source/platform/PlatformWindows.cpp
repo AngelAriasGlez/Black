@@ -1015,5 +1015,7 @@ bool Platform::setAudioDevice(int index) {
 double Platform::getDisplayScale() {
 	return 1.0;
 }
-
+void Platform::openMediaSelector() {
+	return;
+}
 #endif

@@ -248,7 +248,7 @@ public:
 	}
 
 
-	virtual void onResume() {
+	virtual void onResume(void* args) {
 
 	}
 	/*void measureDimension(int maxWidth, int maxHeight) {
