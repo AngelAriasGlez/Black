@@ -248,9 +248,10 @@ public:
 	}
 
 
-	virtual void onResume(void* args) {
+	virtual void onResume() {
 
 	}
+
 	/*void measureDimension(int maxWidth, int maxHeight) {
 		int desiredWidth = mBounds.dimension.width;
 		int desiredHeight = mBounds.dimension.height;

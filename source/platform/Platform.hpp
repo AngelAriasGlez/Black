@@ -46,7 +46,7 @@
         
         static double getDisplayScale();
         
-        static void openMediaSelector();
+        static void openMediaSelector(int type = 0, int source = 0);
 
 
 	};

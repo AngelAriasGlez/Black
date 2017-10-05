@@ -93,10 +93,10 @@ CGPoint DeviceOrientedTouch(CGPoint ipoint){
     auto p = Application::getInstance()->getPageController()->getCurrentPage();
     if(p){
         std::string s([videoURL.absoluteString UTF8String]);
-        p->onResume(&s);
+        p->onResult(&s);
     }
     NSLog(@"VideoURL = %@", videoURL);
-    //[picker dismissViewControllerAnimated:YES completion:NULL];
+    [picker dismissViewControllerAnimated:YES completion:NULL];
 }
 
 -(void)imagePickerControllerDidCancel:(UIImagePickerController *)picker
@@ -593,42 +593,28 @@ double Platform::getDisplayScale(){
     return [[UIScreen mainScreen] scale];
 }
 
-void Platform::openMediaSelector(){
-    
-    /*UIImagePickerController *imagePicker = [[UIImagePickerController alloc] init];
-    imagePicker.delegate = __pickerController;
-    imagePicker.sourceType = UIImagePickerControllerSourceTypeCamera;
-    //imagePicker.mediaTypes = [[NSArray alloc] initWithObjects:(NSString *)kUTTypeMovie,      nil];
-    //imagePicker.mediaTypes = @[(NSString*)kUTTypeMovie, (NSString*)kUTTypeAVIMovie, (NSString*)kUTTypeVideo, (NSString*)kUTTypeMPEG4];
-    //imagePicker.videoQuality = UIImagePickerControllerQualityTypeHigh;
-    imagePicker.mediaTypes = @[(NSString*)kUTTypeImage];
-    imagePicker.allowsEditing = true;*/
-    
-    
+void Platform::openMediaSelector(int type, int source){
+
     UIImagePickerController *ipc = [[UIImagePickerController alloc] init];
     ipc.delegate = __pickerController ;
-    if([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera])
-    {
-        ipc.sourceType = UIImagePickerControllerSourceTypeCamera;
-        ipc.mediaTypes = @[(NSString*)kUTTypeMovie, (NSString*)kUTTypeAVIMovie, (NSString*)kUTTypeVideo, (NSString*)kUTTypeMPEG4];
-        ipc.allowsEditing = false;
-        
-        //ipc.showsCameraControls = NO;
-        //ipc.cameraOverlayView =__pickerController.view;
-        
-        [ipc setVideoMaximumDuration:5];
-        [[UIApplication sharedApplication].keyWindow.rootViewController presentViewController:ipc animated:YES completion:NULL];
-    }
-    else
-    {
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:@"No Camera Available." delegate:[UIApplication sharedApplication].keyWindow.rootViewController cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
-        [alert show];
-        alert = nil;
-    }
-    
-    
+    ipc.videoQuality = UIImagePickerControllerQualityTypeHigh;
 
-    //[[UIApplication sharedApplication].keyWindow.rootViewController presentViewController:imagePicker animated:YES completion:nil];
+    if(source == 1){
+        ipc.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
+    }else{
+        ipc.sourceType = UIImagePickerControllerSourceTypeCamera;
+    }
+        
+    if(type == 1){
+        ipc.mediaTypes = @[(NSString*)kUTTypeMovie, (NSString*)kUTTypeAVIMovie, (NSString*)kUTTypeVideo, (NSString*)kUTTypeMPEG4];
+    }else{
+        ipc.mediaTypes = @[(NSString*)kUTTypeImage];
+    }
+        
+    //[ipc setVideoMaximumDuration:5];
+    [[UIApplication sharedApplication].keyWindow.rootViewController presentViewController:ipc animated:YES completion:NULL];
+
+    
 }
 
 

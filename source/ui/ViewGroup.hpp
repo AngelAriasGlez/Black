@@ -98,13 +98,14 @@ public:
 		return out;
 	}
 
-	virtual void onResume(void *args) override{
+	virtual void onResume() override{
 		for (auto v : mViews)
-			if (auto c = dynamic_cast<ViewGroup*> (v)) v->onResume(args);
+			if (auto c = dynamic_cast<ViewGroup*> (v)) v->onResume();
 		
-		View::onResume(args);
+		View::onResume();
 
 	}
+
 
 };
 

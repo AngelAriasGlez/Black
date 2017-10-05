@@ -127,8 +127,8 @@ public:
 		// initialize sample scaler
 		//dst_width = vstrm->codec->width;
 		//dst_height = vstrm->codec->height;
-		dst_width = vstrm->codec->width;
-		dst_height = vstrm->codec->height;
+		dst_width = vstrm->codec->width / 3;
+		dst_height = vstrm->codec->height / 3;
 		const AVPixelFormat dst_pix_fmt = AV_PIX_FMT_RGBA;
 		swsctx = sws_getCachedContext(nullptr, vstrm->codec->width, vstrm->codec->height, vstrm->codec->pix_fmt, dst_width, dst_height, dst_pix_fmt, SWS_BICUBIC, nullptr, nullptr, nullptr);
 		if (!swsctx) {
