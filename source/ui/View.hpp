@@ -260,10 +260,7 @@ public:
 
 	}
 
-	std::function<void> animationCallback;
-	void setAnimation(std::function<void> callback) {
 
-	}
 
 
 	/*void measureDimension(int maxWidth, int maxHeight) {

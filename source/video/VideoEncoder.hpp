@@ -75,7 +75,7 @@ public:
 		}
 		//set stream time_base
 		/* frames per second FIXME use input fps? */
-		AVRational ra{100,fps*100};
+		AVRational ra{100,(int)(fps*100)};
 
 		st->time_base = ra;
 
