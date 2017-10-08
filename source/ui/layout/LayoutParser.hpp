@@ -235,10 +235,22 @@ public:
 			else if (n == "visibility"){
 				view->setVisibility(parseVisibility(node->attribute(nc)));
 			}else if (n == "background"){
-				view->setBackground(parseBackgroundAttribute(ait->value()));
-			}else if (n == "backgroundRadius") {
+				view->setBackground(parseBackgroundAttribute(ait->value(), view->getBackground()));
+			}else if (n == "backgroundCornerRadius") {
 				auto b = view->getBackground();
-				b.setRadius(parseMeasure(node->attribute(nc)));
+				b.setCornerRadius(parseMeasure(node->attribute(nc)));
+				view->setBackground(b);
+			}else if (n == "backgroundBorderWidth") {
+				auto b = view->getBackground();
+				b.setBorderWidth(parseMeasure(node->attribute(nc)));
+				view->setBackground(b);
+			}else if (n == "backgroundBorderColor") {
+				auto b = view->getBackground();
+				b.setBorderColor(Color(node->attribute(nc).as_string()));
+				view->setBackground(b);
+			}else if (n == "backgroundGradientMiddle") {
+				auto b = view->getBackground();
+				b.setGradientMiddle(node->attribute(nc).as_double());
 				view->setBackground(b);
 			}else if (n == "zindex") {
 				//view->setZIndex(node->attribute(nc).as_double());
@@ -279,16 +291,14 @@ public:
 		return View::Gravity::LEFT;
 	}
 
+	Background parseBackgroundAttribute(String str, Background b = Background()){
+		auto c = str.split(",");
+		if (c.size() == 1) b.setSolidColor(Color(c[0]));
+		if (c.size() == 2) 
+			b.setGradient(Color(c[0]), Color(c[1])); 
 
-	Background parseBackgroundAttribute(String str){
-		if (str.substr(0, 1) == "#"){
-			return Color(str.substr(1, str.size()));
-		}
-		else if (Bitmap *b = parseBitmapResource(str)){
-			return b;
-        }else{
-            return NULL;
-        }
+
+		return b;
 	}
 	Bitmap *parseBitmapResource(std::string str){
 		if (str.substr(0, 1) == "@"){

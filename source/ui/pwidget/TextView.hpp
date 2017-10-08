@@ -21,6 +21,7 @@ protected:
 	Color mNormalColor;
 	Color mClickColor;
 	Color mActiveColor;
+	Color mDisabledColor;
 	Color mBlinkColor;
     
 	bool mActive;
@@ -109,6 +110,10 @@ public:
 		mClickColor = color;
 		invalidate();
 	}
+	void setDisabledColor(Color color) {
+		mDisabledColor = color;
+		invalidate();
+	}
 	void setBlinkColor(Color color) {
 		mBlinkColor = color;
 	}
@@ -150,9 +155,12 @@ public:
 		else{
 			View::setBackground(mNormalBackground);
 		}
+		mBackground.setCornerRadius(mNormalBackground.getCornerRadius());
 	}
 	void updateColor(){
-		if (isTouchDown()){
+		if (!isEnabled()) {
+			mColor = mDisabledColor;
+		}else if (isTouchDown()){
 			mColor = mClickColor;
 		}
 		else if (mBlink) {
@@ -211,6 +219,7 @@ public:
 	}
     virtual void draw(Canvas* canvas) override{
         updateBackground();
+
         updateColor();
 		View::draw(canvas);
 

@@ -398,6 +398,15 @@
     <ClInclude Include="..\..\source\ui\pwidget\VideoView.hpp">
       <Filter>graphics\ui\widget</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\source\video\VideoCached.hpp">
+      <Filter>video</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\video\VideoEncoder.hpp">
+      <Filter>video</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\graphics\LinearGradient.hpp">
+      <Filter>graphics</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Library Include="..\..\libs\portaudio\build\msvc\x64\Debug\portaudio.lib" />

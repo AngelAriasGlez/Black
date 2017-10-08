@@ -1013,9 +1013,15 @@ bool Platform::setAudioDevice(int index) {
 }
 
 double Platform::getDisplayScale() {
-	return 1.0;
+	return 2.0;
 }
-void Platform::openMediaSelector() {
-	return;
+void Platform::openMediaSelector(int type, int source) {
+	wchar_t buffer[MAX_PATH];
+	HRESULT result = SHGetFolderPath(NULL, CSIDL_MYVIDEO, NULL, SHGFP_TYPE_CURRENT, buffer);
+
+	auto res = Platform::displayFileDialog("Select video", "", "", String(buffer).c_str());
+	
+	Application::getInstance()->getPageController()->getCurrentPage()->onResult(&res);
+
 }
 #endif

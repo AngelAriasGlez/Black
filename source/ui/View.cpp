@@ -63,7 +63,7 @@ ViewGroup*  View::getParent(){
 std::string View::toString() {
 
 	std::stringstream s;
-	s << "View " << mId << mLabel.data() << " ";
+	s << "View " << mId << mLabel.data() << " \n";
 
 
 	return s.str();
@@ -79,15 +79,15 @@ void View::setLabel(std::string label){
 std::string View::getLabel(){
 	return mLabel;
 }
-Bounds View::getBounds() {
+mt::Rect View::getBounds() {
 	return mBounds;
 }
-void View::setBounds(Bounds b) {
+void View::setBounds(mt::Rect b) {
 	//if (mBounds != b) {
-		//if (mBounds.rect != b.rect) {
-			onResize(mBounds.rect.getWidth(), b.rect.getWidth(), mBounds.rect.getHeight(), b.rect.getHeight());
+		//if (mBounds != b.rect) {
+			onResize(mBounds.getWidth(), b.getWidth(), mBounds.getHeight(), b.getHeight());
 			if (mResizeListener) {
-				mResizeListener->onResizeListener(mLabel, this, mBounds.rect.getWidth(), mBounds.rect.getHeight());
+				mResizeListener->onResizeListener(mLabel, this, mBounds.getWidth(), mBounds.getHeight());
 			}
 			onPositionChanged();
 		//}
@@ -95,96 +95,96 @@ void View::setBounds(Bounds b) {
 	//}
 }
 void View::setMargin(Spacing margin){
-	//if (margin != mBounds.margin) {
+	//if (margin != mMargin) {
 		onMarginChanged();
-		mBounds.margin = margin;
+		mMargin = margin;
 	//}
 }
 
 void View::setPadding(Spacing padding){
-	//if (padding != mBounds.padding) {
+	//if (padding != mPadding) {
 		onPaddingChanged();
-		mBounds.padding = padding;
+		mPadding = padding;
 	//}
 	
 }
 int View::getLeftMargin(){
-		return mBounds.margin.getLeft();
+		return mMargin.getLeft();
 	}
 int View::getTopMargin(){
-		return mBounds.margin.getTop();
+		return mMargin.getTop();
 	}
 int View::getRightMargin(){
-		return mBounds.margin.getRight();
+		return mMargin.getRight();
 	}
 int View::getBottomMargin(){
-		return mBounds.margin.getBottom();
+		return mMargin.getBottom();
 	}
 void View::setLeftMargin(int margin){
-	if(mBounds.margin.getLeft() != margin)
+	if(mMargin.getLeft() != margin)
 		onMarginChanged();
-		mBounds.margin.setLeft(margin);
+		mMargin.setLeft(margin);
 	}
 void View::setTopMargin(int margin){
-	if (mBounds.margin.getTop() != margin)
+	if (mMargin.getTop() != margin)
 		onMarginChanged();
-		mBounds.margin.setTop(margin);
+		mMargin.setTop(margin);
 	}
 void View::setRightMargin(int margin){
-	if (mBounds.margin.getRight() != margin)
+	if (mMargin.getRight() != margin)
 		onMarginChanged();
-		mBounds.margin.setRight(margin);
+		mMargin.setRight(margin);
 	}
 void View::setBottomMargin(int margin){
-	if (mBounds.margin.getBottom() != margin)
+	if (mMargin.getBottom() != margin)
 		onMarginChanged();
-		mBounds.margin.setBottom(margin);
+		mMargin.setBottom(margin);
 	}
 
 int View::getLeftPadding(){
-	return mBounds.padding.getLeft();
+	return mPadding.getLeft();
 }
 int View::getTopPadding(){
-	return mBounds.padding.getTop();
+	return mPadding.getTop();
 }
 int View::getRightPadding(){
-	return mBounds.padding.getRight();
+	return mPadding.getRight();
 }
 int View::getBottomPadding(){
-	return mBounds.padding.getBottom();
+	return mPadding.getBottom();
 }
 void View::setLeftPadding(int padding){
-	if (mBounds.padding.getLeft() != padding)
+	if (mPadding.getLeft() != padding)
 		onPaddingChanged();
-	mBounds.padding.setLeft(padding);
+	mPadding.setLeft(padding);
 }
 void View::setTopPadding(int padding){
-	if (mBounds.padding.getTop() != padding)
+	if (mPadding.getTop() != padding)
 		onPaddingChanged();
-	mBounds.padding.setTop(padding);
+	mPadding.setTop(padding);
 }
 void View::setRightPadding(int padding){
-	if (mBounds.padding.getRight() != padding)
+	if (mPadding.getRight() != padding)
 		onPaddingChanged();
-	mBounds.padding.setRight(padding);
+	mPadding.setRight(padding);
 }
 void View::setBottomPadding(int padding){
-	if (mBounds.padding.getBottom() != padding)
+	if (mPadding.getBottom() != padding)
 		onPaddingChanged();
-	mBounds.padding.setBottom(padding);
+	mPadding.setBottom(padding);
 }
 	
 float View::getLeft(){
-	return mBounds.getLeft();
+	return mBounds.getLeft() + mMargin.getLeft();
 	}
-float View::getTop(){
-		return mBounds.getTop();
+float View::getTop() {
+		return mBounds.getTop() + mMargin.getTop();
 	}
 float View::getRight(){
-		return mBounds.getRight();
+		return mBounds.getRight() + mMargin.getLeft();
 	}
 float View::getBottom(){
-		return mBounds.getBottom();
+		return mBounds.getBottom() + mMargin.getTop();
 	}
 
 
@@ -206,10 +206,6 @@ int View::getTopFromParent(){
 	}
 }
 
-Rect View::getRect() {
-	return mBounds.rect;
-
-}
 
 /*void View::setPosition(Position pos) {
 	mBounds.position = pos;
@@ -225,49 +221,49 @@ double View::getWidth(){
 	if (mVisibility == Visibility::GONE){
 		return 0;
 	}
-	return mBounds.rect.getWidth();
+	return mBounds.getWidth();
 	}
 double View::getHeight(){
 	if (mVisibility == Visibility::GONE) {
 		return 0;
 	}
-	return mBounds.rect.getHeight();
+	return mBounds.getHeight();
 }
 void View::setWidth(double width){
-	double old = mBounds.rect.getWidth();
+	double old = mBounds.getWidth();
 	if (width == SizeMode::WRAP){
 		mWidthMode = SizeMode::WRAP;
-		mBounds.rect.setWidth(0);
+		mBounds.setWidth(0);
 	}else if (width == SizeMode::FILL){
 		mWidthMode = SizeMode::FILL;
-		mBounds.rect.setWidth(0);
+		mBounds.setWidth(0);
 	}else{
 		//mWidthType = Size::NORMAL;
-		mBounds.rect.setWidth(std::max(width, 0.0));
+		mBounds.setWidth(std::max(width, 0.0));
 	}
-	if (old != mBounds.rect.getWidth()) {
-		onResize(old, mBounds.rect.getWidth(), mBounds.rect.getHeight(), mBounds.rect.getHeight());
+	if (old != mBounds.getWidth()) {
+		onResize(old, mBounds.getWidth(), mBounds.getHeight(), mBounds.getHeight());
 		if (mResizeListener) {
-			mResizeListener->onResizeListener(mLabel, this, mBounds.rect.getWidth(), mBounds.rect.getHeight());
+			mResizeListener->onResizeListener(mLabel, this, mBounds.getWidth(), mBounds.getHeight());
 		}
 	}
 }
 void View::setHeight(double height){
-	double old = mBounds.rect.getHeight();
+	double old = mBounds.getHeight();
 	if (height == SizeMode::WRAP){
 		mHeightMode = SizeMode::WRAP;
-		mBounds.rect.setHeight(0);
+		mBounds.setHeight(0);
 	}else if (height == SizeMode::FILL){
 		mHeightMode = SizeMode::FILL;
-		mBounds.rect.setHeight(0);
+		mBounds.setHeight(0);
 	}else{
 		//mHeightType = Size::NORMAL;
-		mBounds.rect.setHeight(std::max(height, 0.0));
+		mBounds.setHeight(std::max(height, 0.0));
 	}
-	if (old != mBounds.rect.getHeight()) {
-		onResize(mBounds.rect.getWidth(), mBounds.rect.getWidth(), old, mBounds.rect.getHeight());
+	if (old != mBounds.getHeight()) {
+		onResize(mBounds.getWidth(), mBounds.getWidth(), old, mBounds.getHeight());
 		if (mResizeListener) {
-			mResizeListener->onResizeListener(mLabel, this, mBounds.rect.getWidth(), mBounds.rect.getHeight());
+			mResizeListener->onResizeListener(mLabel, this, mBounds.getWidth(), mBounds.getHeight());
 		}
 	}
 }
@@ -362,6 +358,7 @@ bool View::processTouchEvent(TouchEvent e) {
 
 	if (e.type == TouchEvent::DOWN && isInnerTouchEvent(e) && !e.handled) {
 		//LOGE("down");
+		//LOGE("%s", toString().c_str());
 		mTouchDown = true;
 		return callTouchEventListeners(e);
 	}else if (e.type == TouchEvent::UP && isTouchDown()) {
@@ -409,7 +406,7 @@ void View::setHandleTouchEvents(bool val) {
 }
 
 bool View::isInnerTouchEvent(TouchEvent e) {
-	return (e.rawX >= mBounds.getLeft() && e.rawX <= mBounds.getRight() && e.rawY >= mBounds.getTop() && e.rawY <= mBounds.getBottom());
+	return (e.rawX >= getLeft() && e.rawX <= getRight() && e.rawY >= getTop() && e.rawY <= getBottom());
 }
 
 bool View::onTouchEvent(TouchEvent e){
@@ -486,20 +483,33 @@ void View::update(Canvas *canvas) {
 	}
 }
 void View::draw(Canvas * canvas) {
+	auto vg = canvas->getNVGContext();
 
-		if (!isVisible()) return;
-		//canvas->reset();
-		//canvas->translate(mBounds.position);
-	if (mBackground.isBitmap()) {
-		//canvas->drawBitmap(mBackground.getBitmap(), Point(), mBounds.rect, 0);
-	}
-	else if (mBackground.isSolid()) {
-		if (mBackground.getRadius() > 0) {
-			canvas->drawRoundQuad(Rect(0, 0, mBounds.rect.getWidth(), mBounds.rect.getHeight()), mBackground.getRadius(), 0, mBackground.getColor());
-		}else {
-			canvas->drawQuad(Rect(0, 0, mBounds.rect.getWidth(), mBounds.rect.getHeight()), 0, mBackground.getColor());
+	if (!isVisible()) return;
+
+	if (mBackground.isSolidSetted() || mBackground.isGradientSetted() || mBackground.getBorderWidth() > 1) {
+		nvgBeginPath(vg);
+		if (mBackground.getCornerRadius() > 0) {
+			nvgRoundedRect(vg, 0, 0, getWidth(), getHeight(), mBackground.getCornerRadius());
 		}
-		//canvas->drawFont(Position(0, 0), toString(), Font(10), Color::GREEN);
+		else {
+			nvgRect(vg, 0, 0, getWidth(), getHeight());
+		}
+
+		if (mBackground.isGradientSetted()) {
+			int tmiddle = Utils::max(getHeight() / 0.5 * (mBackground.getGradientMiddle() - 0.5), 0);
+			int bmiddle = Utils::min(getHeight() / 0.5 * (mBackground.getGradientMiddle() + 0.5), getHeight());
+			auto paint = nvgLinearGradient(vg, 0, tmiddle, 0, bmiddle, mBackground.getGradientStartColor(), mBackground.getGradientEndColor());
+			nvgFillPaint(vg, paint);
+		}else if (mBackground.isSolidSetted()) {
+			nvgFillColor(vg, mBackground.getSolidColor());
+		}
+		if (mBackground.getBorderWidth() > 1) {
+			nvgStrokeWidth(vg, mBackground.getBorderWidth()*2);
+			nvgStroke(vg);
+		}
+		nvgFill(vg);
+		
 	}
 	canvas->translate(Point(getLeftPadding(), getTopPadding()));
 	canvas->setScissor(0, 0, getInnerWidth(), getInnerHeight());
@@ -582,14 +592,14 @@ Rect View::preferedSize(Rect max) {
 }*/
 
 void View::computeWidth(int max) {
-	max -= (mBounds.margin.getLeft() + mBounds.margin.getRight());
+	max -= (mMargin.getLeft() + mMargin.getRight());
 	if (mWidthMode == SizeMode::FILL) {
-		mBounds.rect.setWidth(max);
+		mBounds.setWidth(max);
 	}
 }
 void View::computeHeight(int max) {
-	max -= (mBounds.margin.getTop() + mBounds.margin.getBottom());
+	max -= (mMargin.getTop() + mMargin.getBottom());
 	if (mHeightMode == SizeMode::FILL) {
-		mBounds.rect.setHeight(max);
+		mBounds.setHeight(max);
 	}
 }

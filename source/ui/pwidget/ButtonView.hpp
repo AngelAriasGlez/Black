@@ -26,7 +26,7 @@ public:
 		setColor(Color::WHITE);
 		setClickColor(Color(50, 50, 50, 255));
 		setActiveColor(Color("#0b0c0e"));
-
+		setDisabledColor(Color(70, 70, 70, 180));
 
 		setText("");
 		setGravity(Gravity::CENTER, Gravity::CENTER);

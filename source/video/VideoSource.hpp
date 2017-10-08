@@ -58,20 +58,35 @@ public:
 	int dst_width;
 	int dst_height;
 
+	AVFrame* decframe;
+	int64_t frame_number = 0;
+	AVPacket pkt;
+
+	bool reverse = false;
+
+	std::string url;
+
 	std::vector<Frame*> buffer;
 
 	VideoSource() {
-
+		av_register_all();
 	}
 	VideoSource(std::string infile) {
 		load(infile);
 	}
+	std::string getUrl() {
+		return url;
+	}
+
 	virtual void load (std::string infile) {
+		url = infile;
+
 		picture_pts = AV_NOPTS_VALUE_;
 
 
-		av_register_all();
-		//  av_log_set_level(AV_LOG_DEBUG);
+		unload();
+
+		av_log_set_level(AV_LOG_DEBUG);
 		int ret;
 		inctx = nullptr;
 		ret = avformat_open_input(&inctx, infile.c_str(), nullptr, nullptr);
@@ -127,8 +142,8 @@ public:
 		// initialize sample scaler
 		//dst_width = vstrm->codec->width;
 		//dst_height = vstrm->codec->height;
-		dst_width = vstrm->codec->width / 3;
-		dst_height = vstrm->codec->height / 3;
+		dst_width = vstrm->codec->width;
+		dst_height = vstrm->codec->height;
 		const AVPixelFormat dst_pix_fmt = AV_PIX_FMT_RGBA;
 		swsctx = sws_getCachedContext(nullptr, vstrm->codec->width, vstrm->codec->height, vstrm->codec->pix_fmt, dst_width, dst_height, dst_pix_fmt, SWS_BICUBIC, nullptr, nullptr, nullptr);
 		if (!swsctx) {
@@ -150,13 +165,44 @@ public:
 
 		loopEnd = getLength();
 	
-
+		/*for (auto f : buffer) {
+			delete f;
+		}
+		buffer.clear();
 		while(grabFrame()) {
 			auto ptr = scale();
 			buffer.push_back(new Frame(ptr, getWidth(), getHeight(), getChannels()));
+		}*/
+		frame_number = 0;
+	}
+	virtual void unload() {
+
+		if (vstrm) {
+			avcodec_close(vstrm->codec);
 		}
 
+		if (inctx) {
+			avformat_free_context(inctx);
+			inctx = nullptr;
+			vstrm = nullptr;
+		}
+
+
+		if(frame)
+			av_frame_free(&frame);
+		if (decframe)
+			av_frame_free(&decframe);
+
+		av_free_packet(&pkt);
+
+		if (swsctx) {
+			sws_freeContext(swsctx);
+			swsctx = nullptr;
+		}
+
+
 	}
+
 	virtual ~VideoSource(){}
 	int64_t getLength(){
 		if (!vstrm) return 0;
@@ -199,11 +245,6 @@ public:
 
 
 
-	AVFrame* decframe;
-	int64_t frame_number = 0;
-	AVPacket pkt;
-
-	bool reverse = false;
 	virtual uint8_t* read() {
 		if (!vstrm) return nullptr;
 			if (frame_number <= loopStart) {
@@ -414,10 +455,10 @@ public:
 	long loopEnd = -1;
 
 	virtual void setLoopStart(long start) {
-		loopStart = Utils::clamp(start, 0, loopEnd);
+		loopStart = Utils::clamp(start, 0, loopEnd-4);
 	}
 	virtual void setLoopEnd(long end) {
-		loopEnd = Utils::clamp(end, loopStart+2, getLength());
+		loopEnd = Utils::clamp(end, loopStart+4, getLength());
 	}
 
 	double getAspectRatio() {

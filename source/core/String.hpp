@@ -13,6 +13,7 @@
     #define NOMINMAX 1
     #include <Windows.h>
 #endif
+#include <vector>
 
 class String{
 private:
@@ -298,6 +299,12 @@ public:
 	int rfind(String s) {
 		return mString.rfind(s.c_str());
 	}
+	int find(String s) {
+		return mString.find(s.c_str());
+	}
+	int find(String s, size_t off) {
+		return mString.find(s.c_str(), off);
+	}
 	int find_last_of(String s) {
 		return mString.find_last_of(s.data());
 	}
@@ -307,6 +314,46 @@ public:
 	void replace(char find, char replace) {
 		std::replace(mString.begin(), mString.end(), find, replace);
 	}
+
+
+	std::vector<String> split(String delim)
+	{
+		std::vector<String> tokens;
+		size_t prev = 0, pos = 0;
+		do
+		{
+			pos = find(delim, prev);
+			if (pos == std::string::npos) pos = length();
+			String token = substr(prev, pos - prev);
+			if (!token.empty()) tokens.push_back(token);
+			prev = pos + delim.length();
+		} while (pos < length() && prev < length());
+		return tokens;
+	}
+
+
+	// trim from start (in place)
+	/*String ltrim(char c = ' ') {
+		mString.erase(mString.begin(), std::find_if(mString.begin(), mString.end(), [c](int ch) {
+			return ch != c;
+		}));
+		return this;
+	}
+
+	// trim from end (in place)
+	String rtrim(char c = ' ') {
+		mString.erase(std::find_if(mString.rbegin(), mString.rend(), [c](int ch) {
+			return ch != c;
+		}).base(), mString.end());
+		return this;
+	}
+
+	// trim from both ends (in place)
+	String trim(String c = ' ') {
+		ltrim(c);
+		rtrim(c);
+		return this;
+	}*/
 };
 
 

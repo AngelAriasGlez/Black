@@ -80,7 +80,7 @@ public:
 	}
 
 	int computeChildPositionTop(View* view) override{
-		return view->getBounds().rect.y;
+		return view->getBounds().y;
 	}
 
 	/*int computeChildPositionLeft(View* view) override {
@@ -92,8 +92,8 @@ public:
 	}
 
 	void addItem(View *v) {
-		Bounds bds = v->getBounds();
-		bds.rect.y = getTop() + totalHeight();
+		auto bds = v->getBounds();
+		bds.y = getTop() + totalHeight();
 		v->setBounds(bds);
 		addView(v);
 		mTopOffsets.push_back(totalHeight() + iTotalHeight(v));
@@ -193,9 +193,7 @@ public:
 
 				int barWidth = 10;
 
-				Bounds bounds;
-				bounds.rect = Rect(getWidth() - mBar->getWidth() - getLeftPadding(), mBarTopPos, barWidth, barHeight);
-				mBar->setBounds(bounds);
+				mBar->setBounds(Rect(getWidth() - mBar->getWidth() - getLeftPadding(), mBarTopPos, barWidth, barHeight));
 			}
 
 			/*mBarAnimation.setView(mBar);

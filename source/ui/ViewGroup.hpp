@@ -42,7 +42,7 @@ public:
     //virtual bool processTouchEvent(TouchEvent& e);
     virtual void getAllVisibleChilds(std::vector<View*>& out);
     
-    virtual virtual void setBounds(Bounds b);
+    virtual virtual void setBounds(mt::Rect b) override;
     
     void onResize(int oldW, int newW, int oldH, int newH);
     void onMarginChanged();

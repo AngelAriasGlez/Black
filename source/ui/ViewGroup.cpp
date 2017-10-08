@@ -54,7 +54,7 @@ void ViewGroup::update(Canvas *canvas){
 std::vector<View *> ViewGroup::getViews(){
     return mViews;
 }
-void ViewGroup::setBounds(Bounds b) {
+void ViewGroup::setBounds(mt::Rect b) {
     //if (mBounds != b){
         View::setBounds(b);
     //}
@@ -172,10 +172,10 @@ int ViewGroup::computeChildPositionTop(View* view){
 }*/
 
 void ViewGroup::computeChildWidth(View* view) {
-	view->computeWidth(mBounds.rect.getWidth() - (mBounds.padding.getLeft() + mBounds.padding.getRight()));
+	view->computeWidth(mBounds.getWidth() - (mPadding.getLeft() + mPadding.getRight()));
 }
 void ViewGroup::computeChildHeight(View* view) {
-	view->computeHeight(mBounds.rect.getHeight() - (mBounds.padding.getTop() + mBounds.padding.getBottom()));
+	view->computeHeight(mBounds.getHeight() - (mPadding.getTop() + mPadding.getBottom()));
 }
 
 
@@ -187,8 +187,8 @@ void ViewGroup::performLayout(){
 		computeChildHeight(v);
 
 
-		v->mBounds.rect.x = computeChildPositionLeft(v);
-		v->mBounds.rect.y =  computeChildPositionTop(v);
+		v->mBounds.setX(computeChildPositionLeft(v));
+		v->mBounds.setY(computeChildPositionTop(v));
 
 
         if (ViewGroup* c = dynamic_cast<ViewGroup*> (v)){

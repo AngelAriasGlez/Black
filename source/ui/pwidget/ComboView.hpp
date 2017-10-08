@@ -82,9 +82,9 @@ public:
 
 		//resetProjection(canvas);
 		//mFloatListView->setWidth(floatWidth);
-		Bounds b = mFloatListView->getBounds();
+		auto b = mFloatListView->getBounds();
 		if (b.getRight() > Platform::getDisplayWidth()) {
-			b.rect.x = Platform::getDisplayWidth() - b.rect.getWidth();
+			b.x = Platform::getDisplayWidth() - b.getWidth();
 			mFloatListView->setBounds(b);
 		}
 

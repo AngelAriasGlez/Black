@@ -16,7 +16,8 @@ protected:
 	milliseconds starttime;
 	int framecount;
 
-
+	int imgW;
+	int imgH;
 	
 
 	std::vector<int> mThumbs;
@@ -73,15 +74,25 @@ public:
 			int w = mSource->getWidth();
 			int h = mSource->getHeight();
 
-
 			auto ptr = mSource->read();
-			if (!ptr) return;
-			if (imgid <= 0) {
-				imgid = nvgCreateImageRGBA(vg, w, h, 0, ptr);
-			}else{
-				nvgUpdateImage(vg, imgid, ptr);
+			if (ptr) {
+				if (imgid <= 0) {
+					imgid = nvgCreateImageRGBA(vg, w, h, 0, ptr);
+				}
+				else {
+					if (imgH != h || imgW != w) {
+						nvgDeleteImage(vg, imgid);
+						imgid = nvgCreateImageRGBA(vg, w, h, 0, ptr);
+						imgH = h;
+						imgW = w;
+
+					}
+					else {
+						nvgUpdateImage(vg, imgid, ptr);
+					}
+				}
+				framecount++;
 			}
-			framecount++;
 
 		}
 

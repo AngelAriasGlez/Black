@@ -142,7 +142,7 @@ void Application::frame(){
 	}
 	mFpsFrameCount++;
 
-	//mCanvas->clear();
+	mCanvas->clear();
 	mCanvas->begin(mWidth, mHeight);
 
 

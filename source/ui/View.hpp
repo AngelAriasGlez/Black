@@ -17,7 +17,6 @@ struct NVGLUframebuffer;
 #include <vector>
 
 #include "../graphics/Point.hpp"
-#include "../graphics/Bounds.hpp"
 #include "../graphics/Spacing.hpp"
 #include "../graphics/Rect.hpp"
 
@@ -72,7 +71,11 @@ protected:
 	bool mInit;
 
 	mt::Point mDrawOffset;
-	Bounds mBounds;
+
+
+	Spacing mMargin;
+	Spacing mPadding;
+	mt::Rect mBounds;
 
 	Visibility mVisibility;
 
@@ -150,10 +153,15 @@ public:
 	float getRight();
 	float getBottom();
 
-	Bounds getBounds();
-	virtual void setBounds(Bounds l);
+	mt::Rect getBounds();
+	virtual void setBounds(mt::Rect l);
 
-	mt::Rect getRect();
+	virtual void setPosition(mt::Point p) {
+		mBounds.setX(p.x);
+		mBounds.setY(p.y);
+	}
+
+
 	//void setPosition(Position pos);
 	
 	int getLeftFromParent();
@@ -251,6 +259,12 @@ public:
 	virtual void onResume() {
 
 	}
+
+	std::function<void> animationCallback;
+	void setAnimation(std::function<void> callback) {
+
+	}
+
 
 	/*void measureDimension(int maxWidth, int maxHeight) {
 		int desiredWidth = mBounds.dimension.width;

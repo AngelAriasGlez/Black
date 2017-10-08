@@ -2,7 +2,6 @@
 #define _MOVEANIMATION_H
 
 #include "Animation.hpp"
-#include "graphics/Bounds.hpp"
 class MoveAnimation : public Animation{
 private:
 	Point mStart;
@@ -14,7 +13,7 @@ public:
 		Animation(){
 
 	}
-	void run(Point start, Point end, bool hideOnFinish){
+	void run(mt::Point start, mt::Point end, bool hideOnFinish){
 		mStart = start;
 		mEnd = end;
 		mHide = hideOnFinish;
@@ -28,38 +27,37 @@ protected:
 		if (!view->isVisible()){
 			view->setVisibility(View::VISIBLE);
 		}
-		Bounds b = view->getBounds();
-		b.rect = mStart;
-		view->setBounds(b);
+
+		view->setPosition(mStart);
 	}
 	void end(View* view){
-		Bounds b = view->getBounds();
-		b.rect = mEnd;
-		view->setBounds(b);
+		view->setPosition(mEnd);
 
 		if (mHide){
 			view->setVisibility(View::HIDDEN);
 		}
 	}
 	void animate(View* view, int elapsed, int totalelapsed, int totalms){
-		Position res;
-		if (mStart.x > mEnd.x){
-			res.x = mStart.x - ((float)(mStart.x - mEnd.x) / (float)totalms * totalelapsed);
-		}else{
-			res.x = mStart.x + ((float)(mEnd.x - mStart.x) / (float)totalms * totalelapsed);
+		ianim(mStart, mEnd, view, totalelapsed, totalms);
+
+	}
+
+	void ianim(mt::Point start, mt::Point end, View* view, int totalelapsed, int totalms) {
+		mt::Point res;
+		if (start.x > end.x) {
+			res.x = start.x - ((float)(start.x - end.x) / (float)totalms * totalelapsed);
 		}
-		if (mStart.y > mEnd.y){
-			res.y = mStart.y - ((float)(mStart.y - mEnd.y) / (float)totalms * totalelapsed);
-		}else{
-			res.y = mStart.y + ((float)(mEnd.y - mStart.y) / (float)totalms * totalelapsed);
+		else {
+			res.x = start.x + ((float)(end.x - start.x) / (float)totalms * totalelapsed);
+		}
+		if (start.y > end.y) {
+			res.y = start.y - ((float)(start.y - end.y) / (float)totalms * totalelapsed);
+		}
+		else {
+			res.y = start.y + ((float)(end.y - start.y) / (float)totalms * totalelapsed);
 		}
 
-		//LOGE("%d %d", left, top);
-		Bounds b = view->getBounds();
-		b.position = res;
-		view->setBounds(b);
-
-
+		view->setPosition(res);
 	}
 };
 

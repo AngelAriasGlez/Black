@@ -41,7 +41,7 @@ public:
 		return width;
 	}
 
-	int computeChildPositionLeft(View* view){
+	int computeChildPositionLeft(View* view) override{
 		double left = 0;
 
 		if (getHorizontalGravity() == Gravity::CENTER){
@@ -58,7 +58,7 @@ public:
 		return left;
 	}
 
-	int computeChildPositionTop(View* view){
+	int computeChildPositionTop(View* view) override{
 		int top = 0;
 
 		if (getVerticalGravity() == Gravity::CENTER){
@@ -71,7 +71,7 @@ public:
 		return top;
 	}
 
-	void computeChildWidth(View* view){
+	void computeChildWidth(View* view) override{
 		double width = view->getWidth();
 		if (view->getWidthMode() == SizeMode::FILL){
 			width = getWidth() - (getLeftPadding() + getRightPadding());

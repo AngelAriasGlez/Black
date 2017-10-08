@@ -214,6 +214,7 @@
     <ClInclude Include="..\..\source\graphics\Canvas.hpp" />
     <ClInclude Include="..\..\source\graphics\Color.hpp" />
     <ClInclude Include="..\..\source\graphics\Font.hpp" />
+    <ClInclude Include="..\..\source\graphics\LinearGradient.hpp" />
     <ClInclude Include="..\..\source\graphics\Metrics.hpp" />
     <ClInclude Include="..\..\source\graphics\opengl\gl2.hpp" />
     <ClInclude Include="..\..\source\graphics\opengl\GL2Utils.hpp" />
@@ -278,6 +279,8 @@
     <ClInclude Include="..\..\source\utils\Singleton.hpp" />
     <ClInclude Include="..\..\source\utils\SMA.hpp" />
     <ClInclude Include="..\..\source\utils\utils.hpp" />
+    <ClInclude Include="..\..\source\video\VideoCached.hpp" />
+    <ClInclude Include="..\..\source\video\VideoEncoder.hpp" />
     <ClInclude Include="..\..\source\video\VideoSource.hpp" />
   </ItemGroup>
   <ItemGroup>

@@ -45,9 +45,22 @@ public:
 	}
 
 	void parseHex(std::string str){
+
 		
 		if (str.substr(0, 1) == "#"){
 			str = str.substr(1, str.size());
+		}
+
+		/*long long number = strtoll(&str[0], NULL, 16);
+
+		// Split them up into r, g, b values
+		long long r = number >> 16;
+		long long g = number >> 8 & 0xFF;
+		long long b = number & 0xFF;*/
+
+
+		if (str.size() <= 2) {
+			return;
 		}
 
 		if (str.size() <= 4) {
