@@ -126,6 +126,9 @@ public:
 			std::cerr << "fail to avcodec_open2: ret=" << ret;
 			return;
 		}*/
+		AVDictionaryEntry *tag = NULL;
+		while ((tag = av_dict_get(inctx->metadata, "", tag, AV_DICT_IGNORE_SUFFIX)))
+		         printf("%s=%s\n", tag->key, tag->value);
 
 
 		// print input video stream informataion
