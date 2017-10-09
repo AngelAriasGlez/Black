@@ -54,11 +54,6 @@ public:
 
 		auto msframe = 1000.0 / (double)mSource->getFramerate();
 
-
-		auto vg = canvas->getNVGContext();
-		int dw = getWidth();
-		int dh = getHeight();
-
 		if (!starttime.count()) starttime = duration_cast<milliseconds>(system_clock::now().time_since_epoch());
 		auto now = duration_cast<milliseconds>(system_clock::now().time_since_epoch());
 		auto rem = (starttime.count() + ((double)framecount*msframe)) - now.count();
@@ -67,9 +62,12 @@ public:
 			framecount = 0;
 		}
 
-		if (rem < msframe && rem > 0) {
+		auto vg = canvas->getNVGContext();
 
-		}else if(rem <= 0){
+		if(rem <= 0){
+			int dw = getWidth();
+			int dh = getHeight();
+
 
 			int w = mSource->getWidth();
 			int h = mSource->getHeight();
@@ -95,23 +93,18 @@ public:
 			}
 
 		}
-
 		if (imgid != 0) {
 			Rect is(getVideoX(), getVideoY(), getVideoWidth(), getVideoHeight());
-			
+
 			nvgBeginPath(vg);
 			NVGpaint imgPaint = nvgImagePattern(vg, is.getX(), is.getY(), is.getWidth(), is.getHeight(), 0, imgid, 1.0f);
 			nvgRect(vg, is.getX(), is.getY(), is.getWidth(), is.getHeight());
 			nvgFillPaint(vg, imgPaint);
 			nvgFill(vg);
 
-			//canvas->drawQuad(is, 1, Color::GREEN);
 		}
 
-		/*nvgBeginPath(vg);
-		nvgCircle(vg, mye.x, mye.y, 30);
-		nvgFillColor(vg, Color::MAGENTA);
-		nvgFill(vg);*/
+
 
 	}
 

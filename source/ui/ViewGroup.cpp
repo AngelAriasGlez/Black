@@ -131,11 +131,11 @@ int ViewGroup::computeChildPositionLeft(View* view){
         left = ((getWidth() / 2) - (view->getWidth() / 2)) + getLeft();
     }
     else if (getHorizontalGravity() == Gravity::RIGHT){
-        int r = (getLeft() + getWidth() - getRightPadding());
+		int r = (getLeft() + getWidth() - getRightPadding());
         int vtw = view->getWidth() + view->getLeftMargin() + view->getRightMargin();
         left = r - vtw;
     }else{
-        left = getLeft() + getLeftPadding();
+		left = getLeft() + getLeftPadding();
     }
     
     return left;
@@ -149,11 +149,11 @@ int ViewGroup::computeChildPositionTop(View* view){
     }
     else if (getVerticalGravity() == Gravity::BOTTOM){
 		auto c = getHeight();
-        int r = (getTop() + getHeight() - getBottomPadding());
+		int r = (getTop() + getHeight() - getBottomPadding());
         int vtw = view->getHeight() + view->getTopMargin() + view->getBottomMargin();
         top = r - vtw;
     }else{
-        top = getTop() + getTopPadding();
+		top = getTop() + getTopPadding();
     }
     return top;
 }

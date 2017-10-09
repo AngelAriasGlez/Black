@@ -48,7 +48,7 @@ public:
 		return x;
 	}
 	double getBottom() {
-		return y + z;
+		return y + w;
 	}
 	double getHorizontalMiddle() {
 		return x + (z / 2);

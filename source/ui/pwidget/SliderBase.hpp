@@ -19,17 +19,14 @@ public:
 		virtual void onProgressListener(SliderBase* slider, double progress, double diff, bool fromUser) = 0;
 	};
 	enum Type{
-		LINEAR,
+		LINEAR_HORIZONTAL_CENTER,
+		LINEAR_HORIZONTAL_LEFT,
+		LINEAR_VERTICAL_CENTER,
+		LINEAR_VERTICAL_BOTTOM,
 		LINEAR_INF,
 		CIRCULAR
 	};
-	enum Origin {
-		LEFT,
-		CENTER,
-		RIGHT,
-		TOP,
-		BOTTOM
-	};
+
 protected:
 	double mPreviusAngle;
 
@@ -39,7 +36,6 @@ protected:
 
 	IProgressListener *mProgressListener;
 	Type mType;
-	Origin mOrigin;
 
 	//View *mRail;
 public:
@@ -50,8 +46,7 @@ public:
 		mProgressListener = NULL;
 
 
-		mType = LINEAR;
-		mOrigin = LEFT;
+		mType = LINEAR_VERTICAL_BOTTOM;
 		mPreviusAngle = 0;
 	}
 
@@ -66,13 +61,6 @@ public:
 	Type getType() {
 		return mType;
 	}
-	void setOrigin(Origin origin) {
-		mOrigin = origin;
-		setProgress(0);
-	}
-	Origin getOrigin() {
-		return mOrigin;
-	}
 
 
 	void setProgress(double progress){
@@ -84,22 +72,16 @@ public:
 	int getProgress(){
 		return mProgress;
 	}
-	
 
-	void onDoubleClickListener(std::string label, View* view, TouchEvent& e)  {
-		mProgress = 0;
-		notifyProg();
-	}
-	void onTouchListener(std::string label, View* view, TouchEvent& e)  {
-		processTouch(e);
 
-	}
 
-	virtual void processTouch(TouchEvent e) {
+	bool onTouchEvent(TouchEvent e) override {
 		if(e.type == TouchEvent::DOWN || (mTouchDown && e.type == TouchEvent::MOVE)){
+			double progress;
+
 				if (mType == CIRCULAR) {
 					if (e.type == TouchEvent::DOWN) {
-						return;
+						return true;
 					}
 					double angle = angleFromPoint(e.x, e.y);
 					double diff = angle - mPreviusAngle;
@@ -111,30 +93,37 @@ public:
 						diff += 359.9;
 					}
 					double diffProgress = (100. / 360. * diff);
-					double progress = mProgress + diffProgress;
+					progress = mProgress + diffProgress;
 
 					mPrevIncrement = diffProgress;
-					mProgress = progress;
-					notifyProg();
 
 
-				}else if(mType == LINEAR){
-
-						int ymax = std::max(0.0, getHeight());
-						int prog = 0;
-						if (mOrigin == CENTER) {
-							prog = (200. / (float)ymax * (float)(e.y)) - 100;
-							prog = -Utils::clamp(prog, -100, 100);
-						}
-						else {
-							prog = 100 - (100. / (float)ymax * (float)e.y);
-							prog = Utils::clamp(prog, 0, 100);
-						}
-						mPrevIncrement = mProgress - prog;
-						mProgress = prog;
-						notifyProg();
+				}else if(mType == LINEAR_VERTICAL_CENTER){
+					progress = (200. / getPathSize() * (double)(e.y)) - 100;
+					progress = -Utils::clamp(progress, -100, 100);
+					mPrevIncrement = mProgress - progress;
+				}else if (mType == LINEAR_VERTICAL_BOTTOM) {
+					progress = 100 - (100. / getPathSize() * (double)e.y - getPathLateralMargin());
+					progress = Utils::clamp(progress, 0, 100);
+					mPrevIncrement = mProgress - progress;
+				}else if (mType == LINEAR_HORIZONTAL_CENTER) {
+					progress = (200. / getPathSize() * (double)(e.x)) - 100;
+					progress = -Utils::clamp(progress, -100, 100);
+					mPrevIncrement = mProgress - progress;
+				}else if (mType == LINEAR_HORIZONTAL_LEFT) {
+					progress = (100. / getPathSize() * (double)e.x - getPathLateralMargin());
+					progress = Utils::clamp(progress, 0, 100);
+					mPrevIncrement = mProgress - progress;
+				
 				}
+
+
+
+
+				mProgress = progress;
+				notifyProg();
 		}
+		return true;
 
 	}
 	void notifyProg() {
@@ -142,6 +131,21 @@ public:
 			mProgressListener->onProgressListener(this, mProgress, mPrevIncrement, true);
 		}
 	}
+
+	virtual double getPathSize() {
+		if (mType == LINEAR_VERTICAL_CENTER || mType == LINEAR_VERTICAL_BOTTOM) {
+			return std::max(0.0, getInnerHeight());
+		}
+		else if (mType == LINEAR_HORIZONTAL_CENTER || mType == LINEAR_HORIZONTAL_LEFT) {
+			return std::max(0.0, getInnerWidth());
+		}
+
+		return 0;
+	}
+	virtual double getPathLateralMargin() {
+		return 0;
+	}
+
 
 
 	void setOnProgressListener(IProgressListener *listener){

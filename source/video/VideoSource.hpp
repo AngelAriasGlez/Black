@@ -24,7 +24,7 @@ extern "C"{
 #include <algorithm>
 
 using namespace std::chrono;
-class Frame {
+/*class Frame {
 public:
 	uint8_t *data;
 	Frame(uint8_t *buffer, int width, int height, int channels=4) {
@@ -34,7 +34,7 @@ public:
 	~Frame() {
 		delete data;
 	}
-};
+};*/
 
 
 
@@ -66,7 +66,7 @@ public:
 
 	std::string url;
 
-	std::vector<Frame*> buffer;
+	//std::vector<Frame*> buffer;
 
 	VideoSource() {
 		av_register_all();
@@ -104,6 +104,8 @@ public:
 			std::cerr << "fail to av_find_best_stream: ret=" << ret;
 			return;
 		}
+
+
 		vstrm_idx = ret;
 		vstrm = inctx->streams[vstrm_idx];
 		ret = avcodec_open2(vstrm->codec, vcodec, nullptr);
@@ -142,8 +144,8 @@ public:
 		// initialize sample scaler
 		//dst_width = vstrm->codec->width;
 		//dst_height = vstrm->codec->height;
-		dst_width = vstrm->codec->width;
-		dst_height = vstrm->codec->height;
+		dst_width = vstrm->codec->width / 2;
+		dst_height = vstrm->codec->height / 2;
 		const AVPixelFormat dst_pix_fmt = AV_PIX_FMT_RGBA;
 		swsctx = sws_getCachedContext(nullptr, vstrm->codec->width, vstrm->codec->height, vstrm->codec->pix_fmt, dst_width, dst_height, dst_pix_fmt, SWS_BICUBIC, nullptr, nullptr, nullptr);
 		if (!swsctx) {
@@ -163,8 +165,7 @@ public:
 		//av_image_fill_arrays(frame->data, frame->linesize, framebuf.data(), dst_pix_fmt, dst_width, dst_height, 1);
 		decframe = av_frame_alloc();
 
-		loopEnd = getLength();
-	
+
 		/*for (auto f : buffer) {
 			delete f;
 		}
@@ -247,26 +248,7 @@ public:
 
 	virtual uint8_t* read() {
 		if (!vstrm) return nullptr;
-			if (frame_number <= loopStart) {
-				reverse = false;
-				seek(loopStart);
-			}
-			if (frame_number >= loopEnd && loopEnd >= loopStart) {
-				seek(loopStart);
 
-				//reverse = true;
-			}
-			if (reverse) {
-				if (frame_number >= loopEnd && loopEnd >= loopStart) {
-					seek(loopEnd-2);
-				}else {
-					seek(frame_number - 1);
-				}
-                if (buffer.size() > 0) return buffer[frame_number++]->data;
-				return scale();
-			}
-
-		if (buffer.size() > 0) return buffer[frame_number++]->data;
 		if (grabFrame()) {
 			return scale();
 		}
@@ -351,10 +333,10 @@ public:
 	int64_t first_frame_number = -1;
 	virtual void seek(int64_t _frame_number, bool acurate = true)
 	{
-        if (buffer.size() > 0) {
+        /*if (buffer.size() > 0) {
             frame_number = Utils::clamp(_frame_number, 0, getLength());
             return;
-        }
+        }*/
 		if (!vstrm) return;
 
 
@@ -451,15 +433,6 @@ public:
 		return dst_height;
 	}
 public:
-	long loopStart = 1;
-	long loopEnd = -1;
-
-	virtual void setLoopStart(long start) {
-		loopStart = Utils::clamp(start, 0, loopEnd-4);
-	}
-	virtual void setLoopEnd(long end) {
-		loopEnd = Utils::clamp(end, loopStart+4, getLength());
-	}
 
 	double getAspectRatio() {
 		return (double)dst_width / (double)dst_height;

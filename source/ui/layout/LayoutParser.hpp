@@ -120,7 +120,7 @@ public:
 		}
 		else if (n == "SliderView") {
 			view = new SliderView(Rect());
-			if (!node->attribute("origin").empty()) {
+			/*if (!node->attribute("origin").empty()) {
 				std::string t = node->attribute("origin").as_string();
 				if (t == "center") {
 					((SliderView *)view)->setOrigin(SliderView::CENTER);
@@ -133,7 +133,7 @@ public:
 				}else if (t == "linear_inf") {
 					((SliderView *)view)->setType(SliderView::LINEAR_INF);
 				}
-			}
+			}*/
 		
 
 		}

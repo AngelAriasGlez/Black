@@ -175,8 +175,8 @@ void View::setBottomPadding(int padding){
 }
 	
 float View::getLeft(){
-	return mBounds.getLeft() + mMargin.getLeft();
-	}
+		return mBounds.getLeft() + mMargin.getLeft();
+}
 float View::getTop() {
 		return mBounds.getTop() + mMargin.getTop();
 	}
@@ -358,7 +358,7 @@ bool View::processTouchEvent(TouchEvent e) {
 
 	if (e.type == TouchEvent::DOWN && isInnerTouchEvent(e) && !e.handled) {
 		//LOGE("down");
-		//LOGE("%s", toString().c_str());
+		LOGE("%s", toString().c_str());
 		mTouchDown = true;
 		return callTouchEventListeners(e);
 	}else if (e.type == TouchEvent::UP && isTouchDown()) {
@@ -406,7 +406,24 @@ void View::setHandleTouchEvents(bool val) {
 }
 
 bool View::isInnerTouchEvent(TouchEvent e) {
-	return (e.rawX >= getLeft() && e.rawX <= getRight() && e.rawY >= getTop() && e.rawY <= getBottom());
+	auto ll = ((mParent) ? mParent->getLeftPadding() : 0);
+
+	auto l = getLeft();
+	auto r = getRight();
+	auto t = getTop();
+	auto b = getBottom();
+
+	auto bl = e.rawX >= l;
+	auto br = e.rawX <= r;
+	auto bt = e.rawY >= t;
+	auto bb = e.rawY <= b;
+
+	auto res = bl && br && bt && bb;
+	if (res == true) {
+		auto zz = 0;
+	}
+	return res;
+	//return (e.rawX >= getLeft() && e.rawX <= getRight() && e.rawY >= getTop() && e.rawY <= getBottom());
 }
 
 bool View::onTouchEvent(TouchEvent e){
@@ -509,10 +526,17 @@ void View::draw(Canvas * canvas) {
 			nvgStroke(vg);
 		}
 		nvgFill(vg);
+
 		
 	}
-	canvas->translate(Point(getLeftPadding(), getTopPadding()));
-	canvas->setScissor(0, 0, getInnerWidth(), getInnerHeight());
+	if (!dynamic_cast<ViewGroup*> (this)) {
+		canvas->translate(Point(getLeftPadding(), getTopPadding()));
+		canvas->setScissor(0, 0, getInnerWidth(), getInnerHeight());
+	}else {
+		canvas->setScissor(getLeftPadding(), getTopPadding(), getInnerWidth(), getInnerHeight());
+	}
+
+
 }
 
 
