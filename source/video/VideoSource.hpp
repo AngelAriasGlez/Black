@@ -86,7 +86,7 @@ public:
 
 		unload();
 
-		av_log_set_level(AV_LOG_DEBUG);
+		//av_log_set_level(AV_LOG_DEBUG);
 		int ret;
 		inctx = nullptr;
 		ret = avformat_open_input(&inctx, infile.c_str(), nullptr, nullptr);

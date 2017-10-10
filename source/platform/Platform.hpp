@@ -49,6 +49,9 @@
         static void openMediaSelector(int type = 0, int source = 0);
 
 
+        static String createTempFile(String filename);
+        
+        static bool saveToVideos(String filename);
 	};
 
 

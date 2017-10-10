@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		CF790C471F8C373C0043133B /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CF790C421F8C373C0043133B /* CoreGraphics.framework */; };
 		CF8D45091F85B0900060EEAC /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CF8D45041F85B0900060EEAC /* MobileCoreServices.framework */; };
 		CFCB23A81F8333C0009EEADD /* AudioSource.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CFCB23A21F8333C0009EEADD /* AudioSource.cpp */; };
 		CFCB23A91F8333C0009EEADD /* Player.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CFCB23A41F8333C0009EEADD /* Player.cpp */; };
@@ -111,7 +112,6 @@
 		CFCB24891F83360A009EEADD /* Background.hpp in Sources */ = {isa = PBXBuildFile; fileRef = CFCB23D51F83350B009EEADD /* Background.hpp */; };
 		CFCB248A1F83360A009EEADD /* Bitmap.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CFCB23D61F83350B009EEADD /* Bitmap.cpp */; };
 		CFCB248B1F83360A009EEADD /* Bitmap.hpp in Sources */ = {isa = PBXBuildFile; fileRef = CFCB23D71F83350B009EEADD /* Bitmap.hpp */; };
-		CFCB248C1F83360A009EEADD /* Bounds.hpp in Sources */ = {isa = PBXBuildFile; fileRef = CFCB23D81F83350B009EEADD /* Bounds.hpp */; };
 		CFCB248D1F83360A009EEADD /* Canvas.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CFCB23D91F83350B009EEADD /* Canvas.cpp */; };
 		CFCB248E1F83360A009EEADD /* Canvas.hpp in Sources */ = {isa = PBXBuildFile; fileRef = CFCB23DA1F83350B009EEADD /* Canvas.hpp */; };
 		CFCB248F1F83360A009EEADD /* Color.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CFCB23DB1F83350B009EEADD /* Color.cpp */; };
@@ -221,6 +221,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		CF34772F1F8D01E300910745 /* VideoEncoder.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = VideoEncoder.hpp; path = video/VideoEncoder.hpp; sourceTree = "<group>"; };
+		CF790C421F8C373C0043133B /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		CF7B00EB1F82FC6B00301C64 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		CF7B00F51F82FFDF00301C64 /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
 		CF7B01301F830AB400301C64 /* mpg123.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = mpg123.xcodeproj; path = ../../libs/mpg123/ports/Xcode/mpg123.xcodeproj; sourceTree = "<group>"; };
@@ -265,7 +267,6 @@
 		CFCB23D51F83350B009EEADD /* Background.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = Background.hpp; path = graphics/Background.hpp; sourceTree = "<group>"; };
 		CFCB23D61F83350B009EEADD /* Bitmap.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Bitmap.cpp; path = graphics/Bitmap.cpp; sourceTree = "<group>"; };
 		CFCB23D71F83350B009EEADD /* Bitmap.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = Bitmap.hpp; path = graphics/Bitmap.hpp; sourceTree = "<group>"; };
-		CFCB23D81F83350B009EEADD /* Bounds.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = Bounds.hpp; path = graphics/Bounds.hpp; sourceTree = "<group>"; };
 		CFCB23D91F83350B009EEADD /* Canvas.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Canvas.cpp; path = graphics/Canvas.cpp; sourceTree = "<group>"; };
 		CFCB23DA1F83350B009EEADD /* Canvas.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = Canvas.hpp; path = graphics/Canvas.hpp; sourceTree = "<group>"; };
 		CFCB23DB1F83350B009EEADD /* Color.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Color.cpp; path = graphics/Color.cpp; sourceTree = "<group>"; };
@@ -372,6 +373,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CF790C471F8C373C0043133B /* CoreGraphics.framework in Frameworks */,
 				CF8D45091F85B0900060EEAC /* MobileCoreServices.framework in Frameworks */,
 				CFCB24C71F8337D4009EEADD /* libPugiXml_IOS.a in Frameworks */,
 				CFE684731F83300F00712904 /* UIKit.framework in Frameworks */,
@@ -416,6 +418,7 @@
 		CF7B00EA1F82FC6B00301C64 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				CF790C421F8C373C0043133B /* CoreGraphics.framework */,
 				CF8D45041F85B0900060EEAC /* MobileCoreServices.framework */,
 				CFE6845A1F832D0000712904 /* libavcodec.framework */,
 				CFE6845B1F832D0000712904 /* libavdevice.framework */,
@@ -536,7 +539,6 @@
 				CFCB23D51F83350B009EEADD /* Background.hpp */,
 				CFCB23D61F83350B009EEADD /* Bitmap.cpp */,
 				CFCB23D71F83350B009EEADD /* Bitmap.hpp */,
-				CFCB23D81F83350B009EEADD /* Bounds.hpp */,
 				CFCB23D91F83350B009EEADD /* Canvas.cpp */,
 				CFCB23DA1F83350B009EEADD /* Canvas.hpp */,
 				CFCB23DB1F83350B009EEADD /* Color.cpp */,
@@ -675,6 +677,7 @@
 		CFCB24461F8335CE009EEADD /* video */ = {
 			isa = PBXGroup;
 			children = (
+				CF34772F1F8D01E300910745 /* VideoEncoder.hpp */,
 				CFCB24471F8335DC009EEADD /* VideoSource.hpp */,
 			);
 			name = video;
@@ -943,7 +946,6 @@
 				CFCB24891F83360A009EEADD /* Background.hpp in Sources */,
 				CFCB248A1F83360A009EEADD /* Bitmap.cpp in Sources */,
 				CFCB248B1F83360A009EEADD /* Bitmap.hpp in Sources */,
-				CFCB248C1F83360A009EEADD /* Bounds.hpp in Sources */,
 				CFCB248D1F83360A009EEADD /* Canvas.cpp in Sources */,
 				CFCB248E1F83360A009EEADD /* Canvas.hpp in Sources */,
 				CFCB248F1F83360A009EEADD /* Color.cpp in Sources */,
