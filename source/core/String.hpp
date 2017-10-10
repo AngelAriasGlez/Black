@@ -30,7 +30,10 @@ public:
 		mString.assign(chars);
 
 	}
+	String(char* chars) {
+		mString.assign(chars);
 
+	}
 	String(std::string string){
 		mString.assign(string);
 
@@ -169,7 +172,10 @@ public:
 	operator const char* () {
 		return c_str();
 	}
-
+	operator char* () {
+		//return strdup(c_str());
+		return (char *)c_str();
+	}
 
 	operator void* () {
 		return (void *)data();

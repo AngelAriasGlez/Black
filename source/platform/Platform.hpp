@@ -25,7 +25,8 @@
 		static double getDisplayDensity();
 		static double getDisplaySize();
 
-		static String getCacheDir();
+		static String getTempDir();
+		static String getStorageDir();
 		static String getAssetsDir();
         static String getSystemMusicDir();
 
@@ -49,9 +50,9 @@
         static void openMediaSelector(int type = 0, int source = 0);
 
 
-        static String createTempFile(String filename);
+       
         
-        static bool saveToVideos(String filename);
+        static bool saveToVideos(String filepath, String newfilename);
 	};
 
 

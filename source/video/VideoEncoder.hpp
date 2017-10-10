@@ -23,6 +23,8 @@ enum AVRounding2 {
 };
 
 
+#define OUTPUT_CODEC AV_CODEC_ID_H264
+//Input pix fmt is set to BGR24
 #define OUTPUT_PIX_FMT AV_PIX_FMT_YUV420P
 
 class VideoEncoder {
@@ -33,7 +35,7 @@ private:
 	AVFrame         *tmp_frame;
 	int              pts = 0;
 public:
-	VideoEncoder(int width, int height, String target, double fps) {
+	VideoEncoder(int width, int height, const char* target, double fps) {
 
 		int err;
 		AVOutputFormat  *fmt;
@@ -53,7 +55,7 @@ public:
 		//std::cout <<fmt->long_name<<std::endl;
 		//Set format header infos
 		fmt_ctx->oformat = fmt;
-		//snprintf(fmt_ctx->filename, sizeof(fmt_ctx->filename), "%s", target);
+		snprintf(fmt_ctx->filename, sizeof(fmt_ctx->filename), "%s", target);
 		//Reference for AvFormatContext options : https://ffmpeg.org/doxygen/2.8/movenc_8c_source.html
 		//Set format's privater options, to be passed to avformat_write_header()
 		err = av_dict_set(&fmt_opts, "movflags", "faststart", 0);
@@ -65,8 +67,8 @@ public:
 		if (err < 0) {
 			std::cerr << "Error : " << "av_dict_set brand" << std::endl;
 		}
-		codec = avcodec_find_encoder(fmt->video_codec);
-
+		codec = avcodec_find_encoder(OUTPUT_CODEC);
+		//codec = avcodec_find_encoder(fmt->video_codec);
 		if (!codec) {
 			throw "can't find encoder";
 		}
@@ -75,7 +77,7 @@ public:
 		}
 		//set stream time_base
 		/* frames per second FIXME use input fps? */
-		AVRational ra{100,(int)(fps*100)};
+		AVRational ra{ 100,fps * 100 };
 
 		st->time_base = ra;
 
@@ -87,19 +89,19 @@ public:
 		codec_ctx->height = height;
 		codec_ctx->time_base = st->time_base;
 		codec_ctx->pix_fmt = OUTPUT_PIX_FMT;
-		codec_ctx->flags |= (1 << 22); //AVFMT_GLOBALHEADER
+		codec_ctx->flags |= (1 << 22);
 		/* Apparently it's in the example in master but does not work in V11
 		if (o_format_ctx->oformat->flags & AVFMT_GLOBALHEADER)
 		codec_ctx->flags |= AV_CODEC_FLAG_GLOBAL_HEADER;
 		*/
 		//H.264 specific options
 		codec_ctx->gop_size = 25;
-		codec_ctx->level = 30;
+		codec_ctx->level = 31;
 		err = av_opt_set(codec_ctx->priv_data, "crf", "12", 0);
 		if (err < 0) {
 			std::cerr << "Error : " << "av_opt_set crf" << std::endl;
 		}
-		err = av_opt_set(codec_ctx->priv_data, "profile", "baseline", 0);
+		err = av_opt_set(codec_ctx->priv_data, "profile", "main", 0);
 		if (err < 0) {
 			std::cerr << "Error : " << "av_opt_set profile" << std::endl;
 		}
@@ -136,7 +138,7 @@ public:
 
 	}
 
-	void close() {
+	~VideoEncoder() {
 		int err;
 		std::cout << "cleaning Encoder" << std::endl;
 		//Write pending packets
@@ -147,15 +149,9 @@ public:
 		//Write file trailer before exit
 		av_write_trailer(this->fmt_ctx);
 		//close file
-        avio_close(fmt_ctx->pb);
-	}
-
-	~VideoEncoder() {
-		
-		avcodec_close(codec_ctx);
+		avio_close(fmt_ctx->pb);
 		avformat_free_context(this->fmt_ctx);
 		//avcodec_free_context(&this->codec_ctx);
-
 
 	}
 
@@ -190,15 +186,15 @@ public:
 			return 0;
 		}
 	}
-	void av_packet_rescale_ts(AVPacket *pkt, AVRational src_tb, AVRational dst_tb){
-			if (pkt->pts != AV_NOPTS_VALUE)
-				pkt->pts = av_rescale_q(pkt->pts, src_tb, dst_tb);
-			if (pkt->dts != AV_NOPTS_VALUE)
-				 pkt->dts = av_rescale_q(pkt->dts, src_tb, dst_tb);
-			if (pkt->duration > 0)
-				pkt->duration = av_rescale_q(pkt->duration, src_tb, dst_tb);
-			if (pkt->convergence_duration > 0)
-				pkt->convergence_duration = av_rescale_q(pkt->convergence_duration, src_tb, dst_tb);
+	void av_packet_rescale_ts(AVPacket *pkt, AVRational src_tb, AVRational dst_tb) {
+		if (pkt->pts != AV_NOPTS_VALUE)
+			pkt->pts = av_rescale_q(pkt->pts, src_tb, dst_tb);
+		if (pkt->dts != AV_NOPTS_VALUE)
+			pkt->dts = av_rescale_q(pkt->dts, src_tb, dst_tb);
+		if (pkt->duration > 0)
+			pkt->duration = av_rescale_q(pkt->duration, src_tb, dst_tb);
+		if (pkt->convergence_duration > 0)
+			pkt->convergence_duration = av_rescale_q(pkt->convergence_duration, src_tb, dst_tb);
 	}
 	int64_t av_rescale_q(int64_t a, AVRational bq, AVRational cq) {
 		int64_t b = bq.num * (int64_t)cq.den;
@@ -207,43 +203,44 @@ public:
 	}
 
 	int64_t av_rescale_rnd(int64_t a, int64_t b, int64_t c, enum AVRounding2 rnd) {
-			int64_t r = 0;
+		int64_t r = 0;
 
-				if (a<0 && a != INT64_MIN) return -av_rescale_rnd(-a, b, c, (AVRounding2)(rnd ^ ((rnd >> 1) & 1)));
-					if (rnd == AV_ROUND_NEAR_INF) r = c / 2;
-				else if (rnd & 1)             r = c - 1;
-		
-				if (b <= INT_MAX && c <= INT_MAX) {
-					if (a <= INT_MAX)
-						return (a * b + r) / c;
-					else
-						return a / c*b + (a%c*b + r) / c;
-		}else {
-					uint64_t a0 = a & 0xFFFFFFFF;
-					uint64_t a1 = a >> 32;
-					uint64_t b0 = b & 0xFFFFFFFF;
-					uint64_t b1 = b >> 32;
-					uint64_t t1 = a0*b1 + a1*b0;
-					uint64_t t1a = t1 << 32;
-					int i;
+		if (a<0 && a != INT64_MIN) return -av_rescale_rnd(-a, b, c, (AVRounding2)(rnd ^ ((rnd >> 1) & 1)));
+		if (rnd == AV_ROUND_NEAR_INF) r = c / 2;
+		else if (rnd & 1)             r = c - 1;
 
-					a0 = a0*b0 + t1a;
-					a1 = a1*b1 + (t1 >> 32) + (a0<t1a);
-					a0 += r;
-					a1 += a0<r;
-
-					for (i = 63; i >= 0; i--) {
-							a1 += a1 + ((a0 >> i) & 1);
-							t1 += t1;
-						if (/*o || */c <= a1) {
-								a1 -= c;
-								t1++;
-					}
-				}
-					return t1;
-			}
-			
+		if (b <= INT_MAX && c <= INT_MAX) {
+			if (a <= INT_MAX)
+				return (a * b + r) / c;
+			else
+				return a / c*b + (a%c*b + r) / c;
 		}
+		else {
+			uint64_t a0 = a & 0xFFFFFFFF;
+			uint64_t a1 = a >> 32;
+			uint64_t b0 = b & 0xFFFFFFFF;
+			uint64_t b1 = b >> 32;
+			uint64_t t1 = a0*b1 + a1*b0;
+			uint64_t t1a = t1 << 32;
+			int i;
+
+			a0 = a0*b0 + t1a;
+			a1 = a1*b1 + (t1 >> 32) + (a0<t1a);
+			a0 += r;
+			a1 += a0<r;
+
+			for (i = 63; i >= 0; i--) {
+				a1 += a1 + ((a0 >> i) & 1);
+				t1 += t1;
+				if (/*o || */c <= a1) {
+					a1 -= c;
+					t1++;
+				}
+			}
+			return t1;
+		}
+
+	}
 
 
 };

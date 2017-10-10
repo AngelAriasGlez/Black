@@ -910,7 +910,7 @@ double Platform::getDisplayDensity(){
 	double diagonalres = sqrt((hres*hres) + (vres*vres));
 	return diagonalres / Platform::getDisplaySize();
 }
-String Platform::getCacheDir(){
+String Platform::getStorageDir(){
 	WCHAR p[MAX_PATH];
 	GetModuleFileName(NULL, p, MAX_PATH);
 	PathRemoveFileSpec(p);
@@ -919,12 +919,30 @@ String Platform::getCacheDir(){
 
 	return Utils::formatPath(Utils::formatPath(s) + std::string("cache"));
 }
+#include <filesystem>
+String Platform::getTempDir() {
+	return String(std::experimental::filesystem::temp_directory_path());
+}
 #include <Shlobj.h>
 String Platform::getSystemMusicDir(){
 	wchar_t buffer[MAX_PATH];
 	HRESULT result = SHGetFolderPath(NULL, CSIDL_MYMUSIC, NULL, SHGFP_TYPE_CURRENT, buffer);
 	return String(buffer);
 }
+bool Platform::saveToVideos(String filepath, String newfilename) {
+	wchar_t buffer[MAX_PATH];
+	HRESULT result = SHGetFolderPath(NULL, CSIDL_MYVIDEO, NULL, SHGFP_TYPE_CURRENT, buffer);
+	auto videopat = String(buffer) + "\\" + newfilename;
+	BOOL b = CopyFile(filepath.toWide().c_str(), videopat.toWide().c_str(), 0);
+	if (!b) {
+		return false;
+	}
+	else {
+		return true;
+	}
+}
+
+
 String Platform::getAssetsDir(){
 	wchar_t buffer[MAX_PATH];
 	GetModuleFileName(NULL, buffer, MAX_PATH);

@@ -63,7 +63,7 @@ public:
 	}
 
 	void save() {
-		String dbdir = Platform::getCacheDir() + "preferences.db";
+		String dbdir = Platform::getStorageDir() + "preferences.db";
 
 		unqlite *pDb;
 		int rc = unqlite_open(&pDb, dbdir.c_str(), UNQLITE_OPEN_CREATE);
@@ -83,7 +83,7 @@ public:
 	
 
 	void load() {
-		String dbdir = Platform::getCacheDir() + "preferences.db";
+		String dbdir = Platform::getStorageDir() + "preferences.db";
 
 		unqlite *pDb;
 		int rc = unqlite_open(&pDb, dbdir.c_str(), UNQLITE_OPEN_CREATE);
