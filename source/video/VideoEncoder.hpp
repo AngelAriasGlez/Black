@@ -23,7 +23,7 @@ enum AVRounding2 {
 };
 
 
-#define OUTPUT_CODEC AV_CODEC_ID_H264
+#define OUTPUT_CODEC AV_CODEC_ID_MPEG4
 //Input pix fmt is set to BGR24
 #define OUTPUT_PIX_FMT AV_PIX_FMT_YUV420P
 
@@ -35,7 +35,7 @@ private:
 	AVFrame         *tmp_frame;
 	int              pts = 0;
 public:
-	VideoEncoder(int width, int height, const char* target, double fps) {
+	VideoEncoder(int width, int height, String target, double fps) {
 
 		int err;
 		AVOutputFormat  *fmt;
@@ -47,7 +47,7 @@ public:
 			std::cerr << "Error : can not alloc av context" << std::endl;
 		}
 		//init encoding format
-		fmt = av_guess_format(NULL, target, NULL);
+		fmt = av_guess_format(NULL, target.c_str(), NULL);
 		if (!fmt) {
 			std::cout << "Could not deduce output format from file extension: using MPEG4." << std::endl;
 			fmt = av_guess_format("mpeg4", NULL, NULL);
@@ -55,7 +55,7 @@ public:
 		//std::cout <<fmt->long_name<<std::endl;
 		//Set format header infos
 		fmt_ctx->oformat = fmt;
-		snprintf(fmt_ctx->filename, sizeof(fmt_ctx->filename), "%s", target);
+		snprintf(fmt_ctx->filename, sizeof(fmt_ctx->filename), "%s", target.c_str());
 		//Reference for AvFormatContext options : https://ffmpeg.org/doxygen/2.8/movenc_8c_source.html
 		//Set format's privater options, to be passed to avformat_write_header()
 		err = av_dict_set(&fmt_opts, "movflags", "faststart", 0);
@@ -67,8 +67,8 @@ public:
 		if (err < 0) {
 			std::cerr << "Error : " << "av_dict_set brand" << std::endl;
 		}
-		codec = avcodec_find_encoder(OUTPUT_CODEC);
-		//codec = avcodec_find_encoder(fmt->video_codec);
+		//codec = avcodec_find_encoder(OUTPUT_CODEC);
+		codec = avcodec_find_encoder(fmt->video_codec);
 		if (!codec) {
 			throw "can't find encoder";
 		}
@@ -77,7 +77,7 @@ public:
 		}
 		//set stream time_base
 		/* frames per second FIXME use input fps? */
-		AVRational ra{ 100,fps * 100 };
+		AVRational ra{ 100,(int)(fps * 100) };
 
 		st->time_base = ra;
 
@@ -122,9 +122,9 @@ public:
 		}
 
 		//* dump av format informations
-		av_dump_format(fmt_ctx, 0, target, 1);
+		av_dump_format(fmt_ctx, 0, target.c_str(), 1);
 		//*/
-		err = avio_open(&fmt_ctx->pb, target, AVIO_FLAG_WRITE);
+		err = avio_open(&fmt_ctx->pb, target.c_str(), AVIO_FLAG_WRITE);
 		if (err < 0) {
 			std::cerr << "Error : " << "avio_open" << std::endl;
 		}

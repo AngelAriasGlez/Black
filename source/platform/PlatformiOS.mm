@@ -563,7 +563,7 @@ double Platform::getDisplayDensity(){
     return ppi;
 }
 
-String Platform::getCacheDir(){
+String Platform::getStorageDir(){
 
     
 	return getAssetsDir();
@@ -606,17 +606,13 @@ void Platform::openMediaSelector(int type, int source){
 
     
 }
-String Platform::createTempFile(String filename){
-    NSString *fp = [NSString stringWithCString:filename.c_str() encoding:[NSString defaultCStringEncoding]];
-    NSURL *furl = [NSURL fileURLWithPath:[NSTemporaryDirectory() stringByAppendingPathComponent:fp]];
-    return String([furl.absoluteString UTF8String]);
+String Platform::getTempDir(){
+    NSURL *tmpDirURL = [NSURL fileURLWithPath:NSTemporaryDirectory() isDirectory:YES];
+    return String([tmpDirURL.absoluteString UTF8String]);
 }
-bool Platform::saveToVideos(String filename){
+bool Platform::saveToVideos(String filename, String newfilename){
     
     NSString *fp = [NSString stringWithCString:filename.c_str() encoding:[NSString defaultCStringEncoding]];
-    if([[NSFileManager defaultManager] fileExistsAtPath:fp]){
-        auto x=0;
-    }
     
     if (UIVideoAtPathIsCompatibleWithSavedPhotosAlbum(fp)) {
         UISaveVideoAtPathToSavedPhotosAlbum(fp, nil, nil, nil);
