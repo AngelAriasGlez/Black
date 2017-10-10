@@ -33,7 +33,7 @@ private:
 	AVFrame         *tmp_frame;
 	int              pts = 0;
 public:
-	VideoEncoder(int width, int height, const char* target, double fps) {
+	VideoEncoder(int width, int height, String target, double fps) {
 
 		int err;
 		AVOutputFormat  *fmt;
@@ -94,12 +94,12 @@ public:
 		*/
 		//H.264 specific options
 		codec_ctx->gop_size = 25;
-		codec_ctx->level = 31;
+		codec_ctx->level = 30;
 		err = av_opt_set(codec_ctx->priv_data, "crf", "12", 0);
 		if (err < 0) {
 			std::cerr << "Error : " << "av_opt_set crf" << std::endl;
 		}
-		err = av_opt_set(codec_ctx->priv_data, "profile", "main", 0);
+		err = av_opt_set(codec_ctx->priv_data, "profile", "baseline", 0);
 		if (err < 0) {
 			std::cerr << "Error : " << "av_opt_set profile" << std::endl;
 		}
@@ -147,12 +147,10 @@ public:
 		//Write file trailer before exit
 		av_write_trailer(this->fmt_ctx);
 		//close file
-
+        avio_close(fmt_ctx->pb);
 	}
 
 	~VideoEncoder() {
-
-		avio_close(fmt_ctx->pb);
 		
 		avcodec_close(codec_ctx);
 		avformat_free_context(this->fmt_ctx);

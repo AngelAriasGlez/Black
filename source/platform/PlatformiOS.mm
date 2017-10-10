@@ -19,31 +19,19 @@ extern const int WINDOW_SCALE = [[UIScreen mainScreen] scale];
 UIDeviceOrientation __orientation;
 
 CGSize DeviceOrientedSize(){
-    
-    if(UIDeviceOrientationIsPortrait(__orientation)){
-        return CGSizeMake([[UIScreen mainScreen] bounds].size.width * WINDOW_SCALE, [[UIScreen mainScreen] bounds].size.height * WINDOW_SCALE);
-    }else{
-        return CGSizeMake([[UIScreen mainScreen] bounds].size.height * WINDOW_SCALE, [[UIScreen mainScreen] bounds].size.width * WINDOW_SCALE);
+    CGFloat width   = [[UIScreen mainScreen] bounds].size.width;
+    CGFloat height  = [[UIScreen mainScreen] bounds].size.height;
+    CGRect bounds = CGRectZero;
+    if (UIDeviceOrientationIsLandscape(__orientation)) {
+        bounds.size = CGSizeMake(MAX(width, height)* WINDOW_SCALE, MIN(width, height)* WINDOW_SCALE);
+    } else {
+        bounds.size = CGSizeMake(MIN(width, height)* WINDOW_SCALE, MAX(width, height)* WINDOW_SCALE);
     }
+    return bounds.size;
 };
 CGPoint DeviceOrientedTouch(CGPoint ipoint){
     CGSize s = DeviceOrientedSize();
-    
     CGPoint point = {ipoint.x * (CGFloat)WINDOW_SCALE, ipoint.y * (CGFloat)WINDOW_SCALE};
-
-    
-    if(__orientation == UIDeviceOrientationPortrait){
-
-    }else if(__orientation == UIDeviceOrientationPortraitUpsideDown){
-        //point.x = (ipoint.x * (CGFloat)WINDOW_SCALE) - s.width;
-        //point.y = (ipoint.y * (CGFloat)WINDOW_SCALE) - s.height;
-    }else if(__orientation == UIDeviceOrientationLandscapeLeft){
-        point.x = ipoint.y * (CGFloat)WINDOW_SCALE;
-        point.y = s.height - (ipoint.x * (CGFloat)WINDOW_SCALE);
-    }else if(__orientation == UIDeviceOrientationLandscapeRight){
-        point.x = s.width - (ipoint.y * (CGFloat)WINDOW_SCALE);
-        point.y = ipoint.x * (CGFloat)WINDOW_SCALE;
-    }
     return point;
 };
 
@@ -194,7 +182,7 @@ static OSStatus playbackCallback(void *inRefCon,
     view.drawableStencilFormat = GLKViewDrawableStencilFormat8;
     view.drawableMultisample = GLKViewDrawableMultisampleNone;
     
-    self.preferredFramesPerSecond = 30;
+    self.preferredFramesPerSecond = 1000;
     
     
     //HideStatusBar
@@ -212,7 +200,6 @@ static OSStatus playbackCallback(void *inRefCon,
     [self setupGL];
 
 }
-
 - (BOOL)prefersStatusBarHidden
 {
     return YES;
@@ -465,10 +452,13 @@ PickerController * __pickerController;
     if(UIDeviceOrientationIsPortrait(o) || UIDeviceOrientationIsLandscape(o)){
     
     __orientation = [[note object] orientation];
-    
+
+        
+        NSLog(@"Orientation  has changed: w:%d h:%d", (int)DeviceOrientedSize().width, (int)DeviceOrientedSize().height);
+ 
         NSLog(@"Orientation  has changed: %d", [[note object] orientation]);
     
-    Application::getInstance()->resizeEventInternal(Platform::getDisplayWidth(), Platform::getDisplayHeight());
+        Application::getInstance()->resizeEventInternal(Platform::getDisplayWidth(), Platform::getDisplayHeight());
     }
 }
 
@@ -616,7 +606,24 @@ void Platform::openMediaSelector(int type, int source){
 
     
 }
-
+String Platform::createTempFile(String filename){
+    NSString *fp = [NSString stringWithCString:filename.c_str() encoding:[NSString defaultCStringEncoding]];
+    NSURL *furl = [NSURL fileURLWithPath:[NSTemporaryDirectory() stringByAppendingPathComponent:fp]];
+    return String([furl.absoluteString UTF8String]);
+}
+bool Platform::saveToVideos(String filename){
+    
+    NSString *fp = [NSString stringWithCString:filename.c_str() encoding:[NSString defaultCStringEncoding]];
+    if([[NSFileManager defaultManager] fileExistsAtPath:fp]){
+        auto x=0;
+    }
+    
+    if (UIVideoAtPathIsCompatibleWithSavedPhotosAlbum(fp)) {
+        UISaveVideoAtPathToSavedPhotosAlbum(fp, nil, nil, nil);
+        return true;
+    }
+    return false;
+}
 
 #endif
 #endif

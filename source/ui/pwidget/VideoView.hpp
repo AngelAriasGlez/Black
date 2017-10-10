@@ -51,7 +51,7 @@ public:
 
     virtual void draw(Canvas* canvas) override{
 		View::draw(canvas);
-
+        if(!mSource) return;
 		auto msframe = 1000.0 / (double)mSource->getFramerate();
 
 		if (!starttime.count()) starttime = duration_cast<milliseconds>(system_clock::now().time_since_epoch());

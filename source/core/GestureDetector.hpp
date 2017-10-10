@@ -4,6 +4,7 @@
 #include "Timer.hpp"
 #include "TouchEvent.hpp"
 #include "ListenerRegister.hpp"
+#include "../graphics/Metrics.hpp"
 
 class IGestureListener {
 	public:
@@ -31,7 +32,7 @@ public:
 		mDblTimer.setMs(250);
 		//mDblTimer.reg();
 
-		mError = 12;
+        mError = Metrics::px(20);
 	}
 	~GestureDetector() {
 
@@ -71,6 +72,7 @@ public:
 	}
 
 	bool checkNotMove(TouchEvent e) {
+        //LOGE("%d %d", mDown.rawX - e.rawX, mDown.rawY - e.rawY);
 		return abs(mDown.rawX - e.rawX) <= mError && abs(mDown.rawY - e.rawY) <= mError;
 
 		
