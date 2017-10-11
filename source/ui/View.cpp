@@ -354,9 +354,9 @@ bool View::processTouchEvent(TouchEvent e) {
 	e.x = e.rawX - left;
 	e.y = e.rawY - top;
 
-	
+    mt::Point rp(e.rawX, e.rawY);
 
-	if (e.type == TouchEvent::DOWN && isInnerTouchEvent(e) && !e.handled) {
+	if (e.type == TouchEvent::DOWN && isInnerPoint(rp) && !e.handled) {
 		//LOGE("down");
 		LOGE("%s", toString().c_str());
 		mTouchDown = true;
@@ -380,11 +380,19 @@ bool View::processTouchEvent(TouchEvent e) {
 	}else if (e.type == TouchEvent::LONG && isTouchDown()) {
 		//LOGE("long");
 		return callTouchEventListeners(e);
-	}else if (e.type == TouchEvent::WHEEL && isInnerTouchEvent(e) && !e.handled) {
+	}else if (e.type == TouchEvent::WHEEL && isInnerPoint(rp) && !e.handled) {
 		//LOGE("wheel");
 		//setBackground(Color::random());
 		return callTouchEventListeners(e);
-	}
+    }else if ((e.type == TouchEvent::PINCH || e.type == TouchEvent::PINCH_START) && isInnerPoint(e.gestureDown1) && isInnerPoint(e.gestureDown2) && !e.handled) {
+        //LOGE("wheel");
+        //setBackground(Color::random());
+        return callTouchEventListeners(e);
+    }else if (e.type == TouchEvent::PAN && isInnerPoint(e.gestureDown1) && isInnerPoint(e.gestureDown2) && !e.handled) {
+        //LOGE("wheel");
+        //setBackground(Color::random());
+        return callTouchEventListeners(e);
+    }
 	//LOGE("%s", e.print().c_str());
 
 	return false;
@@ -405,8 +413,8 @@ void View::setHandleTouchEvents(bool val) {
 	mHandleTouchEvents = val;
 }
 
-bool View::isInnerTouchEvent(TouchEvent e) {
-	auto ll = ((mParent) ? mParent->getLeftPadding() : 0);
+bool View::isInnerPoint(mt::Point e) {
+	/*auto ll = ((mParent) ? mParent->getLeftPadding() : 0);
 
 	auto l = getLeft();
 	auto r = getRight();
@@ -422,8 +430,8 @@ bool View::isInnerTouchEvent(TouchEvent e) {
 	if (res == true) {
 		auto zz = 0;
 	}
-	return res;
-	//return (e.rawX >= getLeft() && e.rawX <= getRight() && e.rawY >= getTop() && e.rawY <= getBottom());
+	return res;*/
+	return (e.x >= getLeft() && e.x <= getRight() && e.y >= getTop() && e.y <= getBottom());
 }
 
 bool View::onTouchEvent(TouchEvent e){

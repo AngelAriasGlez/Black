@@ -7,22 +7,19 @@
 #import <GLKit/GLKit.h>
 #import <MobileCoreServices/UTCoreTypes.h>
 
+
 #include "Platform.hpp"
 #include "Application.hpp"
 #include "../utils/Log.hpp"
 
-
-
-
 extern const int WINDOW_SCALE = [[UIScreen mainScreen] scale];
 
-UIDeviceOrientation __orientation;
-
 CGSize DeviceOrientedSize(){
+
     CGFloat width   = [[UIScreen mainScreen] bounds].size.width;
     CGFloat height  = [[UIScreen mainScreen] bounds].size.height;
     CGRect bounds = CGRectZero;
-    if (UIDeviceOrientationIsLandscape(__orientation)) {
+    if (UIDeviceOrientationIsLandscape([UIDevice currentDevice].orientation)) {
         bounds.size = CGSizeMake(MAX(width, height)* WINDOW_SCALE, MIN(width, height)* WINDOW_SCALE);
     } else {
         bounds.size = CGSizeMake(MIN(width, height)* WINDOW_SCALE, MAX(width, height)* WINDOW_SCALE);
@@ -30,7 +27,7 @@ CGSize DeviceOrientedSize(){
     return bounds.size;
 };
 CGPoint DeviceOrientedTouch(CGPoint ipoint){
-    CGSize s = DeviceOrientedSize();
+    //CGSize s = DeviceOrientedSize();
     CGPoint point = {ipoint.x * (CGFloat)WINDOW_SCALE, ipoint.y * (CGFloat)WINDOW_SCALE};
     return point;
 };
@@ -42,63 +39,23 @@ CGPoint DeviceOrientedTouch(CGPoint ipoint){
 @end
 
 @implementation PickerController
-- (id) init {
-    self = [super init];
-    if (self != nil) {
-        // initializations go here.
-    }
-    return self;
-}
-/*- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info {
-    
-    // This is the NSURL of the video object
-    NSURL *videoURL = [info objectForKey:UIImagePickerControllerMediaURL];
-    
-    NSLog(@"VideoURL = %@", videoURL);
-    [picker dismissViewControllerAnimated:YES completion:NULL];
-}*/
 
--(void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info
-{
+-(void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info{
     NSURL *videoURL = [info objectForKey:UIImagePickerControllerMediaURL];
-    
-    /*UIVideoEditorController* videoEditor = [[UIVideoEditorController alloc] init];
-    videoEditor.delegate=self;
-    
-    if ( [UIVideoEditorController canEditVideoAtPath:videoURL.absoluteString] )
-    {
-        videoEditor.videoPath = videoURL.absoluteString;
-        videoEditor.videoMaximumDuration = 10.0;
-        
-        //[self.customAvPlayerView addSubview:videoEditor.view];
-        
-        [picker presentViewController:videoEditor animated:YES completion:nil];
-    }
-    else
-    {
-        NSLog( @"can't edit video at %@", videoURL );
-    }*/
     auto p = Application::getInstance()->getPageController()->getCurrentPage();
     if(p){
-        std::string s([videoURL.absoluteString UTF8String]);
+        std::string s([videoURL.path UTF8String]);
         p->onResult(&s);
     }
-    NSLog(@"VideoURL = %@", videoURL);
+    //NSLog(@"VideoURL = %@", videoURL);
     [picker dismissViewControllerAnimated:YES completion:NULL];
 }
-
--(void)imagePickerControllerDidCancel:(UIImagePickerController *)picker
-{
+-(void)imagePickerControllerDidCancel:(UIImagePickerController *)picker{
     [picker dismissViewControllerAnimated:YES completion:nil];
 }
-
 @end
 
 
-
-@interface ViewController: GLKViewController
-
-@end
 
 void checkStatus(OSStatus status){
     
@@ -109,67 +66,46 @@ void checkStatus(OSStatus status){
     }
     
 }
-
-static OSStatus playbackCallback(void *inRefCon,
-                                 AudioUnitRenderActionFlags *ioActionFlags,
-                                 const AudioTimeStamp *inTimeStamp,
-                                 UInt32 inBusNumber,
-                                 UInt32 inNumberFrames,
-      
-                                 
-                                 AudioBufferList *ioData) {
-    
-    
+static OSStatus playbackCallback(void *inRefCon,AudioUnitRenderActionFlags *ioActionFlags,const AudioTimeStamp *inTimeStamp,UInt32 inBusNumber,UInt32 inNumberFrames,
+AudioBufferList *ioData) {
     for (int i=0; i < ioData->mNumberBuffers; i++) {
         AudioBuffer buffer = ioData->mBuffers[i];
         UInt32 size = buffer.mDataByteSize;
-
         Application::getInstance()->soundStreamInternal(buffer.mData, size/8);
         
         // uncomment to hear random noise
-        /*
-         UInt16 *frameBuffer = buffer.mData;
-         for (int j = 0; j < inNumberFrames; j++) {
-         frameBuffer[j] = rand();
-         }
-        */
+         /*float *frameBuffer = (float*)buffer.mData;
+         for (int j = 0; j < size/4; j++) {
+             auto z = (static_cast <float> (rand()*2.) / static_cast <float> (RAND_MAX))- 1.0f;
+             frameBuffer[j] = z;
+         }*/
         
     }
-
-
-    
-    /*for(int i=0;i<inNumberFrames;i++){
-		((short *)ioData->mBuffers[0].mData)[i] = (short)(audiobuffer[i] * SHRT_MAX);
-
-	}*/
-    
-
     return noErr;
 }
+mt::Point pinch0;
+mt::Point pinch1;
 
+mt::Point pan0;
+mt::Point pan1;
 
+mt::Point prevPan;
 
-@interface ViewController () {
-    
-    
-}
+/****** VIEW CONROLLER****************************************************************************/
+@interface ViewController: GLKViewController
+@end
+@interface ViewController () {}
 @property (strong, nonatomic) EAGLContext *context;
 
 - (void)setupGL;
 - (void)tearDownGL;
 - (void)setupAudio;
-
 @end
-
 @implementation ViewController
-
-- (void)viewDidLoad
-{
+- (void)viewDidLoad{
     [super viewDidLoad];
     
     self.context = [[EAGLContext alloc] initWithAPI:kEAGLRenderingAPIOpenGLES3];
-    
-    
     
     if (!self.context) {
         NSLog(@"Failed to create ES context");
@@ -194,18 +130,103 @@ static OSStatus playbackCallback(void *inRefCon,
         // iOS 6
         [[UIApplication sharedApplication] setStatusBarHidden:YES withAnimation:UIStatusBarAnimationSlide];
     }
-    
-    
+
+    @autoreleasepool {
+        UIPinchGestureRecognizer *pinchGesture = [[UIPinchGestureRecognizer alloc] initWithTarget:self action:@selector(handlePinch:)];
+        UIPanGestureRecognizer *panGesture = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(handlePan:)];
+        panGesture.minimumNumberOfTouches = 2;
+        panGesture.maximumNumberOfTouches = 2;
+        [self.view addGestureRecognizer:pinchGesture];
+        [self.view addGestureRecognizer:panGesture];
+    }
+
     
     [self setupGL];
+    [self setupAudio];
 
 }
-- (BOOL)prefersStatusBarHidden
-{
+-(void)handlePan:(UIPanGestureRecognizer*)sender {
+    long num = [sender numberOfTouches];
+    if(num <= 1) return;
+    
+    auto p0 = DeviceOrientedTouch([sender locationOfTouch:0 inView:self.view]);
+    auto p1 = DeviceOrientedTouch([sender locationOfTouch:1 inView:self.view]);
+    auto trans = DeviceOrientedTouch([sender translationInView:self.view]);
+    
+    if(sender.state == UIGestureRecognizerStateBegan){
+        pan0 = mt::Point(p0.x, p0.y);
+        pan1 = mt::Point(p1.x, p1.y);
+        prevPan = mt::Point(trans.x, trans.y);
+    }
+    //if(sender.state == UIGestureRecognizerStateChanged){}
+    
+    auto diff = mt::Point(trans.x-prevPan.x, trans.y-prevPan.y);
+    prevPan = mt::Point(trans.x, trans.y);
+
+    
+    TouchEvent e;
+    e.id = 1;
+    e.time = Utils::getCurrentMs();
+    e.rawX = p0.x;
+    e.rawY = p0.y;
+    e.rawX1 = p1.x;
+    e.rawY1 = p1.y;
+    
+    e.gestureDown1 = pan0;
+    e.gestureDown2 = pan1;
+    
+    e.type = TouchEvent::PAN;
+    e.dragDiff = diff;
+    Application::getInstance()->touchEventInternal(e);
+    
+}
+-(void)handlePinch:(UIPinchGestureRecognizer*)sender {
+    
+    long num = [sender numberOfTouches];
+    if(num <= 1) return;
+    
+    auto p0 = DeviceOrientedTouch([sender locationOfTouch:0 inView:self.view]);
+    auto p1 = DeviceOrientedTouch([sender locationOfTouch:1 inView:self.view]);
+    
+    if(sender.state == UIGestureRecognizerStateBegan){
+        pinch0 = mt::Point(p0.x, p0.y);
+        pinch1 = mt::Point(p1.x, p1.y);
+    }
+    //if(sender.state == UIGestureRecognizerStateChanged){}
+    
+    
+    TouchEvent e;
+    e.id = 1;
+    e.time = Utils::getCurrentMs();
+    e.rawX = p0.x;
+    e.rawY = p0.y;
+    e.rawX1 = p1.x;
+    e.rawY1 = p1.y;
+    
+    e.gestureDown1 = pinch0;
+    e.gestureDown2 = pinch1;
+    
+ 
+    e.data = [sender scale];
+    
+    
+    
+	
+	if(sender.state == UIGestureRecognizerStateBegan){
+        e.type = TouchEvent::PINCH_START;
+        Application::getInstance()->touchEventInternal(e);
+    }else{
+        e.type = TouchEvent::PINCH;
+        Application::getInstance()->touchEventInternal(e);
+    }
+    
+    //NSLog(@"%f", [sender scale]);
+}
+
+- (BOOL)prefersStatusBarHidden{
     return YES;
 }
-- (void)dealloc
-{
+- (void)dealloc{
     [self tearDownGL];
     
     if ([EAGLContext currentContext] == self.context) {
@@ -213,8 +234,7 @@ static OSStatus playbackCallback(void *inRefCon,
     }
 }
 
-- (void)didReceiveMemoryWarning
-{
+- (void)didReceiveMemoryWarning{
     [super didReceiveMemoryWarning];
     
     if ([self isViewLoaded] && ([[self view] window] == nil)) {
@@ -231,38 +251,22 @@ static OSStatus playbackCallback(void *inRefCon,
     // Dispose of any resources that can be recreated.
 }
 
-- (void)setupGL
-{
+- (void)setupGL{
     [EAGLContext setCurrentContext:self.context];
-    
-    
+
     Application *app = Application::getInstance();
-    
-    
     if (app->getState() != Application::RUNNING)
         app->run();
-    
-    [self setupAudio];
-    
-    
+
 }
 
-- (void)tearDownGL
-{
+- (void)tearDownGL{
     [EAGLContext setCurrentContext:self.context];
-    
 }
 
-#pragma mark - GLKView and GLKViewController delegate methods
+- (void)update{}
 
-- (void)update
-{
-    
-}
-
-- (void)glkView:(GLKView *)view drawInRect:(CGRect)rect
-{
-
+- (void)glkView:(GLKView *)view drawInRect:(CGRect)rect{
     Application *app = Application::getInstance();
     app->frame();
     
@@ -306,7 +310,7 @@ static OSStatus playbackCallback(void *inRefCon,
     {
         CGPoint touchPoint = [touch locationInView:nil];
         touchPoint = DeviceOrientedTouch(touchPoint);
-        
+
         TouchEvent e;
         e.id = [touch hash];
         e.time = Utils::getCurrentMs();
@@ -320,27 +324,16 @@ static OSStatus playbackCallback(void *inRefCon,
 }
 
 - (void)setupAudio{
-    
-    // ...
-    
-    
     OSStatus status;
-    
     AudioSessionInitialize(NULL, NULL, NULL, (__bridge void*)self);
     UInt32 sessionCategory = kAudioSessionCategory_LiveAudio;
     status = AudioSessionSetProperty (kAudioSessionProperty_AudioCategory, sizeof (sessionCategory), &sessionCategory);
     checkStatus(status);
-    
     float aBufferLength = 0.1; // 0.001 == 64 frames
-    status = AudioSessionSetProperty(kAudioSessionProperty_PreferredHardwareIOBufferDuration,
-                            sizeof(aBufferLength), &aBufferLength);    // Describe format
+    status = AudioSessionSetProperty(kAudioSessionProperty_PreferredHardwareIOBufferDuration,sizeof(aBufferLength), &aBufferLength);    // Describe format
     checkStatus(status);
-    
     AudioSessionSetActive(TRUE);
-    
-    
     UInt32 flag = 1;
-    
     AudioComponentInstance audioUnit;
     // Describe audio component
     AudioComponentDescription desc;
@@ -349,57 +342,35 @@ static OSStatus playbackCallback(void *inRefCon,
     desc.componentFlags = 0;
     desc.componentFlagsMask = 0;
     desc.componentManufacturer = kAudioUnitManufacturer_Apple;
-    
     // Get component
     AudioComponent inputComponent = AudioComponentFindNext(NULL, &desc);
-    
     // Get audio units
     status = AudioComponentInstanceNew(inputComponent, &audioUnit);
     checkStatus(status);
-    
-    status = AudioUnitSetProperty(audioUnit,
-                                  kAudioOutputUnitProperty_EnableIO,
-                                  kAudioUnitScope_Output,
-                                  0,
-                                  &flag,
-                                  sizeof(flag));
+    status = AudioUnitSetProperty(audioUnit,kAudioOutputUnitProperty_EnableIO,kAudioUnitScope_Output,0,&flag,sizeof(flag));
     checkStatus(status);
-
     AudioStreamBasicDescription audioFormat;
-    audioFormat.mSampleRate                 = 44100.00;
-    audioFormat.mFormatID                   = kAudioFormatLinearPCM;
-    audioFormat.mFormatFlags                = kAudioFormatFlagIsFloat;
+    audioFormat.mSampleRate         = 44100.00;
+    audioFormat.mFormatID           = kAudioFormatLinearPCM;
+    audioFormat.mFormatFlags        = kAudioFormatFlagIsFloat;
     audioFormat.mFramesPerPacket    = 1;
     audioFormat.mChannelsPerFrame   = 2;
-    audioFormat.mBitsPerChannel             = 32;
-    audioFormat.mBytesPerPacket             = 8;
-    audioFormat.mBytesPerFrame              = 8;
-    
+    audioFormat.mBitsPerChannel     = 32;
+    audioFormat.mBytesPerPacket     = 8;
+    audioFormat.mBytesPerFrame      = 8;
     // Apply format
     checkStatus(status);
-    status = AudioUnitSetProperty(audioUnit,
-                                  kAudioUnitProperty_StreamFormat,
-                                  kAudioUnitScope_Input,
-                                  0,
-                                  &audioFormat,
-                                  sizeof(audioFormat));
+    status = AudioUnitSetProperty(audioUnit,kAudioUnitProperty_StreamFormat,kAudioUnitScope_Input,0,&audioFormat,sizeof(audioFormat));
     checkStatus(status);
-    
-    
-    
     // Set output callback
     AURenderCallbackStruct callbackStruct;
     callbackStruct.inputProc = playbackCallback;
     //callbackStruct.inputProcRefCon = (__bridge void *)self;
-    
     status = AudioUnitSetProperty(audioUnit, kAudioUnitProperty_SetRenderCallback, kAudioUnitScope_Input, 0, &callbackStruct, sizeof(callbackStruct));
     checkStatus(status);
-    
-    
     // Initialise
     status = AudioUnitInitialize(audioUnit);
     checkStatus(status);
-    
     status = AudioOutputUnitStart(audioUnit);
     checkStatus(status);
 }
@@ -407,28 +378,25 @@ static OSStatus playbackCallback(void *inRefCon,
 @end
 
 
+
+@class AppDelegate;
+ViewController *__viewController;
+AppDelegate *__appDelegate;
+PickerController * __pickerController;
+
+/******APP DELEGATE****************************************************************************/
+
 @interface AppDelegate : UIResponder <UIApplicationDelegate>{
     ViewController* viewController;
-
 }
-
 @property (strong, nonatomic) UIWindow *window;
 @property (nonatomic, retain) ViewController *viewController;
 @end
-
-ViewController *__viewController;
-AppDelegate *__appDelegate;
-
-PickerController * __pickerController;
-
 @implementation AppDelegate
-
 @synthesize viewController;
 
-- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
-{
+- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions{
     __appDelegate = self;
-    
     __pickerController = [[PickerController alloc] init];
     
     self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
@@ -437,72 +405,34 @@ PickerController * __pickerController;
 
 	[nc addObserver:self selector:@selector(orientationChanged:) name:UIDeviceOrientationDidChangeNotification object:[UIDevice currentDevice]];
 
-     
     viewController = [[ViewController alloc] init];
     [self.window setRootViewController:viewController];
     [self.window makeKeyAndVisible];
     
-
     return YES;
 }
-
-//********** ORIENTATION CHANGED **********
 - (void)orientationChanged:(NSNotification *)note{
-    UIDeviceOrientation o = [[note object] orientation];
-    if(UIDeviceOrientationIsPortrait(o) || UIDeviceOrientationIsLandscape(o)){
-    
-    __orientation = [[note object] orientation];
-
-        
-        NSLog(@"Orientation  has changed: w:%d h:%d", (int)DeviceOrientedSize().width, (int)DeviceOrientedSize().height);
- 
-        NSLog(@"Orientation  has changed: %d", [[note object] orientation]);
-    
-        Application::getInstance()->resizeEventInternal(Platform::getDisplayWidth(), Platform::getDisplayHeight());
-    }
+    NSLog(@"Orientation  has changed: w:%d h:%d", (int)DeviceOrientedSize().width, (int)DeviceOrientedSize().height);
+    Application::getInstance()->resizeEventInternal(Platform::getDisplayWidth(), Platform::getDisplayHeight());
 }
 
-- (void)applicationWillResignActive:(UIApplication *)application
-{
-    // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
-    // Use this method to pause ongoing tasks, disable timers, and throttle down OpenGL ES frame rates. Games should use this method to pause the game.
-}
+- (void)applicationWillResignActive:(UIApplication *)application{}
+- (void)applicationDidEnterBackground:(UIApplication *)application{}
+- (void)applicationWillEnterForeground:(UIApplication *)application{}
+- (void)applicationDidBecomeActive:(UIApplication *)application{}
+- (void)applicationWillTerminate:(UIApplication *)application{}
 
-- (void)applicationDidEnterBackground:(UIApplication *)application
-{
-    // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
-    // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
-}
-
-- (void)applicationWillEnterForeground:(UIApplication *)application
-{
-    // Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
-}
-
-- (void)applicationDidBecomeActive:(UIApplication *)application
-{
-    // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
-}
-
-- (void)applicationWillTerminate:(UIApplication *)application
-{
-    // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
-}
-
-- (void)dealloc
-{
+- (void)dealloc{
     [self.window setRootViewController:nil];
 
 }
-
-
 @end
 
 
 
 
 
-
+/******PLATFORM METHODS****************************************************************************/
 
 
 
@@ -564,9 +494,7 @@ double Platform::getDisplayDensity(){
 }
 
 String Platform::getStorageDir(){
-
-    
-	return getAssetsDir();
+    return getAssetsDir();
 }
 String Platform::getAssetsDir(){
     NSBundle *myBundle = [NSBundle mainBundle];
@@ -575,8 +503,6 @@ String Platform::getAssetsDir(){
 
 String Platform::displayFileDialog(const char* title, const char* filterDescription, const char* filterExtensions, const char* initialDirectory)
 {
-
-    
 	return getAssetsDir() + std::string("track.mp3");
 }
 double Platform::getDisplayScale(){
@@ -596,23 +522,48 @@ void Platform::openMediaSelector(int type, int source){
     }
         
     if(type == 1){
-        ipc.mediaTypes = @[(NSString*)kUTTypeMovie, (NSString*)kUTTypeAVIMovie, (NSString*)kUTTypeVideo, (NSString*)kUTTypeMPEG4];
+        ipc.mediaTypes = @[(NSString*)kUTTypeVideo, (NSString*)kUTTypeMovie];
     }else{
         ipc.mediaTypes = @[(NSString*)kUTTypeImage];
     }
         
     //[ipc setVideoMaximumDuration:5];
     [[UIApplication sharedApplication].keyWindow.rootViewController presentViewController:ipc animated:YES completion:NULL];
-
     
 }
 String Platform::getTempDir(){
     NSURL *tmpDirURL = [NSURL fileURLWithPath:NSTemporaryDirectory() isDirectory:YES];
-    return String([tmpDirURL.absoluteString UTF8String]);
+    return String([tmpDirURL.path UTF8String]) + "/";
 }
+
 bool Platform::saveToVideos(String filename, String newfilename){
-    
     NSString *fp = [NSString stringWithCString:filename.c_str() encoding:[NSString defaultCStringEncoding]];
+    if ( [[NSFileManager defaultManager] fileExistsAtPath:fp] == NO)
+    {
+        LOGE("Video to copy not exist!!!: %s", filename.c_str());
+        return false;
+    }
+
+    NSURL *videoURL = [[NSURL alloc]  initFileURLWithPath:fp isDirectory:NO];
+    
+    /*
+    NSURL *fileURL = [[NSURL alloc] initFileURLWithPath:fp];
+    
+    [[PHPhotoLibrary sharedPhotoLibrary] performChanges:^
+     {
+         [PHAssetChangeRequest creationRequestForAssetFromVideoAtFileURL:fileURL];
+     }
+     completionHandler:^(BOOL success, NSError *error)
+     {
+         if (success) {
+             NSLog(@"Movie saved to camera roll.");
+         }
+         else {
+             NSLog(@"Could not save movie to camera roll. Error: %@", error);
+         }
+     }];*/
+    
+    
     
     if (UIVideoAtPathIsCompatibleWithSavedPhotosAlbum(fp)) {
         UISaveVideoAtPathToSavedPhotosAlbum(fp, nil, nil, nil);

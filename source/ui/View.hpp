@@ -193,7 +193,7 @@ public:
 	}
 
 	virtual bool processTouchEvent(TouchEvent e);
-	bool isInnerTouchEvent(TouchEvent e);
+    bool isInnerPoint(mt::Point e);
 	virtual bool onTouchEvent(TouchEvent e);
 
 	bool callTouchEventListeners(TouchEvent e);

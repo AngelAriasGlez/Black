@@ -372,7 +372,7 @@ LRESULT CALLBACK __WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 		e.rawX = point.x;
 		e.rawY = point.y;
 		e.type = TouchEvent::WHEEL;
-		e.wheel = GET_WHEEL_DELTA_WPARAM(wParam);
+		e.wheel = GET_WHEEL_DELTA_WPARAM(wParam) / 1000.;
 		Application::getInstance()->touchEventInternal(e);
 		ScreenToClient(__hwnd, &point);
 		break;

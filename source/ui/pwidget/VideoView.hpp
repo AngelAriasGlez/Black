@@ -19,6 +19,7 @@ protected:
 	int imgW;
 	int imgH;
 	
+    mt::Point offset;
 
 	std::vector<int> mThumbs;
 public:
@@ -93,7 +94,7 @@ public:
 			}
 
 		}
-		if (imgid != 0) {
+		if (imgid > 0) {
 			Rect is(getVideoX(), getVideoY(), getVideoWidth(), getVideoHeight());
 
 			nvgBeginPath(vg);
@@ -122,20 +123,41 @@ public:
 		}
 	}
 	int getVideoY() {
-		return (getHeight() - getVideoHeight()) / 2;
+		return ((getHeight() - getVideoHeight()) / 2) + offset.y;
 
 	}
 	int getVideoX() {
-		return (getWidth() - getVideoWidth()) / 2;
+		return ((getWidth() - getVideoWidth()) / 2) + offset.x;
 	}
 
+    float pinchStartZoom;
 	bool onTouchEvent(TouchEvent e) override {
 		if (e.type == TouchEvent::WHEEL) {
-			setZoom(mZoom + ((double)e.wheel / 1000.));
-		}
+			setZoom(mZoom + e.data);
+		}else if (e.type == TouchEvent::PINCH_START) {
+            pinchStartZoom = mZoom;
+        }else if (e.type == TouchEvent::PINCH) {
+            setZoom(pinchStartZoom * e.data);
+        }else if (e.type == TouchEvent::PAN) {
+            updateOffset(mt::Point(e.dragDiff.x+offset.x,e.dragDiff.y+offset.y));
+
+        }
+        
 		
 		return true;
 	}
+    
+    void updateOffset(mt::Point diff){
+        
+        int xmax = Utils::max((getVideoWidth()-getWidth()) / 2, 0);
+        int x = Utils::clamp(diff.x, -xmax, xmax);
+        
+        int ymax = Utils::max((getVideoHeight()-getHeight()) / 2, 0);
+
+        int y = Utils::clamp(diff.y, -ymax, ymax);
+        offset = mt::Point(x, y);
+    }
+
 
 	double mZoom = 1;
 	double getZoom() {
@@ -143,6 +165,7 @@ public:
 	}
 	void setZoom(double zoom) {
 		mZoom = Utils::clamp(zoom, 1.0, 5.0);
+        updateOffset(offset);
 	}
 
 	virtual void update(Canvas *canvas)  override {

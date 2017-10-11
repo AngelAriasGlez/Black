@@ -24,7 +24,7 @@ extern "C"{
 #include <algorithm>
 
 using namespace std::chrono;
-/*class Frame {
+class Frame {
 public:
 	uint8_t *data;
 	Frame(uint8_t *buffer, int width, int height, int channels=4) {
@@ -34,7 +34,7 @@ public:
 	~Frame() {
 		delete data;
 	}
-};*/
+};
 
 
 
@@ -66,19 +66,19 @@ public:
 
 	std::string url;
 
-	//std::vector<Frame*> buffer;
+	std::vector<Frame*> buffer;
 
 	VideoSource() {
 		av_register_all();
 	}
-	VideoSource(std::string infile) {
-		load(infile);
+	VideoSource(std::string infile, bool cache = false) {
+		load(infile, cache);
 	}
 	std::string getUrl() {
 		return url;
 	}
 
-	virtual void load (std::string infile) {
+    virtual void load (std::string infile, bool cache = false) {
 		url = infile;
 
 		picture_pts = AV_NOPTS_VALUE_;
@@ -132,7 +132,7 @@ public:
 
 
 		// print input video stream informataion
-		std::cout
+		/*std::cout
 			<< "infile: " << infile.c_str() << "\n"
 			<< "format: " << inctx->iformat->name << "\n"
 			<< "vcodec: " << vcodec->name << "\n"
@@ -141,14 +141,14 @@ public:
 			<< "length: " << getLengthMs()/1000. << " [sec]\n"
 			<< "pixfmt: " << av_get_pix_fmt_name(vstrm->codec->pix_fmt) << "\n"
 			<< "frames:  " << getLength() << "\n"
-			<< std::flush;
+			<< std::flush;*/
 		
 
 		// initialize sample scaler
 		//dst_width = vstrm->codec->width;
 		//dst_height = vstrm->codec->height;
-		dst_width = vstrm->codec->width / 2;
-		dst_height = vstrm->codec->height / 2;
+		dst_width = vstrm->codec->width/4;
+		dst_height = vstrm->codec->height/4;
 		const AVPixelFormat dst_pix_fmt = AV_PIX_FMT_RGBA;
 		swsctx = sws_getCachedContext(nullptr, vstrm->codec->width, vstrm->codec->height, vstrm->codec->pix_fmt, dst_width, dst_height, dst_pix_fmt, SWS_BICUBIC, nullptr, nullptr, nullptr);
 		if (!swsctx) {
@@ -168,15 +168,28 @@ public:
 		//av_image_fill_arrays(frame->data, frame->linesize, framebuf.data(), dst_pix_fmt, dst_width, dst_height, 1);
 		decframe = av_frame_alloc();
 
+        int n = 40;
+        for(int i=0;i<n;i++){
+            auto duration = std::chrono::system_clock::now().time_since_epoch();
+            int rec = getLength()/n*i;
+            seek(rec, false);
+            int diff = rec - getPosition();
+            int elapsed = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch() - duration).count();
+            LOGE("time: %d ms, %d frames",  elapsed, diff);
+        }
+        
 
-		/*for (auto f : buffer) {
+		for (auto f : buffer) {
 			delete f;
 		}
 		buffer.clear();
-		while(grabFrame()) {
-			auto ptr = scale();
-			buffer.push_back(new Frame(ptr, getWidth(), getHeight(), getChannels()));
-		}*/
+        if(cache){
+            seek(0);
+            while(grabFrame()) {
+                auto ptr = scale();
+                buffer.push_back(new Frame(ptr, getWidth(), getHeight(), getChannels()));
+            }
+        }
 		frame_number = 0;
 	}
 	virtual void unload() {
@@ -252,6 +265,10 @@ public:
 	virtual uint8_t* read() {
 		if (!vstrm) return nullptr;
 
+        if (buffer.size() > 0){
+            return buffer[frame_number++]->data;
+        }
+        
 		if (grabFrame()) {
 			return scale();
 		}
@@ -336,10 +353,10 @@ public:
 	int64_t first_frame_number = -1;
 	virtual void seek(int64_t _frame_number, bool acurate = true)
 	{
-        /*if (buffer.size() > 0) {
+        if (buffer.size() > 0) {
             frame_number = Utils::clamp(_frame_number, 0, getLength());
             return;
-        }*/
+        }
 		if (!vstrm) return;
 
 

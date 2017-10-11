@@ -12,14 +12,20 @@ public:
 	int y;
 	int rawX;
 	int rawY;
-	enum Type { DOWN, UP, MOVE, DBLCLK, LONG, CLK, DRAG, WHEEL};
+    int rawX1;
+    int rawY1;
+	enum Type { DOWN, UP, MOVE, DBLCLK, LONG, CLK, DRAG, WHEEL, PINCH, PINCH_START, PAN};
 	Type type;
 	long time;
 	bool handled;
 
-	short wheel;
+    float data;
     mt::Point dragDiff;
     mt::Point dragDown;
+    
+    mt::Point gestureDown1;
+    mt::Point gestureDown2;
+    
 	TouchEvent() {
 		handled = false;
 	}

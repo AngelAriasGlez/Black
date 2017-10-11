@@ -7,6 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		CF4B099D1F8D395E0065986A /* AVKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CF4B09981F8D395E0065986A /* AVKit.framework */; };
+		CF4B099F1F8D3D300065986A /* AssetsLibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CF4B099E1F8D3D300065986A /* AssetsLibrary.framework */; };
+		CF4B09A11F8D3D440065986A /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CF4B09A01F8D3D440065986A /* AVFoundation.framework */; };
+		CF4B09A31F8D3D4D0065986A /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CF4B09A21F8D3D4D0065986A /* Foundation.framework */; };
+		CF4B09A51F8D3F660065986A /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CF4B09A41F8D3F660065986A /* MediaPlayer.framework */; };
 		CF790C471F8C373C0043133B /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CF790C421F8C373C0043133B /* CoreGraphics.framework */; };
 		CF8D45091F85B0900060EEAC /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CF8D45041F85B0900060EEAC /* MobileCoreServices.framework */; };
 		CFCB23A81F8333C0009EEADD /* AudioSource.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CFCB23A21F8333C0009EEADD /* AudioSource.cpp */; };
@@ -222,6 +227,13 @@
 
 /* Begin PBXFileReference section */
 		CF34772F1F8D01E300910745 /* VideoEncoder.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = VideoEncoder.hpp; path = video/VideoEncoder.hpp; sourceTree = "<group>"; };
+		CF3477341F8D2A7C00910745 /* Photos.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Photos.framework; path = System/Library/Frameworks/Photos.framework; sourceTree = SDKROOT; };
+		CF3477361F8D2AFB00910745 /* PhotosUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PhotosUI.framework; path = System/Library/Frameworks/PhotosUI.framework; sourceTree = SDKROOT; };
+		CF4B09981F8D395E0065986A /* AVKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVKit.framework; path = System/Library/Frameworks/AVKit.framework; sourceTree = SDKROOT; };
+		CF4B099E1F8D3D300065986A /* AssetsLibrary.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AssetsLibrary.framework; path = System/Library/Frameworks/AssetsLibrary.framework; sourceTree = SDKROOT; };
+		CF4B09A01F8D3D440065986A /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
+		CF4B09A21F8D3D4D0065986A /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		CF4B09A41F8D3F660065986A /* MediaPlayer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaPlayer.framework; path = System/Library/Frameworks/MediaPlayer.framework; sourceTree = SDKROOT; };
 		CF790C421F8C373C0043133B /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		CF7B00EB1F82FC6B00301C64 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		CF7B00F51F82FFDF00301C64 /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
@@ -373,6 +385,11 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CF4B09A51F8D3F660065986A /* MediaPlayer.framework in Frameworks */,
+				CF4B09A31F8D3D4D0065986A /* Foundation.framework in Frameworks */,
+				CF4B09A11F8D3D440065986A /* AVFoundation.framework in Frameworks */,
+				CF4B099F1F8D3D300065986A /* AssetsLibrary.framework in Frameworks */,
+				CF4B099D1F8D395E0065986A /* AVKit.framework in Frameworks */,
 				CF790C471F8C373C0043133B /* CoreGraphics.framework in Frameworks */,
 				CF8D45091F85B0900060EEAC /* MobileCoreServices.framework in Frameworks */,
 				CFCB24C71F8337D4009EEADD /* libPugiXml_IOS.a in Frameworks */,
@@ -418,6 +435,13 @@
 		CF7B00EA1F82FC6B00301C64 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				CF4B09A41F8D3F660065986A /* MediaPlayer.framework */,
+				CF4B09A21F8D3D4D0065986A /* Foundation.framework */,
+				CF4B09A01F8D3D440065986A /* AVFoundation.framework */,
+				CF4B099E1F8D3D300065986A /* AssetsLibrary.framework */,
+				CF4B09981F8D395E0065986A /* AVKit.framework */,
+				CF3477361F8D2AFB00910745 /* PhotosUI.framework */,
+				CF3477341F8D2A7C00910745 /* Photos.framework */,
 				CF790C421F8C373C0043133B /* CoreGraphics.framework */,
 				CF8D45041F85B0900060EEAC /* MobileCoreServices.framework */,
 				CFE6845A1F832D0000712904 /* libavcodec.framework */,
