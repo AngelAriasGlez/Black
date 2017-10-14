@@ -407,19 +407,22 @@
     <ClInclude Include="..\..\source\graphics\LinearGradient.hpp">
       <Filter>graphics</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\source\video\CvVideoSource.hpp">
+      <Filter>video</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\video\LaVideoSource.hpp">
+      <Filter>video</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Library Include="..\..\libs\portaudio\build\msvc\x64\Debug\portaudio.lib" />
     <Library Include="..\..\libs\mpg123\ports\MSVC++\2015\win32\x64\Debug\libmpg123.lib" />
-    <Library Include="..\..\libs\libav\bin\avresample.lib" />
-    <Library Include="..\..\libs\libav\bin\avutil.lib" />
-    <Library Include="..\..\libs\libav\bin\avcodec.lib" />
-    <Library Include="..\..\libs\libav\bin\avdevice.lib" />
-    <Library Include="..\..\libs\libav\bin\avfilter.lib" />
-    <Library Include="..\..\libs\libav\bin\avformat.lib" />
-    <Library Include="..\..\libs\libav\bin\swscale.lib" />
     <Library Include="..\..\libs\pugixml\msvs15\x64\Debug\MTd_pugixml_x64.lib" />
     <Library Include="..\..\libs\unqlite\msvs15\x64\Debug\UnQLite.lib" />
     <Library Include="..\..\libs\glew\msvs15\x64\Debug\glew.lib" />
+    <Library Include="..\..\libs\libav\bin\avcodec.lib" />
+    <Library Include="..\..\libs\libav\bin\avformat.lib" />
+    <Library Include="..\..\libs\libav\bin\swscale.lib" />
+    <Library Include="..\..\libs\libav\bin\avutil.lib" />
   </ItemGroup>
 </Project>

@@ -194,8 +194,8 @@ void Application::onGesture(TouchEvent evn) {
 	if (cpage) {
 		cpage->dispatchTouchEvent(evn);
 	}
-	mx = evn.rawX;
-	my = evn.rawY;
+	mx = evn.rawPos.x;
+	my = evn.rawPos.y;
 	touchEvent(evn);
 };
 

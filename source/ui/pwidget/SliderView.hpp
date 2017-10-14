@@ -83,7 +83,7 @@ public:
 	bool onTouchEvent(TouchEvent e) override {
 		if (e.type == TouchEvent::DOWN || e.type == TouchEvent::DRAG) {
 			int progress;
-			progress = (mMax / getPathSize() * (e.x - getPathX()));
+			progress = (mMax / getPathSize() * (e.pos.x - getPathX()));
 			progress = Utils::clamp(progress, 0, mMax);
 			mPrevIncrement = mProgress - progress;
 

@@ -260,7 +260,7 @@ public:
 	void processTouch(TouchEvent& e) {
 
 		if (e.type == 0) {
-			mDragPrevY = e.rawY;
+			mDragPrevY = e.rawPos.y;
 			mDragPrevTime = e.time;
 			mVelocity = 0;
 			mVelocityPrev = 0;
@@ -281,7 +281,7 @@ public:
 			//mClick = true;
 
 
-			int d = (e.rawY - mDragPrevY);
+			int d = (e.rawPos.y - mDragPrevY);
 			if (d == 0) return;
 			double elapsed = (e.time - mDragPrevTime);
 			elapsed = std::max(1., elapsed);
@@ -316,7 +316,7 @@ public:
 
 		}
 		mDragPrevTime = e.time;
-		mDragPrevY = e.rawY;
+		mDragPrevY = e.rawPos.y;
 	}
 	bool onTouchEvent(TouchEvent& e) {
 		processTouch(e);
@@ -327,8 +327,8 @@ public:
 
 	bool dispatchTouchEvent(TouchEvent e) override {
 		TouchEvent e2(e);
-		e2.y += abs(mPos);
-		e2.rawY += abs(mPos);
+		e2.pos.y += abs(mPos);
+		e2.rawPos.y += abs(mPos);
 		return ViewGroup::dispatchTouchEvent(e2);
 
 	}

@@ -276,8 +276,7 @@ LRESULT CALLBACK __WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 						   TouchEvent e;
 						   e.id = 0;
 						   e.time = Utils::getCurrentMs();
-						   e.rawX = GET_X_LPARAM(lParam);
-						   e.rawY = GET_Y_LPARAM(lParam);
+						   e.rawPos = mt::Point(GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam));
 						   e.type = TouchEvent::DOWN;
 						   Application::getInstance()->touchEventInternal(e);
 
@@ -288,8 +287,7 @@ LRESULT CALLBACK __WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 		TouchEvent e;
 		e.id = 0;
 		e.time = Utils::getCurrentMs();
-		e.rawX = GET_X_LPARAM(lParam);
-		e.rawY = GET_Y_LPARAM(lParam);
+		e.rawPos = mt::Point(GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam));
 		e.type = TouchEvent::UP;
 		Application::getInstance()->touchEventInternal(e);
 						 /*if (!gameplay::Platform::mouseEventInternal(gameplay::Mouse::MOUSE_RELEASE_LEFT_BUTTON, x, y, 0))
@@ -348,8 +346,7 @@ LRESULT CALLBACK __WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 								 TouchEvent e;
 								 e.id = 0;
 								 e.time = Utils::getCurrentMs();
-								 e.rawX = GET_X_LPARAM(lParam);
-								 e.rawY = GET_Y_LPARAM(lParam);
+								 e.rawPos = mt::Point(GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam));
 								 e.type = TouchEvent::MOVE;
 								 Application::getInstance()->touchEventInternal(e);
 
@@ -369,10 +366,10 @@ LRESULT CALLBACK __WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 		point.x = GET_X_LPARAM(lParam);
 		point.y = GET_Y_LPARAM(lParam);
 		ScreenToClient(__hwnd, &point);
-		e.rawX = point.x;
-		e.rawY = point.y;
+
+		e.rawPos = mt::Point(point.x, point.y);
 		e.type = TouchEvent::WHEEL;
-		e.wheel = GET_WHEEL_DELTA_WPARAM(wParam) / 1000.;
+		e.data = GET_WHEEL_DELTA_WPARAM(wParam) / 1000.;
 		Application::getInstance()->touchEventInternal(e);
 		ScreenToClient(__hwnd, &point);
 		break;

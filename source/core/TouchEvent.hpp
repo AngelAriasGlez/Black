@@ -8,12 +8,9 @@ class View;
 class TouchEvent {
 public:
 	int id;
-	int x;
-	int y;
-	int rawX;
-	int rawY;
-    int rawX1;
-    int rawY1;
+	mt::Point pos;
+	mt::Point rawPos;
+
 	enum Type { DOWN, UP, MOVE, DBLCLK, LONG, CLK, DRAG, WHEEL, PINCH, PINCH_START, PAN};
 	Type type;
 	long time;
@@ -33,10 +30,10 @@ public:
 	std::string print() {
 		std::stringstream s;
 		s << "id: " << id << "\n";
-		s << "x: " << x << "\n";
-		s << "y: " << y << "\n";
-		s << "rawx: " << rawX << "\n";
-		s << "rawy: " << rawY << "\n";
+		s << "x: " << pos.x << "\n";
+		s << "y: " << pos.y << "\n";
+		s << "rawx: " << rawPos.x << "\n";
+		s << "rawy: " << rawPos.y << "\n";
 		s << "type:" << type << "\n";
 		s << "handled:" << id << "\n";
 		return s.str();

@@ -20,6 +20,7 @@ private:
 
 	TouchEvent mDown;
 	bool isDown=false;
+	bool isDrag = false;
 	int mError;
 public:
 
@@ -32,7 +33,7 @@ public:
 		mDblTimer.setMs(250);
 		//mDblTimer.reg();
 
-        mError = Metrics::px(20);
+        mError = Metrics::px(4);
 	}
 	~GestureDetector() {
 
@@ -58,12 +59,14 @@ public:
 			e.type = TouchEvent::UP;
 			mLongTimer.reset();
 			isDown = false;
+			isDrag = false;
 		}else if (e.type == TouchEvent::MOVE) {
 			notify(e);
-			if (!checkNotMove(e) && isDown) {
-				e.dragDiff.x = mDown.rawX - e.rawX;
-				e.dragDiff.y = mDown.rawY - e.rawY;
-                e.dragDown = mt::Point(mDown.rawX, mDown.rawY);
+			if ((!checkNotMove(e) || isDrag) && isDown) {
+				isDrag = true;
+				e.dragDiff.x = mDown.rawPos.x - e.rawPos.x;
+				e.dragDiff.y = mDown.rawPos.y - e.rawPos.y;
+                e.dragDown = mt::Point(mDown.rawPos.x, mDown.rawPos.y);
 				e.type = TouchEvent::DRAG;
 			}
 		}
@@ -73,7 +76,7 @@ public:
 
 	bool checkNotMove(TouchEvent e) {
         //LOGE("%d %d", mDown.rawX - e.rawX, mDown.rawY - e.rawY);
-		return abs(mDown.rawX - e.rawX) <= mError && abs(mDown.rawY - e.rawY) <= mError;
+		return abs(mDown.rawPos.x - e.rawPos.x) <= mError && abs(mDown.rawPos.y - e.rawPos.y) <= mError;
 
 		
 	}

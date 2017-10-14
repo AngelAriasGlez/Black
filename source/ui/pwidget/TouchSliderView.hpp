@@ -39,10 +39,10 @@ public:
 
 
 
-		mPrevY = e.y;
+		mPrevY = e.pos.y;
 		int ymax = std::max(0.0, getHeight());
 		double prog = 0;
-		prog += 1. - (2. / (float)ymax * (float)(e.y));
+		prog += 1. - (2. / (float)ymax * (float)(e.pos.y));
 
 		mPrevIncrement = prog;
 

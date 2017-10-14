@@ -23,7 +23,6 @@ enum AVRounding2 {
 };
 
 
-#define OUTPUT_CODEC AV_CODEC_ID_MPEG4
 //Input pix fmt is set to BGR24
 #define OUTPUT_PIX_FMT AV_PIX_FMT_YUV420P
 

@@ -105,19 +105,31 @@ public:
 	int avaliableForward(){
 		return mRight - mReadPosition;
 	}
-	int readForward(T* pointer, int elements){
+	int copyForward(T* pointer, int elements){
 		elements = std::min(avaliableForward(), elements);
 		memcpy(pointer, &mData[mReadPosition], elements*sizeof(T));
 		mReadPosition = std::min(mReadPosition + elements, mRight);
 		return elements;
 	}
+	int readForward(T* pointer, int elements) {
+		elements = std::min(avaliableForward(), elements);
+		mReadPosition = std::min(mReadPosition + elements, mRight);
+		pointer = &mData[mReadPosition];
+		return elements;
+	}
 	int avaliableBackward(){
 		return mReadPosition - mLeft;
 	}
-	int readBackward(T* pointer, int elements){	
+	int copyBackward(T* pointer, int elements){	
 		elements = std::min(avaliableBackward(), elements);
 		memcpy(pointer, &mData[mReadPosition - elements], elements*sizeof(T));
 		mReadPosition = std::max(mReadPosition - elements, mLeft);
+		return elements;
+	}
+	int readBackward(T* pointer, int elements) {
+		elements = std::min(avaliableBackward(), elements);
+		mReadPosition = std::max(mReadPosition - elements, mLeft);
+		pointer = &mData[mReadPosition];
 		return elements;
 	}
 	void clear(){

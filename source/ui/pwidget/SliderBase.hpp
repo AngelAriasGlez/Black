@@ -83,7 +83,7 @@ public:
 					if (e.type == TouchEvent::DOWN) {
 						return true;
 					}
-					double angle = angleFromPoint(e.x, e.y);
+					double angle = angleFromPoint(e.pos.x, e.pos.y);
 					double diff = angle - mPreviusAngle;
 					mPreviusAngle = angle;
 					if (diff > 300) {
@@ -99,19 +99,19 @@ public:
 
 
 				}else if(mType == LINEAR_VERTICAL_CENTER){
-					progress = (200. / getPathSize() * (double)(e.y)) - 100;
+					progress = (200. / getPathSize() * (double)(e.pos.y)) - 100;
 					progress = -Utils::clamp(progress, -100, 100);
 					mPrevIncrement = mProgress - progress;
 				}else if (mType == LINEAR_VERTICAL_BOTTOM) {
-					progress = 100 - (100. / getPathSize() * (double)e.y - getPathLateralMargin());
+					progress = 100 - (100. / getPathSize() * (double)e.pos.y - getPathLateralMargin());
 					progress = Utils::clamp(progress, 0, 100);
 					mPrevIncrement = mProgress - progress;
 				}else if (mType == LINEAR_HORIZONTAL_CENTER) {
-					progress = (200. / getPathSize() * (double)(e.x)) - 100;
+					progress = (200. / getPathSize() * (double)(e.pos.x)) - 100;
 					progress = -Utils::clamp(progress, -100, 100);
 					mPrevIncrement = mProgress - progress;
 				}else if (mType == LINEAR_HORIZONTAL_LEFT) {
-					progress = (100. / getPathSize() * (double)e.x - getPathLateralMargin());
+					progress = (100. / getPathSize() * (double)e.pos.x - getPathLateralMargin());
 					progress = Utils::clamp(progress, 0, 100);
 					mPrevIncrement = mProgress - progress;
 				

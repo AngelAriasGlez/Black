@@ -1,7 +1,7 @@
 #ifndef _ADJ_VIDEOVIEW_H
 #define _ADJ_VIDEOVIEW_H
 
-#include "video/VideoSource.hpp"
+#include "video/CvVideoSource.hpp"
 #include <chrono>
 #include "../View.hpp"
 #include "../../graphics/Canvas.hpp"
@@ -76,12 +76,12 @@ public:
 			auto ptr = mSource->read();
 			if (ptr) {
 				if (imgid <= 0) {
-					imgid = nvgCreateImageRGBA(vg, w, h, 0, ptr);
+					imgid = nvgCreateImageRGB(vg, w, h, 0, ptr);
 				}
 				else {
 					if (imgH != h || imgW != w) {
 						nvgDeleteImage(vg, imgid);
-						imgid = nvgCreateImageRGBA(vg, w, h, 0, ptr);
+						imgid = nvgCreateImageRGB(vg, w, h, 0, ptr);
 						imgH = h;
 						imgW = w;
 

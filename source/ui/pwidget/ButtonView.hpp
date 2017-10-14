@@ -31,7 +31,7 @@ public:
 		setText("");
 		setGravity(Gravity::CENTER, Gravity::CENTER);
 
-		setBackground(Color("#303033"));
+		//setBackground(Color("#303033"));
 		//setClickBackground(Color("#232424"));
 		setActiveBackground(Color("#66e6ff"));
 

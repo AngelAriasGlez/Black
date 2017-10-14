@@ -151,7 +151,7 @@ public:
 	};
 
 	bool onFailTouchEvent(TouchEvent& e) {
-        if(mFloatListView->isVisible() && e.type == TouchEvent::DOWN && !mFloatListView->isInnerPoint(mt::Point(e.x, e.y)))
+        if(mFloatListView->isVisible() && e.type == TouchEvent::DOWN && !mFloatListView->isInnerPoint(e.pos))
 		close();
 
 

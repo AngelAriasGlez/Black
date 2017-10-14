@@ -106,14 +106,15 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>../../libs/mpg123/ports/MSVC++/;../../libs/mpg123/src/libmpg123/;../../libs/portaudio/include/;../../libs/glew/;../../libs/pthread/;../../libs/pugixml/;../../source/;../../libs/libav/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../../libs/mpg123/ports/MSVC++/;../../libs/mpg123/src/libmpg123/;../../libs/portaudio/include/;../../libs/glew/;../../libs/pthread/;../../libs/pugixml/;../../source/;../../libs/livav/;C:\Users\Angel\Downloads\opencv\build\include\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
     </Link>
     <Lib>
-      <AdditionalDependencies>Shlwapi.lib</AdditionalDependencies>
+      <AdditionalDependencies>Shlwapi.lib;opencv_world330d.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>C:\Users\Angel\Downloads\opencv\build\x64\vc14\lib\</AdditionalLibraryDirectories>
     </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -279,6 +280,8 @@
     <ClInclude Include="..\..\source\utils\Singleton.hpp" />
     <ClInclude Include="..\..\source\utils\SMA.hpp" />
     <ClInclude Include="..\..\source\utils\utils.hpp" />
+    <ClInclude Include="..\..\source\video\CvVideoSource.hpp" />
+    <ClInclude Include="..\..\source\video\LaVideoSource.hpp" />
     <ClInclude Include="..\..\source\video\VideoCached.hpp" />
     <ClInclude Include="..\..\source\video\VideoEncoder.hpp" />
     <ClInclude Include="..\..\source\video\VideoSource.hpp" />
@@ -286,10 +289,7 @@
   <ItemGroup>
     <Library Include="..\..\libs\glew\msvs15\x64\Debug\glew.lib" />
     <Library Include="..\..\libs\libav\bin\avcodec.lib" />
-    <Library Include="..\..\libs\libav\bin\avdevice.lib" />
-    <Library Include="..\..\libs\libav\bin\avfilter.lib" />
     <Library Include="..\..\libs\libav\bin\avformat.lib" />
-    <Library Include="..\..\libs\libav\bin\avresample.lib" />
     <Library Include="..\..\libs\libav\bin\avutil.lib" />
     <Library Include="..\..\libs\libav\bin\swscale.lib" />
     <Library Include="..\..\libs\mpg123\ports\MSVC++\2015\win32\x64\Debug\libmpg123.lib" />

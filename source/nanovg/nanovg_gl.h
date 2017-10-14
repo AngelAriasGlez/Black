@@ -648,6 +648,7 @@ static int glnvg__renderCreate(void* uptr)
 		"#endif\n"
 		"		if (texType == 1) color = vec4(color.xyz*color.w,color.w);"
 		"		if (texType == 2) color = vec4(color.x);"
+		"		if (texType == 3) color = vec4(color.z, color.y, color.x, 255);"
 		"		// Apply color tint and alpha.\n"
 		"		color *= innerCol;\n"
 		"		// Combine alpha\n"
@@ -663,6 +664,7 @@ static int glnvg__renderCreate(void* uptr)
 		"#endif\n"
 		"		if (texType == 1) color = vec4(color.xyz*color.w,color.w);"
 		"		if (texType == 2) color = vec4(color.x);"
+		"		if (texType == 3) color = vec4(color.z, color.y, color.x, 255);"
 		"		color *= scissor;\n"
 		"		result = color * innerCol;\n"
 		"	}\n"
@@ -753,6 +755,8 @@ static int glnvg__renderCreateTexture(void* uptr, int type, int w, int h, int im
 
 	if (type == NVG_TEXTURE_RGBA)
 		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, w, h, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
+	else if (type == NVG_TEXTURE_RGB)
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, w, h, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
 	else
 #if defined(NANOVG_GLES2)
 		glTexImage2D(GL_TEXTURE_2D, 0, GL_LUMINANCE, w, h, 0, GL_LUMINANCE, GL_UNSIGNED_BYTE, data);
@@ -837,6 +841,8 @@ static int glnvg__renderUpdateTexture(void* uptr, int image, int x, int y, int w
 	// No support for all of skip, need to update a whole row at a time.
 	if (tex->type == NVG_TEXTURE_RGBA)
 		data += y*tex->width*4;
+	if (tex->type == NVG_TEXTURE_RGB)
+		data += y*tex->width * 3;
 	else
 		data += y*tex->width;
 	x = 0;
@@ -845,6 +851,8 @@ static int glnvg__renderUpdateTexture(void* uptr, int image, int x, int y, int w
 
 	if (tex->type == NVG_TEXTURE_RGBA)
 		glTexSubImage2D(GL_TEXTURE_2D, 0, x,y, w,h, GL_RGBA, GL_UNSIGNED_BYTE, data);
+	else if (tex->type == NVG_TEXTURE_RGB)
+		glTexSubImage2D(GL_TEXTURE_2D, 0, x, y, w, h, GL_RGB, GL_UNSIGNED_BYTE, data);
 	else
 #ifdef NANOVG_GLES2
 		glTexSubImage2D(GL_TEXTURE_2D, 0, x,y, w,h, GL_LUMINANCE, GL_UNSIGNED_BYTE, data);
@@ -947,6 +955,8 @@ static int glnvg__convertPaint(GLNVGcontext* gl, GLNVGfragUniforms* frag, NVGpai
 
 		if (tex->type == NVG_TEXTURE_RGBA)
 			frag->texType = (tex->flags & NVG_IMAGE_PREMULTIPLIED) ? 0 : 1;
+		else if (tex->type == NVG_TEXTURE_RGB)
+			frag->texType = 3;
 		else
 			frag->texType = 2;
 //		printf("frag->texType = %d\n", frag->texType);

@@ -351,12 +351,11 @@ bool View::processTouchEvent(TouchEvent e) {
 
 	int left = std::max(0.f, getLeft());
 	int top = std::max(0.f, getTop());
-	e.x = e.rawX - left;
-	e.y = e.rawY - top;
 
-    mt::Point rp(e.rawX, e.rawY);
+	e.pos = mt::Point(e.rawPos.x - left, e.rawPos.y - top);
 
-	if (e.type == TouchEvent::DOWN && isInnerPoint(rp) && !e.handled) {
+
+	if (e.type == TouchEvent::DOWN && isInnerPoint(e.rawPos) && !e.handled) {
 		//LOGE("down");
 		LOGE("%s", toString().c_str());
 		mTouchDown = true;
@@ -371,7 +370,7 @@ bool View::processTouchEvent(TouchEvent e) {
 	}else if (e.type == TouchEvent::CLK && isTouchDown()) {
 		//LOGE("click");
 		return callTouchEventListeners(e);
-	}else if (e.type == TouchEvent::MOVE && isTouchDown()) {
+	}else if (e.type == TouchEvent::MOVE && isInnerPoint(e.rawPos)) {
 		//LOGE("move");
 		return callTouchEventListeners(e);
 	}else if (e.type == TouchEvent::DRAG && isTouchDown()) {
@@ -380,7 +379,7 @@ bool View::processTouchEvent(TouchEvent e) {
 	}else if (e.type == TouchEvent::LONG && isTouchDown()) {
 		//LOGE("long");
 		return callTouchEventListeners(e);
-	}else if (e.type == TouchEvent::WHEEL && isInnerPoint(rp) && !e.handled) {
+	}else if (e.type == TouchEvent::WHEEL && isInnerPoint(e.rawPos) && !e.handled) {
 		//LOGE("wheel");
 		//setBackground(Color::random());
 		return callTouchEventListeners(e);
@@ -539,9 +538,9 @@ void View::draw(Canvas * canvas) {
 	}
 	if (!dynamic_cast<ViewGroup*> (this)) {
 		canvas->translate(Point(getLeftPadding(), getTopPadding()));
-		canvas->setScissor(0, 0, getInnerWidth(), getInnerHeight());
+		//canvas->setScissor(0, 0, getInnerWidth(), getInnerHeight());
 	}else {
-		canvas->setScissor(getLeftPadding(), getTopPadding(), getInnerWidth(), getInnerHeight());
+		//canvas->setScissor(getLeftPadding(), getTopPadding(), getInnerWidth(), getInnerHeight());
 	}
 
 
