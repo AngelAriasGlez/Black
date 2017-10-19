@@ -167,10 +167,9 @@ mt::Point prevPan;
     TouchEvent e;
     e.id = 1;
     e.time = Utils::getCurrentMs();
-    e.rawX = p0.x;
-    e.rawY = p0.y;
-    e.rawX1 = p1.x;
-    e.rawY1 = p1.y;
+    e.rawPos = mt::Point(p0.x, p0.y);
+    //e.rawX1 = p1.x;
+    //e.rawY1 = p1.y;
     
     e.gestureDown1 = pan0;
     e.gestureDown2 = pan1;
@@ -198,10 +197,9 @@ mt::Point prevPan;
     TouchEvent e;
     e.id = 1;
     e.time = Utils::getCurrentMs();
-    e.rawX = p0.x;
-    e.rawY = p0.y;
-    e.rawX1 = p1.x;
-    e.rawY1 = p1.y;
+    e.rawPos = mt::Point(p0.x, p0.y);
+    //e.rawX1 = p1.x;
+    //e.rawY1 = p1.y;
     
     e.gestureDown1 = pinch0;
     e.gestureDown2 = pinch1;
@@ -281,8 +279,7 @@ mt::Point prevPan;
         TouchEvent e;
         e.id = [touch hash];
         e.time = Utils::getCurrentMs();
-        e.rawX = touchPoint.x;
-        e.rawY = touchPoint.y;
+        e.rawPos = mt::Point(touchPoint.x, touchPoint.y);
         e.type = TouchEvent::DOWN;
         Application::getInstance()->touchEventInternal(e);
         
@@ -298,8 +295,7 @@ mt::Point prevPan;
         TouchEvent e;
         e.id = [touch hash];
         e.time = Utils::getCurrentMs();
-        e.rawX = touchPoint.x;
-        e.rawY = touchPoint.y;
+        e.rawPos = mt::Point(touchPoint.x, touchPoint.y);
         e.type = TouchEvent::UP;
         Application::getInstance()->touchEventInternal(e);
     }
@@ -314,8 +310,7 @@ mt::Point prevPan;
         TouchEvent e;
         e.id = [touch hash];
         e.time = Utils::getCurrentMs();
-        e.rawX = touchPoint.x;
-        e.rawY = touchPoint.y;
+        e.rawPos = mt::Point(touchPoint.x, touchPoint.y);
         e.type = TouchEvent::MOVE;
         Application::getInstance()->touchEventInternal(e);
         
