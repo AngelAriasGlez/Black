@@ -48,9 +48,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\source\platform\MainWindows.cpp">
-      <Filter>platform</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\source\platform\Application.cpp">
       <Filter>platform</Filter>
     </ClCompile>
@@ -135,11 +132,17 @@
     <ClCompile Include="..\..\source\thread\Task.cpp">
       <Filter>thread</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\source\platform\MainAndroid.cpp">
+      <Filter>platform</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\platform\MainWindows.cpp">
+      <Filter>platform</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\platform\PlatformAndroid.cpp">
+      <Filter>platform</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\source\platform\Application.hpp">
-      <Filter>platform</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\source\platform\Platform.hpp">
       <Filter>platform</Filter>
     </ClInclude>
@@ -413,6 +416,15 @@
     <ClInclude Include="..\..\source\video\LaVideoSource.hpp">
       <Filter>video</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\source\video\ThreadedVideoSource.hpp">
+      <Filter>video</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\thread\Semaphore.hpp">
+      <Filter>thread</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\platform\Application.hpp">
+      <Filter>platform</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Library Include="..\..\libs\portaudio\build\msvc\x64\Debug\portaudio.lib" />
@@ -424,5 +436,20 @@
     <Library Include="..\..\libs\libav\bin\avformat.lib" />
     <Library Include="..\..\libs\libav\bin\swscale.lib" />
     <Library Include="..\..\libs\libav\bin\avutil.lib" />
+    <Library Include="..\..\libs\libav\bin\avfilter.lib" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\source\platform\MainiOS.mm">
+      <Filter>platform</Filter>
+    </None>
+    <None Include="..\..\source\platform\MainOSX.mm">
+      <Filter>platform</Filter>
+    </None>
+    <None Include="..\..\source\platform\PlatformiOS.mm">
+      <Filter>platform</Filter>
+    </None>
+    <None Include="..\..\source\platform\PlatformOSX.mm">
+      <Filter>platform</Filter>
+    </None>
   </ItemGroup>
 </Project>
