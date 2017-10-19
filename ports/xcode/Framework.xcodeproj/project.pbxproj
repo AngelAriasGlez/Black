@@ -229,6 +229,7 @@
 		CF34772F1F8D01E300910745 /* VideoEncoder.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = VideoEncoder.hpp; path = video/VideoEncoder.hpp; sourceTree = "<group>"; };
 		CF3477341F8D2A7C00910745 /* Photos.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Photos.framework; path = System/Library/Frameworks/Photos.framework; sourceTree = SDKROOT; };
 		CF3477361F8D2AFB00910745 /* PhotosUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PhotosUI.framework; path = System/Library/Frameworks/PhotosUI.framework; sourceTree = SDKROOT; };
+		CF39DD561F9963EE0092C706 /* ThreadedVideoSource.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = ThreadedVideoSource.hpp; path = video/ThreadedVideoSource.hpp; sourceTree = "<group>"; };
 		CF4B09981F8D395E0065986A /* AVKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVKit.framework; path = System/Library/Frameworks/AVKit.framework; sourceTree = SDKROOT; };
 		CF4B099E1F8D3D300065986A /* AssetsLibrary.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AssetsLibrary.framework; path = System/Library/Frameworks/AssetsLibrary.framework; sourceTree = SDKROOT; };
 		CF4B09A01F8D3D440065986A /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
@@ -701,6 +702,7 @@
 		CFCB24461F8335CE009EEADD /* video */ = {
 			isa = PBXGroup;
 			children = (
+				CF39DD561F9963EE0092C706 /* ThreadedVideoSource.hpp */,
 				CF34772F1F8D01E300910745 /* VideoEncoder.hpp */,
 				CFCB24471F8335DC009EEADD /* VideoSource.hpp */,
 			);
