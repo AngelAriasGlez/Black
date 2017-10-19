@@ -10,11 +10,12 @@ extern "C"{
 #include <libavutil/imgutils.h>
 #include <libavutil/pixdesc.h>
 #include <libswscale/swscale.h>
-
+#include <libavutil/display.h>
+#include <libavfilter/avfilter.h>
+#include <libavfilter/buffersink.h>
+#include <libavfilter/buffersrc.h>
 }
 #include "utils/utils.hpp"
-
-#include "utils/BidirectionalBuffer.hpp"
 
 #if defined(__APPLE__)
 #define AV_NOPTS_VALUE_ ((int64_t)0x8000000000000000LL)
@@ -75,6 +76,14 @@ public:
 
 	AVCodecContext * codec_ctx;
 
+	/*AVFilterContext *fbuffersrc_ctx;
+	AVFilterContext *fbuffersink_ctx;
+	AVFilterContext *frotate_ctx;
+	AVFilterContext *fformat_ctx;
+
+	AVFilterGraph *filter_graph;*/
+	double rotation;
+
 	LaVideoSource() {
 		av_register_all();
 	}
@@ -91,29 +100,7 @@ public:
 		picture_pts = AV_NOPTS_VALUE_;
 
 
-		unload();
-
-
-
-		/*AVHWAccel* h264_dxva2_hwaccel = NULL;
-			AVHWAccel* hwaccel = NULL;
-
-			while (hwaccel = av_hwaccel_next(hwaccel))
-
-			{
-				if ((hwaccel->pix_fmt == AV_PIX_FMT_DXVA2_VLD) && (hwaccel->id == AV_CODEC_ID_H264))
-
-				{
-					h264_dxva2_hwaccel = hwaccel;
-
-					av_register_hwaccel(h264_dxva2_hwaccel);
-
-					printf("dxva2_hwaccel = %s\r\n", h264_dxva2_hwaccel->name);
-
-				}
-
-			}
-		auto codecavcodec_find_decoder(h264_dxva2_hwaccel->id);*/
+		unload(); 
 
 
 
@@ -140,11 +127,18 @@ public:
 		vstrm_idx = ret;
 		vstrm = inctx->streams[vstrm_idx];
 		codec_ctx = vstrm->codec;
+		//codec_ctx->skip_frame = AVDISCARD_NONKEY;
+		//codec_ctx->skip_loop_filter = AVDISCARD_ALL;
+		//codec_ctx->skip_idct = AVDISCARD_ALL;
+
 		ret = avcodec_open2(codec_ctx, vcodec, nullptr);
 		if (ret < 0) {
 			std::cerr << "fail to avcodec_open2: ret=" << ret;
 			return;
 		}
+
+		std::cerr << "gopsize=" << codec_ctx->gop_size << ret;
+		
 
 		/*ret = av_find_best_stream(inctx, AVMEDIA_TYPE_AUDIO, -1, -1, &vcodec, 0);
 		if (ret < 0) {
@@ -179,8 +173,8 @@ public:
 		// initialize sample scaler
 		//dst_width = codec_ctx->width;
 		//dst_height = codec_ctx->height;
-		dst_width = codec_ctx->width;
-		dst_height = codec_ctx->height;
+		dst_width = Utils::min(codec_ctx->width, 720);
+		dst_height = (double)codec_ctx->height * ((double)dst_width/ (double)codec_ctx->width);
 		const AVPixelFormat dst_pix_fmt = AV_PIX_FMT_BGR24;
 		swsctx = sws_getCachedContext(nullptr, codec_ctx->width, codec_ctx->height, codec_ctx->pix_fmt, dst_width, dst_height, dst_pix_fmt, SWS_BICUBIC, nullptr, nullptr, nullptr);
 		if (!swsctx) {
@@ -200,7 +194,21 @@ public:
 		//av_image_fill_arrays(frame->data, frame->linesize, framebuf.data(), dst_pix_fmt, dst_width, dst_height, 1);
 		decframe = av_frame_alloc();
 
-        /*int n = 40;
+
+
+		// TAGS reading
+		/*AVDictionaryEntry *tag = NULL;
+		while (tag = av_dict_get(vstrm->metadata, "", tag, AV_DICT_IGNORE_SUFFIX))
+		{
+			printf("%s=%s\n", tag->key, tag->value);
+		}*/
+		
+		rotation = get_rotation(vstrm);
+
+
+
+
+       /*int n = 40;
         for(int i=0;i<n;i++){
             auto duration = std::chrono::system_clock::now().time_since_epoch();
             int rec = getLength()/n*i;
@@ -222,9 +230,109 @@ public:
                 buffer.push_back(new Frame(ptr, getWidth(), getHeight(), getChannels()));
             }
         }*/
-
 		frame_number = 0;
+
+
+
+
+
+		/*avfilter_register_all();
+		filter_graph = avfilter_graph_alloc();
+
+
+
+		//---------------Buffer
+		char args[512];
+		//buffer=width=320:height=240:pix_fmt=yuv410p:time_base=1/24:sar=1
+		snprintf(args, sizeof(args),
+			"width=%d:height=%d:pix_fmt=%d:time_base=%d/%d:sar=1/2",
+			codec_ctx->width, codec_ctx->height, codec_ctx->pix_fmt,
+			vstrm->time_base.num, vstrm->time_base.den, vstrm->sample_aspect_ratio.num, vstrm->sample_aspect_ratio.den);
+		fbuffersrc_ctx = insert_filter2(nullptr, "buffer", args);
+		
+
+		auto prev = insert_filter2(fbuffersrc_ctx, "format", "pix_fmts=bgr24");
+
+		if (fabs(rotation - 90) < 1.0) {
+		ret = insert_filter("transpose", "clock");
+		}
+		else if (fabs(rotation - 180) < 1.0) {
+		ret = insert_filter("hflip", NULL);
+		if (ret >= 0) ret = insert_filter("vflip", NULL);
+		}else if (fabs(rotation - 270) < 1.0) {
+		ret = insert_filter("transpose", "cclock");
+		}else if (fabs(rotation) > 1.0) {
+		char rotate_buf[64];
+		snprintf(rotate_buf, sizeof(rotate_buf), "%f*PI/180", rotation);
+		ret = insert_filter("rotate", rotate_buf);
+		}
+		dst_width = codec_ctx->height;
+		dst_height = codec_ctx->width;
+		//prev = insert_filter2(prev, "transpose", "clock");
+
+
+		//---------------SINK
+		enum AVPixelFormat pix_fmts[] = { AV_PIX_FMT_BGR24, AV_PIX_FMT_NONE };
+		fbuffersink_ctx = insert_filter2(prev, "buffersink", nullptr, pix_fmts);
+
+
+
+		ret = avfilter_graph_config(filter_graph, NULL);
+		if (ret < 0) {
+			av_log(NULL, AV_LOG_ERROR, "error configuring the filter graph\n");
+
+		}*/
+
 	}
+
+	/*int insert_filter(const char *filter_name, const char *args) {
+		int ret = avfilter_graph_create_filter(&frotate_ctx, avfilter_get_by_name(filter_name), filter_name, args, NULL, filter_graph);
+		if (ret < 0)
+			return ret;
+	}
+
+
+	AVFilterContext * insert_filter2(AVFilterContext*prev_filter, const char *filter_name, const char *args, void *op = nullptr) {
+		AVFilterContext *filter;
+		int ret = avfilter_graph_create_filter(&filter, avfilter_get_by_name(filter_name), filter_name, args, op, filter_graph);
+		if (ret < 0) return prev_filter;
+		if (prev_filter != nullptr) {
+			ret = avfilter_link(prev_filter, 0, filter, 0);
+			if (ret < 0) return prev_filter;
+		}
+		return filter;
+	}*/
+	int getGopSize() {
+		return codec_ctx->gop_size;
+	}
+	int isKeyFrame() {
+		return decframe->key_frame == 1;
+	}
+
+	double getRotation() override{
+		return rotation;
+	}
+
+	
+	double get_rotation(AVStream *st)
+	{
+		uint8_t* displaymatrix = av_stream_get_side_data(st, AV_PKT_DATA_DISPLAYMATRIX, NULL);
+		double theta = 0;
+		if (displaymatrix)
+			theta = -av_display_rotation_get((int32_t*)displaymatrix);
+
+		theta -= 360 * floor(theta / 360 + 0.9 / 360);
+
+		if (fabs(theta - 90 * round(theta / 90)) > 2)
+			av_log(NULL, AV_LOG_WARNING, "Odd rotation angle.\n"
+				"If you want to help, upload a sample "
+				"of this file to ftp://upload.ffmpeg.org/incoming/ "
+				"and contact the ffmpeg-devel mailing list. (ffmpeg-devel@ffmpeg.org)");
+
+		return theta;
+	}
+
+
 	virtual void unload() {
 
 		if (vstrm) {
@@ -296,14 +404,40 @@ public:
 
         
 		if (grabFrame()) {
+
+
+			/*if (fbuffersrc_ctx) {
+
+				// push the audio data from decoded frame into the filtergraph
+				int err = av_buffersrc_write_frame(fbuffersrc_ctx, decframe);
+				if (err < 0) {
+					av_log(NULL, AV_LOG_ERROR, "error writing frame to buffersrc\n");
+					return nullptr;
+				}
+				// pull filtered audio from the filtergraph
+				for (;;) {
+					int err = av_buffersink_get_frame(fbuffersink_ctx, decframe);
+					if (err == AVERROR_EOF || err == AVERROR(EAGAIN))
+						break;
+					if (err < 0) {
+						av_log(NULL, AV_LOG_ERROR, "error reading buffer from buffersink\n");
+						return nullptr;
+					}
+				}
+				dst_width = decframe->width;
+				dst_height = decframe->height;
+				return decframe->data[0];
+			}*/
 			return scale();
+			
 		}
 
 		return nullptr;
 	};
 	virtual uint8_t* scale() {
-	
+
 		sws_scale(swsctx, decframe->data, decframe->linesize, 0, decframe->height, dst_data, dst_linesize);
+
 		return dst_data[0];
 	}
 
@@ -345,7 +479,6 @@ public:
 				continue;
 			}
 
-
 			avcodec_decode_video2(codec_ctx, decframe, &got_picture, &pkt);
 
 
@@ -355,13 +488,16 @@ public:
 				//picture_pts = decframe->time
 				if (picture_pts == AV_NOPTS_VALUE_)
 					picture_pts = decframe->pts != AV_NOPTS_VALUE_ && decframe->pts != 0 ? decframe->pts : decframe->pkt_dts;
-
+					//picture_pts = av_frame_get_best_effort_timestamp(decframe);
 				//std::cout << frame_number << '\r' << std::flush;  // dump progress
 				frame_number++;
 				valid = true;
 
 				if (first_frame_number < 0) 
 					first_frame_number = dts_to_frame_number(picture_pts);
+
+
+
 			}
 			else
 			{
@@ -463,8 +599,6 @@ public:
 	uint64_t getHeight()  override {
 		return dst_height;
 	}
-
-
 
 
 

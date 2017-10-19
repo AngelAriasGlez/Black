@@ -2,6 +2,7 @@
 #define _ADJ_VIDEOVIEW_H
 
 #include "video/CvVideoSource.hpp"
+#include "video/VideoSource.hpp"
 #include <chrono>
 #include "../View.hpp"
 #include "../../graphics/Canvas.hpp"
@@ -94,11 +95,24 @@ public:
 			}
 
 		}
+
 		if (imgid > 0) {
-			Rect is(getVideoX(), getVideoY(), getVideoWidth(), getVideoHeight());
+
+			Rect is(getVideoSurfaceX(), getVideoSurfaceY(), getVideoSurfaceWidth(), getVideoSurfaceHeight());
 
 			nvgBeginPath(vg);
-			NVGpaint imgPaint = nvgImagePattern(vg, is.getX(), is.getY(), is.getWidth(), is.getHeight(), 0, imgid, 1.0f);
+
+			NVGpaint imgPaint;
+			int trotation = mSource->getRotation();
+			if (trotation == 90) {
+				imgPaint = nvgImagePattern(vg, is.getX() + getVideoSurfaceWidth(), is.getY(), is.getHeight(), is.getWidth(), nvgDegToRad(trotation), imgid, 1.0f);
+			}else if (trotation == 270) {
+				imgPaint = nvgImagePattern(vg, is.getX(), is.getY()+ getVideoSurfaceHeight(), is.getHeight(), is.getWidth(), nvgDegToRad(trotation), imgid, 1.0f);
+			}else if (trotation == 180) {
+				imgPaint = nvgImagePattern(vg, is.getX() + getVideoSurfaceWidth(), is.getY() + getVideoSurfaceHeight(), is.getWidth(), is.getHeight(), nvgDegToRad(trotation), imgid, 1.0f);
+			}else {
+				imgPaint = nvgImagePattern(vg, is.getX(), is.getY(), is.getWidth(), is.getHeight(), 0, imgid, 1.0f);
+			}
 			nvgRect(vg, is.getX(), is.getY(), is.getWidth(), is.getHeight());
 			nvgFillPaint(vg, imgPaint);
 			nvgFill(vg);
@@ -109,12 +123,14 @@ public:
 
 	}
 
-	int getVideoHeight() {
-		return (getVideoWidth() / mSource->getAspectRatio());
+
+
+
+	int getVideoSurfaceHeight() {
+		return (getVideoSurfaceWidth() / mSource->getAspectRatio());
 
 	}
-	int getVideoWidth() {
-		auto ar = mSource->getAspectRatio();
+	int getVideoSurfaceWidth() {
 		auto h = getWidth() / mSource->getAspectRatio();
 		if (h > getHeight()) {
 			return (double)((double)getWidth() / (h / (double)getHeight())) * (mZoom);
@@ -122,12 +138,12 @@ public:
 			return (double)getWidth() * mZoom;
 		}
 	}
-	int getVideoY() {
-		return ((getHeight() - getVideoHeight()) / 2) + offset.y;
+	int getVideoSurfaceY() {
+		return ((getHeight() - getVideoSurfaceHeight()) / 2) + offset.y;
 
 	}
-	int getVideoX() {
-		return ((getWidth() - getVideoWidth()) / 2) + offset.x;
+	int getVideoSurfaceX() {
+		return ((getWidth() - getVideoSurfaceWidth()) / 2) + offset.x;
 	}
 
     float pinchStartZoom;
@@ -149,10 +165,10 @@ public:
     
     void updateOffset(mt::Point diff){
         
-        int xmax = Utils::max((getVideoWidth()-getWidth()) / 2, 0);
+        int xmax = Utils::max((getVideoSurfaceWidth()-getWidth()) / 2, 0);
         int x = Utils::clamp(diff.x, -xmax, xmax);
         
-        int ymax = Utils::max((getVideoHeight()-getHeight()) / 2, 0);
+        int ymax = Utils::max((getVideoSurfaceHeight()-getHeight()) / 2, 0);
 
         int y = Utils::clamp(diff.y, -ymax, ymax);
         offset = mt::Point(x, y);

@@ -106,7 +106,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>../../libs/mpg123/ports/MSVC++/;../../libs/mpg123/src/libmpg123/;../../libs/portaudio/include/;../../libs/glew/;../../libs/pthread/;../../libs/pugixml/;../../source/;../../libs/livav/;C:\Users\Angel\Downloads\opencv\build\include\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../../libs/mpg123/ports/MSVC++/;../../libs/mpg123/src/libmpg123/;../../libs/portaudio/include/;../../libs/glew/;../../libs/pthread/;../../libs/pugixml/;../../source/;../../libs/libav/include;C:\Users\Angel\Downloads\opencv\build\include\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
     </ClCompile>
     <Link>
@@ -180,7 +180,9 @@
     <ClCompile Include="..\..\source\graphics\Metrics.cpp" />
     <ClCompile Include="..\..\source\nanovg\nanovg.c" />
     <ClCompile Include="..\..\source\platform\Application.cpp" />
+    <ClCompile Include="..\..\source\platform\MainAndroid.cpp" />
     <ClCompile Include="..\..\source\platform\MainWindows.cpp" />
+    <ClCompile Include="..\..\source\platform\PlatformAndroid.cpp" />
     <ClCompile Include="..\..\source\platform\PlatformWindows.cpp" />
     <ClCompile Include="..\..\source\thread\Task.cpp" />
     <ClCompile Include="..\..\source\ui\pwidget\CheckView.cpp" />
@@ -236,6 +238,7 @@
     <ClInclude Include="..\..\source\preferences\CheckPreference.hpp" />
     <ClInclude Include="..\..\source\preferences\ComboPreference.hpp" />
     <ClInclude Include="..\..\source\preferences\Preference.hpp" />
+    <ClInclude Include="..\..\source\thread\Semaphore.hpp" />
     <ClInclude Include="..\..\source\thread\Task.hpp" />
     <ClInclude Include="..\..\source\ui\anim\Animation.hpp" />
     <ClInclude Include="..\..\source\ui\anim\MoveAnimation.hpp" />
@@ -282,6 +285,7 @@
     <ClInclude Include="..\..\source\utils\utils.hpp" />
     <ClInclude Include="..\..\source\video\CvVideoSource.hpp" />
     <ClInclude Include="..\..\source\video\LaVideoSource.hpp" />
+    <ClInclude Include="..\..\source\video\ThreadedVideoSource.hpp" />
     <ClInclude Include="..\..\source\video\VideoCached.hpp" />
     <ClInclude Include="..\..\source\video\VideoEncoder.hpp" />
     <ClInclude Include="..\..\source\video\VideoSource.hpp" />
@@ -289,6 +293,7 @@
   <ItemGroup>
     <Library Include="..\..\libs\glew\msvs15\x64\Debug\glew.lib" />
     <Library Include="..\..\libs\libav\bin\avcodec.lib" />
+    <Library Include="..\..\libs\libav\bin\avfilter.lib" />
     <Library Include="..\..\libs\libav\bin\avformat.lib" />
     <Library Include="..\..\libs\libav\bin\avutil.lib" />
     <Library Include="..\..\libs\libav\bin\swscale.lib" />
@@ -296,6 +301,12 @@
     <Library Include="..\..\libs\portaudio\build\msvc\x64\Debug\portaudio.lib" />
     <Library Include="..\..\libs\pugixml\msvs15\x64\Debug\MTd_pugixml_x64.lib" />
     <Library Include="..\..\libs\unqlite\msvs15\x64\Debug\UnQLite.lib" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\source\platform\MainiOS.mm" />
+    <None Include="..\..\source\platform\MainOSX.mm" />
+    <None Include="..\..\source\platform\PlatformiOS.mm" />
+    <None Include="..\..\source\platform\PlatformOSX.mm" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

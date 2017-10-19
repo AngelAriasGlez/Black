@@ -17,9 +17,17 @@ public:
 	virtual double getFramerate() = 0;
 	virtual unsigned short getChannels() = 0;
 	virtual double getAspectRatio() {
-		return (double)getWidth() / (double)getHeight();
+		//Reverse if portrait or landscape
+		return isPortrait() ? (double)getHeight() / (double)getWidth() :(double)getWidth() / (double)getHeight();
 	};
+	virtual double isPortrait() {
+		return getRotation() == 90 || getRotation() == 270;
+	}
+	virtual double getRotation() = 0;
 
+	virtual uint64_t getFramePixelCount() {
+		return getWidth()*getHeight()*getChannels();
+	}
 
 };
 #endif
