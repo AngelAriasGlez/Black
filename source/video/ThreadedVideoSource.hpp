@@ -80,6 +80,7 @@ public:
 	}
 
 
+
 	virtual void load(std::string infile) {
 		lock_guard<std::mutex> l(mutex);
 		mSource.load(infile);
