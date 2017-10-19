@@ -2,6 +2,7 @@
 #define _ADJ_VIDEOVIEW_H
 
 #include "video/CvVideoSource.hpp"
+#include "video/VideoSource.hpp"
 #include <chrono>
 #include "../View.hpp"
 #include "../../graphics/Canvas.hpp"
