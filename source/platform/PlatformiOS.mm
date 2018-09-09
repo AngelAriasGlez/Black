@@ -6,6 +6,7 @@
 #import <UIKit/UIKit.h>
 #import <GLKit/GLKit.h>
 #import <MobileCoreServices/UTCoreTypes.h>
+#import <AVFoundation/AVFoundation.h>
 
 
 #include "Platform.hpp"
@@ -509,6 +510,7 @@ void Platform::openMediaSelector(int type, int source){
     UIImagePickerController *ipc = [[UIImagePickerController alloc] init];
     ipc.delegate = __pickerController ;
     ipc.videoQuality = UIImagePickerControllerQualityTypeHigh;
+    ipc.videoExportPreset = AVAssetExportPresetPassthrough;
 
     if(source == 1){
         ipc.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;

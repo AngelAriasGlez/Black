@@ -357,7 +357,7 @@ bool View::processTouchEvent(TouchEvent e) {
 
 	if (e.type == TouchEvent::DOWN && isInnerPoint(e.rawPos) && !e.handled) {
 		//LOGE("down");
-		LOGE("%s", toString().c_str());
+		//LOGE("%s", toString().c_str());
 		mTouchDown = true;
 		return callTouchEventListeners(e);
 	}else if (e.type == TouchEvent::UP && isTouchDown()) {

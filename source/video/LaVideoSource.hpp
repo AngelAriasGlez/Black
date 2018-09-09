@@ -86,6 +86,12 @@ public:
 
 	LaVideoSource() {
 		av_register_all();
+        frame = nullptr;
+        decframe = nullptr;
+        swsctx = nullptr;
+        inctx = nullptr;
+        vstrm = nullptr;
+        pkt.buf = nullptr;
 	}
 	LaVideoSource(std::string infile) {
 		load(infile);
@@ -351,7 +357,7 @@ public:
 		if (decframe)
 			av_frame_free(&decframe);
 
-		av_free_packet(&pkt);
+		if(pkt.buf) av_free_packet(&pkt);
 
 		if (swsctx) {
 			sws_freeContext(swsctx);

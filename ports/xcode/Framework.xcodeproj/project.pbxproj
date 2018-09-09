@@ -226,6 +226,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		CF2DD8392145ABCE00B6BDAD /* LaVideoSource.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = LaVideoSource.hpp; path = video/LaVideoSource.hpp; sourceTree = "<group>"; };
 		CF34772F1F8D01E300910745 /* VideoEncoder.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = VideoEncoder.hpp; path = video/VideoEncoder.hpp; sourceTree = "<group>"; };
 		CF3477341F8D2A7C00910745 /* Photos.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Photos.framework; path = System/Library/Frameworks/Photos.framework; sourceTree = SDKROOT; };
 		CF3477361F8D2AFB00910745 /* PhotosUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PhotosUI.framework; path = System/Library/Frameworks/PhotosUI.framework; sourceTree = SDKROOT; };
@@ -702,6 +703,7 @@
 		CFCB24461F8335CE009EEADD /* video */ = {
 			isa = PBXGroup;
 			children = (
+				CF2DD8392145ABCE00B6BDAD /* LaVideoSource.hpp */,
 				CF39DD561F9963EE0092C706 /* ThreadedVideoSource.hpp */,
 				CF34772F1F8D01E300910745 /* VideoEncoder.hpp */,
 				CFCB24471F8335DC009EEADD /* VideoSource.hpp */,

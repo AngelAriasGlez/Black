@@ -55,7 +55,12 @@ public:
 			if (checkNotMove(e)) {
 				e.type = TouchEvent::CLK;
 				notify(e);
-			}
+            }else{
+                int ex = abs(mDown.rawPos.x - e.rawPos.x);
+                int ey = abs(mDown.rawPos.y - e.rawPos.y);
+                LOGE("Touch move: %d %d", ey, ex);
+                
+            }
 			e.type = TouchEvent::UP;
 			mLongTimer.reset();
 			isDown = false;

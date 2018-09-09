@@ -50,6 +50,7 @@ public:
     virtual void onResult(void* data){
         
     }
+    
 private:
 	IPageResultListener* mPageResultListener;
 	std::string mName;
