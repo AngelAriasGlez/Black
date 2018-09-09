@@ -6,6 +6,8 @@ x64/
 *.user
 *.cd
 
+libs/
+
 *.DS_Store
 DerivedData/
 *.xcuserstate
