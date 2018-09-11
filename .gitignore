@@ -6,7 +6,7 @@ x64/
 *.user
 *.cd
 
-libs/
+libs/*
 
 *.DS_Store
 DerivedData/
